@@ -1,0 +1,2 @@
+# sshmanager
+SSH easily!
