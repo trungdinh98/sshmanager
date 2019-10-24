@@ -16,3 +16,7 @@ $ npm start
 ```sh
 $ npm run build
 ```
+  - It will show the port we need to open in the browser. In our case, it is:
+```sh
+http://localhost:8001/
+```
