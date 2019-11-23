@@ -7,9 +7,9 @@ const app = express();
 const SELECT_ALL_PROJECT_QUERY = 'SELECT * FROM Project'
 
 const connection = mysql.createConnection({
-    host: 'localhost',
+    host: '172.10.10.10',
     user: 'root',
-    password: '',
+    password: 'mmypasswd',
     database: 'mydb'
 });
 
