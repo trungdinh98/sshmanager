@@ -1,11 +1,157 @@
 <!DOCTYPE html>
 <html lang = "en">
    <head>
-      <meta charset = "UTF-8">
-      <title>SSH Manager</title>
+        <meta charset = "UTF-8">
+        <title>SSH Manager</title>
    </head>
    <body>
-      <div id = "app"></div>
-      <script src = 'index_bundle.js'></script>
+        <div class="navBar">
+            <div class="menuButton">
+                <svg fill-rule="evenodd" viewBox="0 0 24 24" fit="" preserveAspectRatio="xMidYMid meet" focusable="true"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"></path></svg>
+            </div>
+
+            <div class="leftNavBar">
+                <div class="homeButton">
+                    <a href="#Home">SSH Manager</a>
+                </div>
+
+                <div class="projectButton" @click="project()">
+                    <a href="#Project">Project</a>
+                </div>
+
+                <div>
+                    <form method="get" action="">
+                        <div>
+                            <div>
+                                <input type="text" placeholder="Search" required>
+                            </div>
+                            <div>
+                                <button type="submit"></button>
+                                <!-- <img src="notification.svg"> -->
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="rightNavBar">
+                <div>&#128276;</div>
+                <div>
+                    <img class="avaProfile" src="../../../public/image/avatar.jpeg">
+                </div>
+            </div>
+        </div>
+        <script src ='index_bundle.js'></script>
    </body>
 </html>
+<style type="text/css">
+    div {
+    float: left;
+}
+html,body {
+    padding: 0px;
+    margin: 0px;
+    font-family: inherit;
+}
+
+.navBar {
+    background-color: #1a73e8;
+    width: 100%;
+    height: 48px;
+    box-sizing: all;
+    margin: 0px;
+    box-shadow: 0 3px 4px 0 rgba(0,0,0,.2), 0 3px 3px -2px rgba(0,0,0,.14), 0 1px 8px 0 rgba(0,0,0,.12);
+}
+
+.leftNavBar .projectButton, .leftNavBar .homeButton{
+
+}
+.leftNavBar ::placeholder {
+    color:#fff;
+}
+.leftNavBar input {
+    padding: 5px;
+    width: 100%;
+    border: #fff0 solid 1px;
+    border-radius: 4px;
+    color: #fff ;
+    background: #ffffff26;
+}
+
+.menuButton {
+    float: left;
+    border-radius: 100px;
+    color: white;
+    width: 48px;
+    height: 48px;
+    /*padding: 0px;*/
+    margin-right: 7px;
+    margin-left: 7px;
+/*  transform: translateY(25%);*/
+    transition: all 0.2s;
+    fill:white;
+}
+.menuButton > svg {
+    /*font-size: 24px;*/
+    height: 24px;
+    padding: 5px;
+    margin: 6px;
+    border-radius: 50%;
+}
+.menuButton > svg:hover {
+    background-color: rgba(255,255,255,0.3);
+    transition: all 0.2s;
+    box-sizing: content-box;
+}
+
+.leftNavBar {
+    float: left;
+    padding: 10px 0;
+    margin-right: 20px;
+}
+
+.leftNavBar > div{
+    margin-right: 20px;
+}
+
+.homeButton a {
+    text-decoration: none;
+    color: white;
+    font-size: 24px;
+    float: left;
+}
+
+.projectButton {
+    padding: 4px 12px;
+    width: 128px;
+    text-align: left;
+    overflow: hidden;
+}
+
+.projectButton > a {
+    text-decoration: none;
+    font-size: 18px;
+    color: white;
+    width: 116px;
+    /*padding: 4px 12px;*/
+}
+
+.projectButton:hover {
+    background-color: rgba(255,255,255,0.3);
+    transition: all 0.2s;
+    box-sizing: content-box;
+    border-radius: 3px
+}
+
+.rightNavBar {
+    float: right;
+}
+
+.avaProfile {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    margin: 8px;
+}
+
+</style>

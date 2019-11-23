@@ -10,7 +10,7 @@ class App extends Component {
         idProject: '',
         name: ''
       },
-      renderProjects: ({idProject, name}) => <div key={idProject}>{name}</div>
+      renderProjects: ({idProject, name}) => <div key={idProject}>{idProject} {name}</div>
     };
     this._isMounted = false;
 
@@ -50,10 +50,10 @@ class App extends Component {
       <h1>List Projects</h1>
         { projects.map(this.state.renderProjects) }
         <div>
-          <input placeholder="Project ID" value={project.idProject} onChange={e => this.setState({ project: { idProject: e.target.value} })}/>
-          <input placeholder="Project Name" value={project.name} onChange={e => this.setState({ project: { name: e.target.value} })}/>
+          <input placeholder="Project ID" value={this.state.project.idProject} onChange={e => this.setState({ project: { idProject: e.target.value} })}/>
+          <input placeholder="Project Name" value={this.state.project.name} onChange={e => this.setState({ project: { name: e.target.value} })}/>
         </div>
-        <button onClick={this.addProjects}> Add project</button>
+        <button onClick={this.addProjects}>Add project</button>
       </div>
     );
   }
