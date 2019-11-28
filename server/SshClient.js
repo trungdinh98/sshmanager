@@ -14,12 +14,16 @@ io.on("connection", function(socket){
     var conn = new Client();
     conn.on('ready', function(){
         socket.on("data", function(data){
-            socket.emit("return", data);
+            console.log(data)
+            socket.emit("return", String(data));
+            data = "";
         })
     })
 
     socket.on("data", function(data){
-        socket.emit("return", "server return code: xxx");
+        console.log(data)
+        socket.emit("return", String(data));
+        data = "";
     })
 })
 

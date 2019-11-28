@@ -1,8 +1,8 @@
 <!doctype html>
   <html>
     <head>
-      <link rel="stylesheet" href="../../node_modules/xterm/css/xterm.css" />
-      <script src="../../node_modules/xterm/lib/xterm.js"></script>
+      <link rel="stylesheet" href="../../../node_modules/xterm/css/xterm.css" />
+      <script src="../../../node_modules/xterm/lib/xterm.js"></script>
       <script src="socket.io.js"></script>
     </head>
     <body>
@@ -22,35 +22,11 @@
                 const printable = !e.domEvent.altKey && !e.domEvent.altGraphKey && !e.domEvent.ctrlKey && !e.domEvent.metaKey;
                 
                 socket.emit("data", e.key);
-                socket.on("return", function(data){
-                  term.write(data);
-                })
-                
-                // var toSend = "";
-                // if (e.domEvent.keyCode === 13) {
-                    
-                //     // prompt(term);
-                //     socket.emit("data", toSend);
-                //     socket.on("return", function(ret) {
-                //         term.write(ret);
-                //         toSend = "";
-                //     });
-
-                // } else if (e.domEvent.keyCode === 8) {
-                //     // Do not delete the prompt
-                //     if (term._core.buffer.x > 2) {
-                //         term.write('\b \b');
-                //     }
-                // } else if (printable) {
-                //   socket.emit("data", e.key)
-                //     term.write(e.key);
-                //     toSend += e.key;
-                // }
             });
         
             // Backend -> Browser
-            socket.on('data', function (data) {
-                term.write(data);
+            socket.on('return', function (data) {
+                term.write(data.replace(/\r/g, '\n\r'));
             });
         
             socket.on('disconnect', function () {
