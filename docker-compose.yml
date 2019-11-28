@@ -26,33 +26,33 @@ services:
       app_net:
         ipv4_address: 172.10.10.11
 
-#  web-frontend:
-#    image: lamdn98/abc:js-nginx
-#    restart: always
-#    ports: 
-#      - "8001:8001"
-#    mem_limit: 1000000000
-#    networks:
-#      app_net:
-#        ipv4_address: 172.10.10.100
-#    volumes:
-#      - ./docker/nginx.conf/web-front.conf:/etc/nginx/conf.d/web-front.conf
-#      - ./client:/var/www/client
-#    command: bash -c "service nginx start && cd /var/www/client && npm install && npm start"
+  # web-frontend:
+  #   image: lamdn98/abc:js-nginx
+  #   restart: always
+  #   ports: 
+  #     - "8001:8001"
+  #   mem_limit: 1000000000
+  #   networks:
+  #     app_net:
+  #       ipv4_address: 172.10.10.100
+  #   volumes:
+  #     - ./docker/nginx.conf/web-front.conf:/etc/nginx/conf.d/web-front.conf
+  #     - ./client:/var/www/client
+  #   command: bash -c "service nginx start && cd /var/www/client && npm install && npm start"
 
-#  web-backend:
-#    image: lamdn98/abc:js-nginx
-#    restart: always
-#    ports:
-#      - "4000:4000"
-#    mem_limit: 1000000000
-#    networks:
-#      app_net:
-#        ipv4_address: 172.10.10.200
-#    volumes:
-#      - ./docker/nginx.conf/web-back.conf:/etc/nginx/conf.d/web-back.conf
-#      - ./server:/var/www/server
-#    command: bash -c "service nginx start && cd /var/www/server && npm install && node index.js"
+  # web-backend:
+  #   image: lamdn98/abc:js-nginx
+  #   restart: always
+  #   ports:
+  #     - "4000:4000"
+  #   mem_limit: 1000000000
+  #   networks:
+  #     app_net:
+  #       ipv4_address: 172.10.10.200
+  #   volumes:
+  #     - ./docker/nginx.conf/web-back.conf:/etc/nginx/conf.d/web-back.conf
+  #     - ./server:/var/www/server
+  #   command: bash -c "service nginx start && cd /var/www/server && npm install && node index.js"
 
 networks:
   app_net:
