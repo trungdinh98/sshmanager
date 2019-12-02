@@ -52,5 +52,5 @@ app.get('/project', (req, res) => {
 });
 
 app.listen(4000, () => {
-    console.log(`Server is listening on port 4000!`)
+    console.log(`Server is listening at http://localhost:4000!`)
 });
