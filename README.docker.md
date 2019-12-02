@@ -12,19 +12,19 @@
 ## step1: start docker
 run this command on docker-compose.yml directory to start mysql and adminer container
 
-'''
+```
 docker-compose up
-'''
+```
 
 or to run on background
 
-'''
+```
 docker-compose up -d 
-'''
+```
 
-'''
+```
 docker-compose start
-''' 
+```
 
 ## step2: connect to adminer
 on browser, go to ip address 172.10.10.11:8080 or 127.0.0.1:8080
