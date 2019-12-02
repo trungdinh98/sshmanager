@@ -17,18 +17,21 @@ class Resources extends React.Component{
 		}
 	}
 
-  getResources(){}
+	getResources(project){
+		fetch('http://localhost:4000/resources', {project: projectId})
+	}
 
-  addResources(){}
+	addResources(){}
 
-  removeResource(){}
+		removeResource(){}
 
-  render(){
-    return(
-      <div>
+  	render(){
+    	return(
+      		<div>
 				<h1>Resources</h1>
-				
 			</div>
-    )
-  }
+    	)
+  	}
 }
+
+export default Resources
