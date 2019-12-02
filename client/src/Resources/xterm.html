@@ -1,0 +1,57 @@
+<!doctype html>
+  <html>
+    <head>
+      <link rel="stylesheet" href="../../../../../node_modules/xterm/css/xterm.css" />
+      <script src="../../../../../node_modules/xterm/lib/xterm.js"></script>
+      <script src="socket.io.js"></script>
+    </head>
+    <body>
+      <div id="terminal"></div>
+      <script>
+        var term = new Terminal();
+        term.open(document.getElementById('terminal'));
+        term.write('Hello from \x1B[1;3;31mxterm.js\x1B[0m $ ');
+        socket = io.connect("127.0.0.1:9000");
+
+        socket.on('connect', function () {
+            // term.write('\r\n*** Connected to backend***\r\n');
+            // socket.emit('setsize',{rows:term.rows,cols:term.cols});
+            
+            // Browser -> Backend
+            term.onKey(e => {
+                const printable = !e.domEvent.altKey && !e.domEvent.altGraphKey && !e.domEvent.ctrlKey && !e.domEvent.metaKey;
+                
+                socket.emit("data", e.key);
+            });
+        
+            // Backend -> Browser
+            socket.on('return', function (data) {
+                term.write(data.replace(/\r/g, '\n\r'));
+            });
+        
+            socket.on('disconnect', function () {
+                term.write('\r\n*** Disconnected from backend***\r\n');
+            });
+        });
+
+
+
+        // term.onKey(e => {
+        //     const printable = !e.domEvent.altKey && !e.domEvent.altGraphKey && !e.domEvent.ctrlKey && !e.domEvent.metaKey;
+
+        //     if (e.domEvent.keyCode === 13) {
+                
+        //         // prompt(term);
+
+        //     } else if (e.domEvent.keyCode === 8) {
+        //         // Do not delete the prompt
+        //         if (term._core.buffer.x > 2) {
+        //             term.write('\b \b');
+        //         }
+        //     } else if (printable) {
+        //         term.write(e.key);
+        //     }
+        // });
+      </script>
+    </body>
+  </html>
