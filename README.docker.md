@@ -16,7 +16,7 @@ run this command on docker-compose.yml directory to start mysql and adminer cont
 docker-compose up
 ```
 
-or to run on background
+or to run on background (choose one of two commands below)
 
 ```
 docker-compose up -d 
@@ -30,8 +30,11 @@ docker-compose start
 on browser, go to ip address 172.10.10.11:8080 or 127.0.0.1:8080
 Fill the boxes follow:
 > server: 172.10.10.10
+
 > username: root
+
 > password: mypasswd
+
 > db: mydb
 *Note:
 > - adminer is a database connect tool debug and easily checking database
