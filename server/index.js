@@ -2,6 +2,8 @@ const express = require('express');
 const cors = require('cors');
 const mysql = require('mysql');
 require('dotenv').config();
+const db = require('./models/index')
+db.sync()
 
 const app = express();
 
@@ -18,6 +20,8 @@ const connection = mysql.createConnection({
     password: DB_PASSWD,
     database: DB_NAME
 });
+
+// const connection = mysql.createConnection()
 
 connection.connect(err => {
     if(err) {
