@@ -1,10 +1,14 @@
 import React from 'react';
 import Header from './Header/Header.js';
+import Resources from './Resources/Resources';
 
 class App extends React.Component {
   render () {
     return (
-      <Header />
+      <div>
+        <Header />
+        <Resources />
+      </div>
     );
   }
 }

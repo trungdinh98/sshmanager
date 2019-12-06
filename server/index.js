@@ -59,9 +59,9 @@ app.get('/project', (req, res) => {
 
 
 app.get('/resources', (req, res) => {
-    let sql_command = "SELECT * FROM resources WHERE project_id = ?";
-        
-    connection.query(sql_command, [projectId], (err, results) => {
+    let sql_command = "SELECT * FROM Resources WHERE project_id = ?";
+    let { project_id } = req.query
+    connection.query(sql_command, [project_id], (err, results) => {
         if(err){
             return res.send(err)
         } 
