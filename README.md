@@ -33,7 +33,7 @@ docker-compose start
 run following command to create database
 
 ```
-cd server <br/>
+cd server
 node models/index.js
 ```
 
