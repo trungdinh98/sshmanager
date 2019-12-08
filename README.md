@@ -9,7 +9,7 @@
 - because of error, front and back haven't been on docker-compose, you can run its locally and work with database normaly
 - container limit was 500MB, if you want more, changed on docker-compose.yml, field name "mem_limit"
 
-## step1: start docker
+## step 1: start docker
 run this command on docker-compose.yml directory to start mysql and adminer container
 
 ```
@@ -26,7 +26,19 @@ docker-compose up -d
 docker-compose start
 ```
 
-## step2: connect to adminer
+## step 2: create database
+**Note**:
+- you only need to do this step the first time
+
+run following command to create database
+
+```
+cd server <br/>
+node models/index.js
+```
+
+
+## step 3: connect to adminer
 on browser, go to ip address 172.10.10.11:8080 or 127.0.0.1:8080
 Fill the boxes follow:
 > server: 172.10.10.10 <br/>
@@ -38,7 +50,7 @@ Fill the boxes follow:
 - adminer is a database connect tool debug and easily checking database
 - you can skip and do this step late
 
-## step3: connect to mysql
+## step 4: connect to mysql
 There are some information of database:
 > server(endpoint): 172.10.10.10 <br/>
 > username: root <br/>
@@ -49,7 +61,7 @@ There are some information of database:
 - a volume /docker/mysql has been mounted to mysql container for saving data after container down
 - there are some file with root owner, so you need sudo to add and commit
 
-## step4: shutdown container
+## step 5: shutdown container
 After work, run this command to shutdown all container
 ```
 docker-compose down -v
