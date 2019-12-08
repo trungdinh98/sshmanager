@@ -7,36 +7,28 @@ class Resources extends React.Component{
 	constructor(){
 		
 		super();
-		// this.getResources(1);
 		this.state = {
 			resources : [],
 			resource : {
-				id: '',
-				name: '',
-				platform: '',
-				dns: '',
-				registedTime: ''
+				resource_id: '',
+				resource_name: '',
+				resource_platform: '',
+				resource_dns: '',
+				resource_created_at: ''
 			}
 		}
 	}
-
-	// getResources(project_id){
-	// 	fetch(`http://localhost:4000/resources?project_id=${project_id}`)
-	// 	.then((response) => response.json())
-	// 	.then((data) => {
-	// 		this.setState({resources:data.data});
-	// 		console.log(this.state.resources)
-	// 	})
-	// 	.catch((err) => {
-	// 		console.log(err);
-	// 	})
-	// }
 
 	componentDidMount(){
 		this.getResources(1)
 	}
 
 	async getResources(project_id){
+
+		/*
+		 * get a list of all resources 
+		 */
+
 		await api.get('/resources', {
 			params: {
 				project_id: project_id
@@ -51,15 +43,54 @@ class Resources extends React.Component{
 	}
 
 
-	addResources(){}
+	async addResource(project_id, resource){
 
-	removeResource(){}
+		/*
+		 * add a new resource
+		 */
+
+		await api.post('/resources', {
+			params:{
+				project_id: project_id,
+				resource_name: resource.resource_name,
+				resource_dns: resource.resource_dns,
+				key_id: resource.key_id,
+				ssh_user: resource.ssh_user
+			}
+		})
+		.then((response) => {
+			console.log(response)
+			this.getResources(project_id)
+		})
+		.catch((err) => {
+			console.log(err);
+		})
+	}
+
+	// async updateResource(resource_id){
+	// 	await api.put('')
+	// }
+
+	async removeResource(resource_id){
+		await api.delete('/resource', {
+			params:{
+				resource_id: resource_id
+			}
+		})
+		.then((response) => {
+			console.log(response)
+			// this.getResources(project_id)
+		})
+		.catch((err) => {
+			console.log(err);
+		})
+	}
 	
   	render(){
 		
     	return(
       		<div>
-				<h1>Resources</h1>
+				<h3>Resources</h3>
 				<h3>Data: <br/></h3>
 				<div>
 					{this.state.resources[0]!=undefined?this.state.resources[0].project_id:"loading"}

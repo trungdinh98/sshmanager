@@ -20,7 +20,7 @@ sequelize =  new Sequelize(
 
 var projects = sequelize.define('projects', {
     project_id: {
-        type      : Sequelize.INTEGER, 
+        type      : Sequelize.INTEGER(11), 
         allowNull : false,
         primaryKey: true,
         unique    : true,
@@ -31,7 +31,7 @@ var projects = sequelize.define('projects', {
         allowNull: false
     },
     project_created_at: {
-        type        : Sequelize.TIMESTAMP,
+        type        : Sequelize.DATE,
         allowNull   : false,
         defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
     }
@@ -47,7 +47,12 @@ var resources = sequelize.define('resources', {
         type: projects
     },
     resource_name: {
-        type: 
+        type: Sequelize.STRING(50)
+    },
+    resource_created_at: {
+        type        : Sequelize.DATE,
+        allowNull   : false,
+        defaultValue: Sequelize.literal('CURRENT_TIMESTAMP')
     }
 })
 
