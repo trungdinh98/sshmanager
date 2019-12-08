@@ -2,7 +2,8 @@ const express = require('express');
 const cors = require('cors');
 const mysql = require('mysql');
 require('dotenv').config();
-
+// const db = require('./models/index')
+// db.sync()
 const app = express();
 
 const SELECT_ALL_PROJECT_QUERY = 'SELECT * FROM projects';
@@ -18,6 +19,8 @@ const connection = mysql.createConnection({
     password: 'mypasswd',
     database: 'mydb'
 });
+
+// const connection = mysql.createConnection()
 
 connection.connect(err => {
     if(err) {

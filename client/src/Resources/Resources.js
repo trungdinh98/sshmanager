@@ -17,8 +17,9 @@ class Resources extends React.Component{
 		}
 	}
 
-	getResources(project){
-		fetch('http://localhost:4000/resources', {project: projectId})
+	getResources(projectId){
+		let url = "http://localhost:4000/resources?" + $.param({projectId: projectId});
+		fetch(url);
 	}
 
 	addResources(){}
