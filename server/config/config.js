@@ -1,15 +1,15 @@
-// require('dotenv').config({path: '../.env'});
 require('dotenv').config();
-
-console.log(process.env.DB_USER);
-console.log("asd");
+const DB_HOST = process.env.DB_HOST;
+const DB_USER = process.env.DB_USER;
+const DB_PASSWD = process.env.DB_PASSWD;
+const DB_NAME = process.env.DB_NAME;
 
 module.exports = {
   "development": {
-    "username": process.env.DB_USER,
-    "password": process.env.DB_PASSWD,
-    "database": process.env.DB_NAME,
-    "host": process.env.DB_HOST,
+    "username": DB_USER,
+    "password": DB_PASSWD,
+    "database": DB_NAME,
+    "host": DB_HOST,
     "dialect": "mysql",
     "operatorsAliases": false
   },

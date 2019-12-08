@@ -2,9 +2,8 @@ const express = require('express');
 const cors = require('cors');
 const mysql = require('mysql');
 require('dotenv').config();
-const db = require('./models/index')
-db.sync()
-
+// const db = require('./models/index')
+// db.sync()
 const app = express();
 
 const SELECT_ALL_PROJECT_QUERY = 'SELECT * FROM Project'
