@@ -6,7 +6,7 @@ require('dotenv').config();
 // db.sync()
 const app = express();
 
-const SELECT_ALL_PROJECT_QUERY = 'SELECT * FROM Project'
+const SELECT_ALL_PROJECT_QUERY = 'SELECT * FROM projects';
 
 const DB_HOST = process.env.DB_HOST;
 const DB_USER = process.env.DB_USER;
@@ -14,10 +14,10 @@ const DB_PASSWD = process.env.DB_PASSWD;
 const DB_NAME = process.env.DB_NAME;
 
 const connection = mysql.createConnection({
-    host: DB_HOST,
-    user: DB_USER,
-    password: DB_PASSWD,
-    database: DB_NAME
+    host: '172.10.10.10',
+    user: 'root',
+    password: 'mypasswd',
+    database: 'mydb'
 });
 
 // const connection = mysql.createConnection()
@@ -25,6 +25,8 @@ const connection = mysql.createConnection({
 connection.connect(err => {
     if(err) {
         return err;
+    } else {
+        console.log('Connected to the MySQL server');
     }
 });
 
@@ -35,8 +37,8 @@ app.get('/', (req, res) => {
 });
 
 app.get('/project/add', (req, res) => {
-    const { idProject, name } = req.query
-    const INSERT_PROJECTS_QUERY = `INSERT INTO Project (idProject, name) VALUES ('${idProject}', '${name}')`
+    const { project_id, project_name } = req.query
+    const INSERT_PROJECTS_QUERY = `INSERT INTO projects (project_id, project_name) VALUES ('${project_id}', '${project_name}')`
     connection.query(INSERT_PROJECTS_QUERY, (err, results) => {
         if(err) {
             return res.send(err);

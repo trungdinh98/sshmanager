@@ -9,7 +9,7 @@ html,body {
 
 .navBar {
     background-color: #1a73e8;
-    width: 100%;
+    width: -webkit-fill-available;
     height: 48px;
     box-sizing: all;
     margin: 0px;
@@ -24,7 +24,7 @@ html,body {
 }
 .leftNavBar input {
     padding: 5px;
-    width: 100%;
+    width: 200%;
     border: #fff0 solid 1px;
     border-radius: 4px;
     color: #fff ;
@@ -37,15 +37,12 @@ html,body {
     color: white;
     width: 48px;
     height: 48px;
-    /*padding: 0px;*/
     margin-right: 7px;
     margin-left: 7px;
-/*  transform: translateY(25%);*/
     transition: all 0.2s;
     fill:white;
 }
 .menuButton > svg {
-    /*font-size: 24px;*/
     height: 24px;
     padding: 5px;
     margin: 6px;
@@ -86,7 +83,6 @@ html,body {
     font-size: 18px;
     color: white;
     width: 116px;
-    /*padding: 4px 12px;*/
 }
 
 .projectButton:hover {
@@ -110,4 +106,44 @@ html,body {
     height: 35px;
     border-radius: 50%;
     margin: 7px;
+}
+
+/*Menu */
+.sidenav {
+  height: 100%;
+  width: 0;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  background-color: rgba(27, 115, 232, 0.8);
+  overflow-x: hidden;
+  transition: 0.5s;
+  padding-top: 15px;
+}
+
+.sidenav a {
+  padding: 8px 8px 8px 20px;
+  text-decoration: none;
+  font-size: 18px;
+  color: #ffffff;
+  display: block;
+  transition: 0.3s;
+}
+
+.sidenav a:hover {
+  color: #f1f1f1;
+}
+
+.sidenav .closebtn {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  font-size: 32px;
+  color: #ffffff;
+  margin-left: 50px;
+}
+
+#main {
+  transition: margin-left .5s;
 }
