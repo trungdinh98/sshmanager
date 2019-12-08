@@ -5,7 +5,8 @@ Sequelize = require('sequelize')
 const DB_HOST = process.env.DB_HOST;
 const DB_USER = process.env.DB_USER;
 const DB_PASSWD = process.env.DB_PASSWD;
-const DB_NAME = process.env.DB_NAME;
+// const DB_NAME = process.env.DB_NAME;
+const DB_NAME = "test"
 
 sequelize =  new Sequelize(
     DB_NAME, 
@@ -17,25 +18,40 @@ sequelize =  new Sequelize(
     }
 )
 
-var Projects = sequelize.define('projects', {
-    projectName: {
+var projects = sequelize.define('projects', {
+    project_id: {
+        type      : Sequelize.INTEGER, 
+        allowNull : false,
+        primaryKey: true,
+        unique    : true,
+        autoIncrement: true
+    },
+    project_name: {
         type     : Sequelize.STRING,
         allowNull: false
     },
-    projectId: {
-        type      : Sequelize.STRING, 
-        allowNull : false,
-        primaryKey: true,
-        unique    : true
-    },
-    projectDate: {
-        type        : "TIMESTAMP",
+    project_created_at: {
+        type        : Sequelize.TIMESTAMP,
         allowNull   : false,
         defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
     }
 });
 
-var Users = sequelize.define('users', {
+var resources = sequelize.define('resources', {
+    resource_id: {
+        type: Sequelize.INTEGER,
+        primaryKey: true,
+        autoIncrement: true
+    },
+    project_id: {
+        type: projects
+    },
+    resource_name: {
+        type: 
+    }
+})
+
+var users = sequelize.define('users', {
     userName: {
         type: Sequelize.STRING,
         allowNull: false,

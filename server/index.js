@@ -73,9 +73,54 @@ app.get('/resources', (req, res) => {
     });
 })
 
-app.get('/resources/add', (req, res) => {})
+app.post('/resources', (req, res) => {
+    let {project_id, resource_name, resource_dns, key_id, ssh_user} = req.query
 
-app.get('/resources/remove', (req, res) => {})
+    console.log(req.query);
+
+    let sql_command = "INSERT INTO Resources \
+        (project_id, \
+        resource_name, \
+        resource_dns, \
+        key_id, \
+        ssh_user) VALUES (?, ?, ?, ?, ?)"
+
+    connection.query(sql_command, [
+        project_id,
+        resource_name,
+        resource_dns,
+        key_id,
+        ssh_user
+    ], (err, results) => {
+        if(err){
+            return res.send(err)
+        }
+        else {
+            console.log(results);
+            return res.send("resource has been updated")
+        }
+    })
+})
+
+app.delete('/resources', (req, res) => {
+    let {resource_id} = req.query;
+
+    console.log(req.query);
+
+    let sql_command = "DELETE FROM Resources WHERE resource_id = ?"
+
+    connection.query(sql_command, [
+        resource_id
+    ], (err, results) => {
+        if(err){
+            return res.send(err)
+        }
+        else{
+            console.log(results);
+            return res.send("resource has been deleted")
+        }
+    })
+})
 
 app.listen(4000, () => {
     console.log(`Server is listening at http://localhost:4000!`)
