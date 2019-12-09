@@ -58,9 +58,22 @@ app.get('/project', (req, res) => {
     });
 });
 
+app.get('/key', (req, res) => {
+    const SELECT_ALL_KEY_QUERY = 'SELECT * FROM `keys`';
+    connection.query(SELECT_ALL_KEY_QUERY, (err, results) => {
+        if(err) {
+            return res.send(err);
+        }
+        else {
+            return res.json({
+                data: results
+            })
+        }
+    });
+});
+
 app.get('/resources', (req, res) => {
     let sql_command = "SELECT * FROM resources WHERE project_id = ?";
-        
     connection.query(sql_command, [projectId], (err, results) => {
         if(err){
             return res.send(err)
