@@ -20,7 +20,7 @@ module.exports = function(sequelize, Sequelize){
         resource_user: {
             type: Sequelize.STRING(30),
             allowNull: false
-        }
+        },
         key_id: {
             type: Sequelize.INTEGER,
             allowNull: false

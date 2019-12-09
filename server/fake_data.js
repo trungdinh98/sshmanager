@@ -209,8 +209,8 @@ createKeys = function() {
 
 createResources = function() {
     resources.forEach(element => {
-        let sql_command = "INSERT INTO `resources` (`project_id`, `resource_name`, `resource_dns`, `resource_user`, `key_id`) VALUES (?, ?, ?, ?)"
-        connection.query(sql_command, [element.project_id, element.resource_name, element.resource_dns, resource_user, element.key_id],
+        let sql_command = "INSERT INTO `resources` (`project_id`, `resource_name`, `resource_dns`, `resource_user`, `key_id`) VALUES (?, ?, ?, ?, ?)"
+        connection.query(sql_command, [element.project_id, element.resource_name, element.resource_dns, element.resource_user, element.key_id],
             (err, results) => {
                 if(err){
                     console.log(err);
