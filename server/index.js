@@ -2,11 +2,8 @@ const express = require('express');
 const cors = require('cors');
 const mysql = require('mysql');
 require('dotenv').config();
-// const db = require('./models/index')
-// db.sync()
-const app = express();
 
-const SELECT_ALL_PROJECT_QUERY = 'SELECT * FROM projects';
+const app = express();
 
 const DB_HOST = process.env.DB_HOST;
 const DB_USER = process.env.DB_USER;
@@ -19,8 +16,6 @@ const connection = mysql.createConnection({
     password: 'mypasswd',
     database: 'mydb'
 });
-
-// const connection = mysql.createConnection()
 
 connection.connect(err => {
     if(err) {
@@ -50,6 +45,7 @@ app.get('/project/add', (req, res) => {
 });
 
 app.get('/project', (req, res) => {
+    const SELECT_ALL_PROJECT_QUERY = 'SELECT * FROM projects';
     connection.query(SELECT_ALL_PROJECT_QUERY, (err, results) => {
         if(err) {
             return res.send(err);
@@ -61,7 +57,6 @@ app.get('/project', (req, res) => {
         }
     });
 });
-
 
 app.get('/resources', (req, res) => {
     let sql_command = "SELECT * FROM resources WHERE project_id = ?";
