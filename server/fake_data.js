@@ -70,42 +70,49 @@ resources = [
         project_id: 1001,
         resource_name: "resource1",
         resource_dns: "1.1.1.1",
+        resource_user: "ubuntu",
         key_id: 1001
     },
     {
         project_id: 1001,
         resource_name: "resource2",
         resource_dns: "2.2.2.2",
+        resource_user: "ubuntu",
         key_id: 1001
     },
     {
         project_id: 1002,
         resource_name: "resource3",
         resource_dns: "3.3.3.3",
+        resource_user: "ubuntu",
         key_id: 1002
     },
     {
         project_id: 1002,
         resource_name: "resource4",
         resource_dns: "4.4.4.4",
+        resource_user: "ubuntu",
         key_id: 1003
     },
     {
         project_id: 1003,
         resource_name: "resource5",
         resource_dns: "5.5.5.5",
+        resource_user: "ubuntu",
         key_id: 1004
     },
     {
         project_id: 1003,
         resource_name: "resource6",
         resource_dns: "6.6.6.6",
+        resource_user: "ubuntu",
         key_id: 1004
     },
     {
         project_id: 1001,
         resource_name: "resource1",
         resource_dns: "7.7.7.7",
+        resource_user: "ubuntu",
         key_id: 1005
     },
 ]
@@ -202,8 +209,8 @@ createKeys = function() {
 
 createResources = function() {
     resources.forEach(element => {
-        let sql_command = "INSERT INTO `resources` (`project_id`, `resource_name`, `resource_dns`, `key_id`) VALUES (?, ?, ?, ?)"
-        connection.query(sql_command, [element.project_id, element.resource_name, element.resource_dns, element.key_id],
+        let sql_command = "INSERT INTO `resources` (`project_id`, `resource_name`, `resource_dns`, `resource_user`, `key_id`) VALUES (?, ?, ?, ?)"
+        connection.query(sql_command, [element.project_id, element.resource_name, element.resource_dns, resource_user, element.key_id],
             (err, results) => {
                 if(err){
                     console.log(err);

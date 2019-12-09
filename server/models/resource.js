@@ -17,6 +17,10 @@ module.exports = function(sequelize, Sequelize){
             type: Sequelize.STRING(255),
             allowNull: false
         },
+        resource_user: {
+            type: Sequelize.STRING(30),
+            allowNull: false
+        }
         key_id: {
             type: Sequelize.INTEGER,
             allowNull: false
