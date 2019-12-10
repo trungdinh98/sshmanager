@@ -5,8 +5,6 @@ require('dotenv').config();
 
 const app = express();
 
-const SELECT_ALL_PROJECT_QUERY = 'SELECT * FROM projects';
-
 const DB_HOST = process.env.DB_HOST;
 const DB_USER = process.env.DB_USER;
 const DB_PASSWD = process.env.DB_PASSWD;
@@ -47,6 +45,7 @@ app.get('/project/add', (req, res) => {
 });
 
 app.get('/project', (req, res) => {
+    const SELECT_ALL_PROJECT_QUERY = 'SELECT * FROM projects';
     connection.query(SELECT_ALL_PROJECT_QUERY, (err, results) => {
         if(err) {
             return res.send(err);
@@ -59,10 +58,22 @@ app.get('/project', (req, res) => {
     });
 });
 
+app.get('/key', (req, res) => {
+    const SELECT_ALL_KEY_QUERY = 'SELECT * FROM `keys`';
+    connection.query(SELECT_ALL_KEY_QUERY, (err, results) => {
+        if(err) {
+            return res.send(err);
+        }
+        else {
+            return res.json({
+                data: results
+            })
+        }
+    });
+});
 
 app.get('/resources', (req, res) => {
     let sql_command = "SELECT * FROM resources WHERE project_id = ?";
-        
     connection.query(sql_command, [projectId], (err, results) => {
         if(err){
             return res.send(err)
