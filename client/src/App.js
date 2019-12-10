@@ -5,7 +5,7 @@ import Resources from './Resources/Resources';
 class App extends React.Component {
   render () {
     return (
-      <div>
+      <div style={{float:'none'}}>
         <Header />
         <Resources />
       </div>

@@ -23,6 +23,7 @@ connection.connect(err => {
     if(err) {
         return err;
     }
+    else console.log("Connected to mysql")
 });
 
 app.use(cors());
@@ -58,9 +59,15 @@ app.get('/project', (req, res) => {
 });
 
 
+
+
+
+
+
 app.get('/resources', (req, res) => {
-    let sql_command = "SELECT * FROM Resources WHERE project_id = ?";
+    let sql_command = "SELECT * FROM resources WHERE project_id = ?";
     let { project_id } = req.query
+    // console.log(req.query);
     connection.query(sql_command, [project_id], (err, results) => {
         if(err){
             return res.send(err)
@@ -74,23 +81,28 @@ app.get('/resources', (req, res) => {
 })
 
 app.post('/resources', (req, res) => {
-    let {project_id, resource_name, resource_dns, key_id, ssh_user} = req.query
+    let {project_id, resource_name, resource_dns, key_id, resource_user} = req.query
+    // let project_id = 1001 
+    // let resource_name = "n1"
+    // let resource_dns = "123.31.1.1"
+    // let key_id = 1001
+    // let resource_user = "u"
 
-    console.log(req.query);
+    console.log(req.body);
 
-    let sql_command = "INSERT INTO Resources \
+    let sql_command = "INSERT INTO resources \
         (project_id, \
         resource_name, \
         resource_dns, \
         key_id, \
-        ssh_user) VALUES (?, ?, ?, ?, ?)"
+        resource_user) VALUES (?, ?, ?, ?, ?)"
 
     connection.query(sql_command, [
         project_id,
         resource_name,
         resource_dns,
         key_id,
-        ssh_user
+        resource_user
     ], (err, results) => {
         if(err){
             return res.send(err)
@@ -107,7 +119,7 @@ app.delete('/resources', (req, res) => {
 
     console.log(req.query);
 
-    let sql_command = "DELETE FROM Resources WHERE resource_id = ?"
+    let sql_command = "DELETE FROM resources WHERE resource_id = ?"
 
     connection.query(sql_command, [
         resource_id
