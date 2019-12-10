@@ -15,9 +15,10 @@ class Keys extends React.Component {
             },
             renderKeys: ({key_created_at, key_id, key_name, project_id}) => 
                 <tr key={key_id}>
-                    <th className="check-box">
+                    <td className="check-box">
                         <input type="checkbox" />
-                    </th>
+                        <span class="checkmark"></span>
+                    </td>
                     <td>{key_name}</td>
                     <td>{key_id}</td>
                     <td>{project_id}</td>
@@ -63,11 +64,12 @@ class Keys extends React.Component {
                             <tr>
                                 <th className="check-box">
                                     <input type="checkbox" />
+                                    <span class="checkmark"></span>
                                 </th>
-                                <th>Key Name</th>
-                                <th>Key ID</th>
-                                <th>Key Value</th>
-                                <th>Registered Time</th>
+                                <th className="key-name">Key Name</th>
+                                <th className="key-id">Key ID</th>
+                                <th className="key-value">Key Value</th>
+                                <th className="key-time">Registered Time</th>
                             </tr>
                         </thead>
                         <tbody>
