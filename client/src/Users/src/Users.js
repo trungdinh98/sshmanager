@@ -3,7 +3,7 @@ import './App.css';
 import DataTable from './Components/DataTable';
 import Axios from 'axios';
 
-class App extends React.Component {
+class Users extends React.Component {
   constructor(props) {
     super(props);
 
@@ -23,9 +23,6 @@ class App extends React.Component {
         { title: "Age", accessor: "age", index: 4, dataType: "number" },
         { title: "Phone Number", accessor: "phone", index: 5, dataType: "string" },
         { title: "Done PJs", accessor: "project", index: 6, dataType: "number" },
-        // {accessor: "button", index: 7, cell: row => (
-        //   <button className="btnDelete">Del</button>
-        // )}
       ],
       data: [
         //{ id: 1, username: "username1", password: "password1", profile: "https://png.icons8.com/nolan/50/000000/user.png", age: "29", phone:"0387556558", project: "3" }, 
@@ -69,12 +66,23 @@ class App extends React.Component {
     Axios.post(`http://localhost:8000/users/update/${id}`, updateRow);
   }
 
-  onDeleteTable = (idDel) => {
+  onDeleteTable = async (idDel) => {
     let data = this.state.data;
-    let dataDelete = this.state.data.splice(idDel - 1, 1);
+    data.splice(idDel - 1, 1);
+    await Axios.post(`http://localhost:8000/users/delete/${idDel}`, { id: idDel });
     for (var i = 0; i < data.length; i++) {
       if (data[i].id >= idDel) {
-        Axios.post(`http://localhost:8000/users/updateID/${data[i].id}`, {id: data[i].id});
+        await Axios.post(`http://localhost:8000/users/updateID/${data[i].id}`, {id: data[i].id})
+        .then(response => {
+          if(response.data.success){
+            console.log("done");
+          } else {
+            console.log("fail");
+          }
+        })
+        .catch(error => {
+          alert(error)
+        });
         data[i].id--;
       }
     }
@@ -83,7 +91,6 @@ class App extends React.Component {
       edit: null,
       data: this.state.data
     });
-    Axios.post(`http://localhost:8000/users/delete/${idDel}`, { id: idDel });
 
   }
 
@@ -105,4 +112,4 @@ class App extends React.Component {
   }
 }
 
-export default App;
+export default Users;
