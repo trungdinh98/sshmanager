@@ -11,10 +11,10 @@ const DB_PASSWD = process.env.DB_PASSWD;
 const DB_NAME = process.env.DB_NAME;
 
 const connection = mysql.createConnection({
-    host: '172.10.10.10',
-    user: 'root',
-    password: 'mypasswd',
-    database: 'mydb'
+    host: DB_HOST,
+    user: DB_USER,
+    password: DB_PASSWD,
+    database: DB_NAME
 });
 
 connection.connect(err => {
