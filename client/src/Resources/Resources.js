@@ -58,16 +58,11 @@ class Resources extends React.Component{
 		 */
 		// new Promise((resolve, rejects) => {
 			api.post('/resources', {
-				// project_id: 1001,
-				// resource_name: resource_name,
-				// resource_dns: resource_dns,
-				// key_id: key_id,
-				// resource_user: resource_user
 				project_id: 1001,
-				resource_name: "name",
-				resource_dns: "1.2.3.4",
-				key_id: 1001,
-				resource_user: "ubuntu"
+				resource_name: resource_name,
+				resource_dns: resource_dns,
+				key_id: key_id,
+				resource_user: resource_user
 			})
 			.then((response) => {
 				console.log(response)
@@ -86,7 +81,7 @@ class Resources extends React.Component{
 	// }
 
 	async removeResource(resource_id){
-		await api.delete('/resource', {
+		await api.delete('/resources', {
 			params:{
 				resource_id: resource_id
 			}
@@ -108,7 +103,7 @@ class Resources extends React.Component{
 				<tr>
 					<td></td>
 					<td align="center">${resource.resource_id}</td>
-					<td align="center">${resource.resource_name}</td>
+					<td align="left">${resource.resource_name}</td>
 					<td align="center">${resource.project_id}</td>
 					<td align="center">${resource.resource_dns}</td>
 					<td align="center">${resource.key_id}</td>
@@ -145,10 +140,15 @@ class Resources extends React.Component{
 	}
 	
 	
-	apiTest = () => {
-		console.log("test");
+	apiPostTest = () => {
+		console.log("Post test");
 		this.addResource(1001, "name", "dns", 1001, "ubuntu");
 
+	}
+
+	apiDeleteTest = () => {
+		console.log("Delete test");
+		this.removeResource(41);
 	}
 
   	render(){
@@ -159,15 +159,13 @@ class Resources extends React.Component{
 				<h3>Resources</h3>
 				<h3>Data: <br/></h3>
 				<div>
-					{/* {this.state.resources[0]!=undefined?this.state.resources[0].project_id:"loading"} */}
 					{this.renderTable()}
-
-					{resources.map(resource => 
-						<h4 key={resource.resource_name}>{resource.resource_name}</h4>)}
-
 				</div>
 				<div>
-					<button onClick = {this.apiTest}>Button test</button>
+					<button onClick = {this.apiPostTest}>Post test</button>
+				</div>
+				<div>
+					<button onClick = {this.apiDeleteTest}>Delete test</button>
 				</div>
 
 			</div>

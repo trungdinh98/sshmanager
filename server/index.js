@@ -26,6 +26,7 @@ connection.connect(err => {
     else console.log("Connected to mysql")
 });
 
+app.use(express.json());
 app.use(cors());
 
 app.get('/', (req, res) => {
@@ -81,12 +82,7 @@ app.get('/resources', (req, res) => {
 })
 
 app.post('/resources', (req, res) => {
-    let {project_id, resource_name, resource_dns, key_id, resource_user} = req.query
-    // let project_id = 1001 
-    // let resource_name = "n1"
-    // let resource_dns = "123.31.1.1"
-    // let key_id = 1001
-    // let resource_user = "u"
+    let {project_id, resource_name, resource_dns, key_id, resource_user} = req.body;
 
     console.log(req.body);
 
@@ -95,7 +91,9 @@ app.post('/resources', (req, res) => {
         resource_name, \
         resource_dns, \
         key_id, \
-        resource_user) VALUES (?, ?, ?, ?, ?)"
+        resource_user) VALUES (?, ?, ?, ?, ?)";
+
+    console.log(project_id, resource_name, resource_dns, key_id, resource_user);
 
     connection.query(sql_command, [
         project_id,
