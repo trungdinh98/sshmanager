@@ -2,6 +2,7 @@ import React from 'react';
 import './App.css';
 import DataTable from './Components/DataTable';
 import Axios from 'axios';
+import Header from '../../Header/Header';
 
 class Users extends React.Component {
   constructor(props) {
@@ -42,6 +43,7 @@ class Users extends React.Component {
     //}
     Axios.get('http://localhost:8000/users/list')
       .then(response => {
+        console.log(response.data.data)
         response.data.data.forEach(element => {
           model.data.push(element);
         });

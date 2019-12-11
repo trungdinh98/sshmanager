@@ -1,6 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './datatable.css';
+import { BrowserRouter, Route, Link } from 'react-router-dom';
+import AddUsers from '../AddUsers';
 
 export default class DataTable extends React.Component {
     _preSearchData = null;
@@ -119,9 +121,9 @@ export default class DataTable extends React.Component {
                                 </form>
                             );
                         }
-                    } else if(header.dataType && header.dataType === "number" && header.accessor === this.keyField){
-                        if (edit && edit.row === rowIdx && edit.cell === index){
-                            if(window.confirm("Delete user has id: " + id)){
+                    } else if (header.dataType && header.dataType === "number" && header.accessor === this.keyField) {
+                        if (edit && edit.row === rowIdx && edit.cell === index) {
+                            if (window.confirm("Delete user has id: " + id)) {
                                 this.onDelete();
                             }
                         }
@@ -174,15 +176,9 @@ export default class DataTable extends React.Component {
 
     onSearch = (e) => {
         let { headers } = this.state;
-        // Grab the index of the target column
-        //let idx = e.target.dataset.idx;
-
-        // Get the target column
-        //let targetCol = this.state.headers[idx].accessor;
 
         let data = this._preSearchData;
 
-        // Filter the records
         let searchData = data.filter((row) => {
             let show = true;
 
@@ -199,7 +195,6 @@ export default class DataTable extends React.Component {
                 }
             }
             return show;
-            //return row[targetCol].toString().toLowerCase().indexOf(needle) > -1;
         });
 
         // UPdate the state
@@ -286,9 +281,23 @@ export default class DataTable extends React.Component {
         }
     }
 
+    onToggleAdd = (e) => {
+        
+        return (
+            <BrowserRouter>
+                <Link to="/add" />
+                <Route exact path="/add" component = {AddUsers} />
+            </BrowserRouter>
+        );
+
+    }
+
     renderToolbar = () => {
         return (
             <div className="toolbar">
+                <button onClick={this.onToggleAdd}>
+                    Add
+                </button>
                 <button onClick={this.onToggleSearch}>
                     Search
                 </button>
@@ -297,7 +306,7 @@ export default class DataTable extends React.Component {
     }
 
     renderNote = () => {
-        return(
+        return (
             <div className="note">
                 <div>Double Click <strong>ID</strong> to delete</div>
                 <div>Double Click <strong>SOMETHING</strong> to edit</div>
