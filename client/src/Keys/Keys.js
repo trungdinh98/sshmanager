@@ -15,10 +15,10 @@ class Keys extends React.Component {
             },
             renderKeys: ({key_created_at, key_id, key_name, project_id}) => 
                 <tr key={key_id}>
-                    <td className="check-box">
-                        <input type="checkbox" />
-                        <span class="checkmark"></span>
-                    </td>
+                    <td><label className="check-box">
+                        <input type="checkbox"/>
+                        <span className="checkmark"></span>
+                    </label></td>
                     <td>{key_name}</td>
                     <td>{key_id}</td>
                     <td>{project_id}</td>
@@ -52,7 +52,7 @@ class Keys extends React.Component {
     render () {
         const { keys, key } = this.state;
         return (
-            <div>
+            <div style={{width: '-webkit-fill-available'}}>
                 <div className="top-content">
                     <input className="key-search" type="text" placeholder="Find by key ID or key name" />
                     <button className="new-key">New Key</button>
@@ -62,13 +62,13 @@ class Keys extends React.Component {
                     <table>
                         <thead>
                             <tr>
-                                <th className="check-box">
-                                    <input type="checkbox" />
-                                    <span class="checkmark"></span>
-                                </th>
+                                <td><label className="check-box">
+                                    <input type="checkbox"/>
+                                    <span className="checkmark"></span>
+                                </label></td>
                                 <th className="key-name">Key Name</th>
                                 <th className="key-id">Key ID</th>
-                                <th className="key-value">Key Value</th>
+                                <th className="key-value">Project ID</th>
                                 <th className="key-time">Registered Time</th>
                             </tr>
                         </thead>

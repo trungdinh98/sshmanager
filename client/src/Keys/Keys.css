@@ -45,11 +45,10 @@
 
 /*                  CHECK-BOX                  */
 .check-box {
-    border: none;
-    width: 5%;
-      display: block;
+  border: none;
+  width: 5%;
+  display: block;
   position: relative;
-  padding-left: 35px;
   margin-bottom: 12px;
   cursor: pointer;
   font-size: 22px;
@@ -60,20 +59,21 @@
 }
 
 .check-box input {
-    position: absolute;
-    opacity: 0;
-    cursor: pointer;
-    height: 0;
-    width: 0;
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
 }
 
 .checkmark {
   position: absolute;
   top: 0;
-  left: 0;
-  height: 25px;
-  width: 25px;
-  background-color: #eee;
+  left: -13px;
+  height: 18px;
+  width: 18px;
+  background-color: #fff;
+  border: 1px solid rgba(187, 187, 187, 1);
 }
 
 /* On mouse-over, add a grey background color */
@@ -84,6 +84,7 @@
 /* When the checkbox is checked, add a blue background */
 .check-box input:checked ~ .checkmark {
   background-color: #2196F3;
+  border: 1px solid #2196F3;
 }
 
 /* Create the checkmark/indicator (hidden when not checked) */
@@ -100,8 +101,8 @@
 
 /* Style the checkmark/indicator */
 .check-box .checkmark:after {
-  left: 9px;
-  top: 5px;
+  left: 5px;
+  top: 1px;
   width: 5px;
   height: 10px;
   border: solid white;
@@ -117,7 +118,7 @@ table {
     border-collapse: collapse;
 }
 
-table thead {
+thead {
     text-align: left;
 }
 
@@ -128,24 +129,24 @@ thead:after {
     text-indent:-99999px;
 }
 
-tr span {
-    padding: 20px 0px 20px 0px;
-}
-
-table thead tr th {
+thead tr th {
     padding: 0px 0px 0px 13px;
     border-left: 1px solid rgba(187, 187, 187, 1);
 }
 
-table tbody {
+thead tr td label {
+  margin-left: 13px;
+}
+
+tbody {
     text-align: left;
     border-top: 2px solid rgba(187, 187, 187, 1);
 }
 
-table tbody tr {
+tbody tr {
     border-bottom: 1px solid rgba(187, 187, 187, 1);
 }
 
-table tbody tr td {
+tbody tr td {
     padding: 20px 0px 20px 13px;
 }
