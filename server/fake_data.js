@@ -26,14 +26,17 @@ projects = [
     {
         project_id: 1001,
         project_name: "project1",
+        owner_id: 1001
     },
     {
         project_id: 1002,
-        project_name: "project2"
+        project_name: "project2",
+        owner_id: 1002
     },
     {
         project_id: 1003,
-        project_name: "project3"
+        project_name: "project3",
+        owner_id: 1003
     },
 ]
 
@@ -70,42 +73,49 @@ resources = [
         project_id: 1001,
         resource_name: "resource1",
         resource_dns: "1.1.1.1",
+        resource_user: "ubuntu",
         key_id: 1001
     },
     {
         project_id: 1001,
         resource_name: "resource2",
         resource_dns: "2.2.2.2",
+        resource_user: "ubuntu",
         key_id: 1001
     },
     {
         project_id: 1002,
         resource_name: "resource3",
         resource_dns: "3.3.3.3",
+        resource_user: "ubuntu",
         key_id: 1002
     },
     {
         project_id: 1002,
         resource_name: "resource4",
         resource_dns: "4.4.4.4",
+        resource_user: "ubuntu",
         key_id: 1003
     },
     {
         project_id: 1003,
         resource_name: "resource5",
         resource_dns: "5.5.5.5",
+        resource_user: "ubuntu",
         key_id: 1004
     },
     {
         project_id: 1003,
         resource_name: "resource6",
         resource_dns: "6.6.6.6",
+        resource_user: "ubuntu",
         key_id: 1004
     },
     {
         project_id: 1001,
         resource_name: "resource1",
         resource_dns: "7.7.7.7",
+        resource_user: "ubuntu",
         key_id: 1005
     },
 ]
@@ -141,39 +151,39 @@ project_users = [
     {
         project_id: 1001,
         user_id: 1001,
-        is_admin: 1
+        // is_admin: 1
     },
     {
         project_id: 1001,
         user_id: 1003,
-        is_admin: 0
+        // is_admin: 0
     },
     {
         project_id: 1002,
         user_id: 1001,
-        is_admin: 0
+        // is_admin: 0
     },
     {
         project_id: 1002,
         user_id: 1002,
-        is_admin: 1
+        // is_admin: 1
     },
     {
         project_id: 1003,
         user_id: 1003,
-        is_admin: 1
+        // is_admin: 1
     },
     {
         project_id: 1003,
         user_id: 1004,
-        is_admin: 0
+        // is_admin: 0
     }
 ]
 
 createProject = function() {
     projects.forEach(element => {
-        let sql_command = "INSERT INTO `projects` (`project_name`, `project_id`) VALUES (?, ?)"
-        connection.query(sql_command, [element.project_name, element.project_id],
+        let sql_command = "INSERT INTO `projects` (`project_name`, `project_id`, `owner_id`) VALUES (?, ?, ?)"
+        connection.query(sql_command, [element.project_name, element.project_id, element.owner_id],
             (err, results) => {
                 if(err){
                     console.log(err);
@@ -202,8 +212,8 @@ createKeys = function() {
 
 createResources = function() {
     resources.forEach(element => {
-        let sql_command = "INSERT INTO `resources` (`project_id`, `resource_name`, `resource_dns`, `key_id`) VALUES (?, ?, ?, ?)"
-        connection.query(sql_command, [element.project_id, element.resource_name, element.resource_dns, element.key_id],
+        let sql_command = "INSERT INTO `resources` (`project_id`, `resource_name`, `resource_dns`, `resource_user`, `key_id`) VALUES (?, ?, ?, ?, ?)"
+        connection.query(sql_command, [element.project_id, element.resource_name, element.resource_dns, element.resource_user, element.key_id],
             (err, results) => {
                 if(err){
                     console.log(err);
@@ -232,8 +242,8 @@ createUsers = function(){
 
 createProjectUser = function(){
     project_users.forEach(element => {
-        let sql_command = "INSERT INTO `project_users` (`user_id`, `project_id`, `is_admin`) VALUES (?, ?, ?)"
-        connection.query(sql_command, [element.user_id, element.project_id, element.is_admin],
+        let sql_command = "INSERT INTO `project_users` (`user_id`, `project_id`) VALUES (?, ?)"
+        connection.query(sql_command, [element.user_id, element.project_id],
             (err, results) => {
                 if(err){
                     console.log(err);
@@ -245,10 +255,10 @@ createProjectUser = function(){
     })
 }
 
+createUsers()
 createProject()
 createKeys()
 createResources()
-createUsers()
 createProjectUser()
 
 connection.end()
