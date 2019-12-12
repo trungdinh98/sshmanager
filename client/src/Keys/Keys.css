@@ -41,3 +41,17 @@
 .bot-content {
     padding: 15px 0px 15px 100px;
 }
+
+table thead {
+}
+
+table thead tr {
+}
+
+table thead tr th {
+    padding: 10px
+}
+
+table tbody {
+    text-align: center;
+}
