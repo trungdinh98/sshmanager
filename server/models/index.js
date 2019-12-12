@@ -33,6 +33,7 @@ models.forEach(function(model){
   m.project.hasMany(m.resource, {foreignKey: {name: 'project_id', allowNull: false}, onDelete: 'CASCADE', hooks: true});
   m.project.hasMany(m.key, {foreignKey: {name: 'project_id', allowNull: false}, onDelete: 'CASCADE', hooks: true});
   m.key.belongsTo(m.project, {foreignKey: {name: 'project_id', allowNull: false}, onDelete: 'CASCADE', hooks: true});
+  m.user.hasMany(m.project, {foreignKey: {name: 'owner_id', allowNull: false}, onDelete: 'CASCADE', hooks: true})
   m.resource.belongsTo(m.project, {foreignKey: {name: 'project_id', allowNull: false}, onDelete: 'CASCADE', hooks: true});
   m.user.belongsToMany(m.project, {through: 'project_user', foreignKey: 'user_id'});
   m.project.belongsToMany(m.user, {through: 'project_user', foreignKey: 'project_id'});

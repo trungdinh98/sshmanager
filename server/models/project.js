@@ -10,6 +10,11 @@ module.exports = function(sequelize, Sequelize){
             unique    : true,
             autoIncrement: true
         },
+        owner_id: {
+            type: Sequelize.INTEGER,
+            allowNull: false,
+            primaryKey: true
+        },
         project_created_at: {
             type        : Sequelize.DATE,
             allowNull   : false,

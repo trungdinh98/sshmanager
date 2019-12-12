@@ -18,7 +18,7 @@ module.exports = function(sequelize, Sequelize){
             allowNull: false
         },
         resource_user: {
-            type: Sequelize.STRING(30),
+            type: Sequelize.STRING(15),
             allowNull: false
         },
         key_id: {
