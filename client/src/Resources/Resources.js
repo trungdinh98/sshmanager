@@ -80,62 +80,74 @@ class Resources extends React.Component{
 	// 	await api.put('')
 	// }
 
-	async removeResource(resource_id){
-		await api.delete('/resources', {
-			params:{
-				resource_id: resource_id
-			}
+	removeResource(resource_ids){
+		resource_ids.forEach(resource_id => {
+			api.delete('/resources', {
+				params:{
+					resource_id: resource_id
+				}
+			})
+			.then((response) => {
+				console.log(response)
+				this.getResources(1001)
+			})
+			.catch((err) => {
+				console.log(err);
+			})
 		})
-		.then((response) => {
-			console.log(response)
-			// this.getResources(project_id)
-		})
-		.catch((err) => {
-			console.log(err);
-		})
+		
 	}
 
+	startConnection(resource_id){
+		window.open("./xterm.html", "_blank")
+	}
+
+	
 	renderTable(){
 		let resources = this.state.resources;
 		let render = ``;
-		resources.forEach(resource => {
-			render += `
-				<tr>
-					<td></td>
-					<td align="center">${resource.resource_id}</td>
-					<td align="left">${resource.resource_name}</td>
-					<td align="center">${resource.project_id}</td>
-					<td align="center">${resource.resource_dns}</td>
-					<td align="center">${resource.key_id}</td>
-					<td align="center">${resource.resource_created_at}</td>
-					<td></td>
-				</tr>
-			`
-		})
-
-		if (this.state.resources[0]!=undefined){
-			return(
-				<div>
-					<table>
-						<thead>
-							<tr>
-								<th></th>
-								<th><div>ID</div></th>
-								<th><div>Name</div></th>
-								<th><div>Project ID</div></th>
-								<th><div>DNS</div></th>
-								<th><div>Key ID</div></th>
-								<th><div>Created At</div></th>
-								<th></th>
-							</tr>
-						</thead>
-						<tbody dangerouslySetInnerHTML={{__html: render}}>
-							
-						</tbody>
-					</table>
-				</div>
-			)
+		if(resources == undefined){
+			render = "";
 		}
+		else{
+			resources.forEach(resource => {
+				render += `
+					<tr>
+						<td></td>
+						<td align="center">${resource.resource_id}</td>
+						<td align="left">${resource.resource_name}</td>
+						<td align="center">${resource.project_id}</td>
+						<td align="center">${resource.resource_dns}</td>
+						<td align="center">${resource.key_id}</td>
+						<td align="center">${resource.resource_created_at}</td>
+						<td></td>
+					</tr>
+				`
+			})
+		}
+		
+
+		return(
+			<div>
+				<table>
+					<thead>
+						<tr>
+							<th></th>
+							<th><div>ID</div></th>
+							<th><div>Name</div></th>
+							<th><div>Project ID</div></th>
+							<th><div>DNS</div></th>
+							<th><div>Key ID</div></th>
+							<th><div>Created At</div></th>
+							<th></th>
+						</tr>
+					</thead>
+					<tbody dangerouslySetInnerHTML={{__html: render}}>
+						
+					</tbody>
+				</table>
+			</div>
+		)
 		
 	}
 	
@@ -148,7 +160,8 @@ class Resources extends React.Component{
 
 	apiDeleteTest = () => {
 		console.log("Delete test");
-		this.removeResource(41);
+		let resource_ids = [39, 44]
+		this.removeResource(resource_ids);
 	}
 
   	render(){
@@ -166,6 +179,9 @@ class Resources extends React.Component{
 				</div>
 				<div>
 					<button onClick = {this.apiDeleteTest}>Delete test</button>
+				</div>
+				<div>
+					<button onClick = {this.startConnection}>SSH test</button>
 				</div>
 
 			</div>

@@ -33,20 +33,27 @@ app.get('/', (req, res) => {
     res.send('Hello server!')
 });
 
-app.get('/project/add', (req, res) => {
-    const { idProject, name } = req.query
-    const INSERT_PROJECTS_QUERY = `INSERT INTO Project (idProject, name) VALUES ('${idProject}', '${name}')`
-    connection.query(INSERT_PROJECTS_QUERY, (err, results) => {
+app.get('/projects', (req, res) => {
+    let { user_id } = req.query;
+    
+    let sql_command = "SELECT * FROM projects \
+    INNER JOIN project_users \
+    ON projects.project_id=project_users.project_id \
+    WHERE user_id = ?";
+
+    connection.query(sql_command, [user_id], (err, results) => {
         if(err) {
             return res.send(err);
         }
         else {
-            return res.send('Successfully added project!')
+            return res.json({
+                data: results
+            })
         }
     });
 });
 
-app.get('/project', (req, res) => {
+app.post('/projects', (req, res) => {
     connection.query(SELECT_ALL_PROJECT_QUERY, (err, results) => {
         if(err) {
             return res.send(err);

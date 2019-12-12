@@ -9,69 +9,44 @@ const io = require("socket.io")(9000, {
 
 
 io.on("connection", function(socket){
-
-    var Client = require('ssh2').Client;
-    var conn = new Client();
-    conn.on('ready', function(){
-        socket.on("data", function(data){
-            console.log(data)
-            socket.emit("return", String(data));
-            data = "";
+    try{
+        var Client = require('ssh2').Client;
+        var conn = new Client();
+        conn.on('ready', function(){
+            conn.shell(function(err, stream){
+                if(err){
+                    return socket.emit("return", '\r\n*** SSH CONNECTION ERROR: ' + err.message + ' ***\r\n');
+                }
+                
+                socket.on("data", function(data){
+                    stream.write(data);
+                })
+    
+                socket.on("disconnect", function(){
+                    stream.close();
+                    conn.end();
+                })
+    
+                socket.on("error", function(){
+                    socket.disconnect();
+                    stream.close();
+                    conn.end();
+                })
+    
+                stream.on("close", function(){
+                    conn.end()
+                }).on("data", function(data){
+                    socket.emit("return", data.toString('binary'));
+                    // socket.emit(data);
+                })
+            })
+        }).connect({
+            host: '54.254.140.154',
+            port: 22,
+            username: 'ubuntu',
+            privateKey: require('fs').readFileSync('./web-tester.pem')
         })
-    })
-
-    socket.on("data", function(data){
-        console.log(data)
-        socket.emit("return", String(data));
-        data = "";
-    })
+    }catch(err){
+        console.log(err);
+    }
 })
-
-// var Client = require('ssh2').Client;
-// var readline = require('readline')
-
-// var conn = new Client();
-// conn.on('ready', function() {
-// //   console.log('Client :: ready');
-//   conn.shell(function(err, stream) {
-//     if (err) throw err;
-
-//     var rl = readline.createInterface(process.stdin, process.stdout)
-
-//     stream.on('close', function() {
-//       process.stdout.write('Connection closed')
-//       console.log('Stream :: close');
-//       conn.end();
-      
-//     }).on('data', function(data) {
-//       process.stdin.pause();
-//       process.stdout.write(data);
-//       process.stdin.resume();
-//     }).stderr.on('data', function(data){
-//       process.stderr.write(data);
-//     })
-//     // ;
-//     // stream.end('exit\n');
-
-//     rl.on('line', function(d){
-//       // send data to through the client to the host
-//       process.stdin.setRawMode(true);
-//       stream.write(d.trim() + '\n');
-//     })
-
-//     rl.on('SIGINT', function () {
-//       // stop input
-//       process.stdin.pause()
-//       process.stdout.write('\nEnding session\n')
-//       rl.close()
-
-//       // close connection
-//       stream.end('exit\n')
-//     })
-//   });
-// }).connect({
-//   host: '18.136.194.128',
-//   port: 22,
-//   username: 'ubuntu',
-//   privateKey: require('fs').readFileSync('web-tester.pem')
-// });
