@@ -62,4 +62,22 @@ controllers.updateID = async (req, res) => {
     })
   res.json({ success:true, data: data });
 }
+
+controllers.add = async (req, res) => {
+  const {username, password, phone, age, project} = req.body;
+  const data = await Users.create({
+    username:username,
+    password:password,
+    project:project,
+    profile:"https://image.flaticon.com/icons/svg/145/145867.svg",
+    age:age,
+    phone:phone
+  }).then(function(data){
+    return data;
+  })
+  .catch(error =>{
+    console.log("Error "+error)
+    return error;
+  })
+}
 module.exports = controllers;

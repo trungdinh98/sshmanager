@@ -25,7 +25,7 @@ class Header extends React.Component {
 
     render () {
         return (
-            <div style={{float:'none'}}>
+            <div className = "header" style={{float:'none'}}>
                 <div id="mySidenav" className="sidenav">
                     <div className="closebtn" onClick={this.closeNav}>&times;</div>
                     <a href="#Users">Users</a>
