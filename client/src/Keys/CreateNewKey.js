@@ -1,13 +1,18 @@
 import React from 'react';
-import './Keys.css';
-import './CreateNewKey.js';
+import './CreateNewKey.css';
 
-class Keys extends React.Component {
+class CreateNewKey extends React.Component {
 
     constructor () {
         super();
         this.state = {
             keys: [],
+            key: {
+                key_created_at: "",
+                key_id: 0,
+                key_name: "",
+                project_id: 0,
+            },
             renderKeys: ({key_created_at, key_id, key_name, project_id}) => 
                 <tr key={key_id}>
                     <td><label className="check-box">
@@ -40,14 +45,6 @@ class Keys extends React.Component {
             .catch(err => console.error(err))
     }
 
-    createKey () {
-
-    }
-
-    deleteKeys () {
-
-    }
-
     componentWillUnmount () {
         this._isMounted = false;
     }
@@ -58,7 +55,7 @@ class Keys extends React.Component {
             <div style={{width: '-webkit-fill-available'}}>
                 <div className="top-content">
                     <input className="key-search" type="text" placeholder="Find by key ID or key name" />
-                    <button className="new-key" onClick={this.createKey}>New Key</button>
+                    <button className="new-key" onClick={this.createKeys}>New Key</button>
                     <button className="delete-key" onClick={this.deleteKeys}>Delete Key</button>
                 </div>
                 <div className="bot-content">
@@ -85,4 +82,4 @@ class Keys extends React.Component {
     }
 }
 
-export default Keys;
+export default CreateNewKey;
