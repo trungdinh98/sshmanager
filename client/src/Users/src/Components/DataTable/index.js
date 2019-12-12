@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './datatable.css';
 import { BrowserRouter, Route, Link } from 'react-router-dom';
-import AddUsers from '../AddUsers';
+import AddUsers from '../NewUser/AddUsers';
 
 export default class DataTable extends React.Component {
     _preSearchData = null;
@@ -251,7 +251,7 @@ export default class DataTable extends React.Component {
         return (
             <table className="data-inner-table">
                 <caption className="data-table-caption">
-                    {title}
+                    {title}<Link to="/users/add" style={{ float: 'right' }}>New User</Link>
                 </caption>
                 <thead onClick={this.onSort}>
                     <tr>
@@ -281,23 +281,9 @@ export default class DataTable extends React.Component {
         }
     }
 
-    onToggleAdd = (e) => {
-        
-        return (
-            <BrowserRouter>
-                <Link to="/add" />
-                <Route exact path="/add" component = {AddUsers} />
-            </BrowserRouter>
-        );
-
-    }
-
     renderToolbar = () => {
         return (
             <div className="toolbar">
-                <button onClick={this.onToggleAdd}>
-                    Add
-                </button>
                 <button onClick={this.onToggleSearch}>
                     Search
                 </button>

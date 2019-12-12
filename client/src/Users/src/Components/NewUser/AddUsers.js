@@ -1,9 +1,11 @@
 import React from 'react';
+import Header from '../../../Header/Header';
 export default class AddUsers extends React.Component{
     render(){
-        console.log('hello');
         return(
-            <div>Hello Add Users is here</div>
+            <div>
+                <Header />
+            </div>
         )
     }
 }

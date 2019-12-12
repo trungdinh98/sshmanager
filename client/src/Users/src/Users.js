@@ -26,21 +26,9 @@ class Users extends React.Component {
         { title: "Done PJs", accessor: "project", index: 6, dataType: "number" },
       ],
       data: [
-        //{ id: 1, username: "username1", password: "password1", profile: "https://png.icons8.com/nolan/50/000000/user.png", age: "29", phone:"0387556558", project: "3" }, 
+        //"https://png.icons8.com/nolan/50/000000/user.png"
       ]
     }
-    // for (var i = 2; i < 20; i++) {
-    //   model.data.push({
-    //     id: i,
-    //     username: "username" + i,
-    //     password: "password" + i,
-    //     profile: "https://png.icons8.com/nolan/50/000000/user.png",
-    //     age: parseInt(18 + Math.random() * 50),
-    //     phone: "03" + parseInt(10000000 +Math.random()*89999999),
-    //     project: parseInt(1 + Math.random() * 10),
-    //     button: <button>add</button>
-    //   })
-    //}
     Axios.get('http://localhost:8000/users/list')
       .then(response => {
         console.log(response.data.data)
@@ -74,17 +62,17 @@ class Users extends React.Component {
     await Axios.post(`http://localhost:8000/users/delete/${idDel}`, { id: idDel });
     for (var i = 0; i < data.length; i++) {
       if (data[i].id >= idDel) {
-        await Axios.post(`http://localhost:8000/users/updateID/${data[i].id}`, {id: data[i].id})
-        .then(response => {
-          if(response.data.success){
-            console.log("done");
-          } else {
-            console.log("fail");
-          }
-        })
-        .catch(error => {
-          alert(error)
-        });
+        await Axios.post(`http://localhost:8000/users/updateID/${data[i].id}`, { id: data[i].id })
+          .then(response => {
+            if (response.data.success) {
+              console.log("done");
+            } else {
+              console.log("fail");
+            }
+          })
+          .catch(error => {
+            alert(error)
+          });
         data[i].id--;
       }
     }

@@ -1,11 +1,11 @@
 import React from 'react';
-import Users from './Users/src/Users';
+import AppUser from './Users/src/AppUser';
 
 class App extends React.Component {
 
   render() {
     return (
-        <Users />
+        <AppUser />
     );
   }
 }
