@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './datatable.css';
-import {Link } from 'react-router-dom';
+import {Redirect} from 'react-router-dom';
 
 export default class DataTable extends React.Component {
     _preSearchData = null;
@@ -14,6 +14,7 @@ export default class DataTable extends React.Component {
             sortby: null,
             descending: null,
             search: false,
+            direct: false
         }
 
         this.keyField = props.keyField || "id";
@@ -102,7 +103,7 @@ export default class DataTable extends React.Component {
                 if (cell) {
                     if (typeof (cell) === "object") {
                         if (cell.type === "image" && content) {
-                            content = <img style={cell.style} src={content} alt="avatar"/>
+                            content = <img style={cell.style} src={content} alt="avatar" />
                         } else if (cell.type === "button") {
                         }
                     } else if (typeof (cell) === "function") {
@@ -116,7 +117,7 @@ export default class DataTable extends React.Component {
                         header.accessor !== this.keyField) {
                         if (edit && edit.row === rowIdx && edit.cell === index) {
                             content = (
-                                <form onSubmit={this.onUpdate} style ={{width: hdr.accessor + "px"}}>
+                                <form onSubmit={this.onUpdate} style={{ width: hdr.accessor + "px" }}>
                                     <input type="text" defaultValue={content}
                                         onKeyUp={this.onFormReset} />
                                 </form>
@@ -218,7 +219,7 @@ export default class DataTable extends React.Component {
                 <td key={idx}>
                     <input name="inputSearch" type="text"
                         ref={(input) => this[inputId] = input}
-                        style={{width: hdr.widthClient - 10 + "px"}}
+                        style={{ width: hdr.widthClient - 10 + "px" }}
                         data-idx={idx} />
                 </td>
             );
@@ -241,6 +242,10 @@ export default class DataTable extends React.Component {
         })
     }
 
+    addNewUser = () => {
+        this.setState({redirect:true})
+    }
+
     renderTable = () => {
         let title = this.props.title || "User Table";
         let headerView = this.renderTableHeader();
@@ -251,7 +256,9 @@ export default class DataTable extends React.Component {
         return (
             <table className="data-inner-table">
                 <caption className="data-table-caption">
-                    {title}<Link to="/users/add" style={{ float: 'right' }}>New User</Link>
+                    {title}
+                    {/* <Link to="/users/add" style={{ float: 'right' }}>New User</Link> */}
+                    <button onClick={this.addNewUser } style={{ float: 'right' }}>New User</button>
                 </caption>
                 <thead onClick={this.onSort}>
                     <tr>
@@ -300,11 +307,15 @@ export default class DataTable extends React.Component {
         )
     }
     render() {
+        const { redirect } = this.state;
         return (
             <div className={this.props.className}>
                 {this.renderTable()}
                 {this.renderToolbar()}
                 {this.renderNote()}
+                {redirect && (
+                    <Redirect push to="/users/add" />
+                )}
             </div>
         );
     }

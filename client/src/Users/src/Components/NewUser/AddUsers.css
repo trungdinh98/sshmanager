@@ -91,9 +91,9 @@ input.error {
 }
 
 .addUsers button {
-  background-color: #519e8a;
+  background-color: #20c352;
   color: #fff;
-  border: 2px solid #fff;
+  border: 2px solid rgba(7, 40, 84, 0.8);
   width: 100%;
   margin-top: 1em;
   padding: 8px 0px;

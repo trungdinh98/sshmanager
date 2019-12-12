@@ -6,18 +6,18 @@ import Header from '../../Header/Header';
 
 const AppUser = () => (
 
-    
-        <div>
-            <Header />
-            <BrowserRouter>
-                <Switch>
-                    <Route exact path='/' component={Users} />
-                    <Route exact path='/users' component={Users} />
-                    <Route exact path='/users/add' component={AddUsers} />
-                </Switch>
-            </BrowserRouter>
 
-        </div>
+    <div>
+        <Header />
+        <BrowserRouter>
+            <Switch>
+                <Route exact path='/' component={Users} />
+                <Route exact path='/users' component={Users} />
+                <Route exact path="/users/add" component={AddUsers} />
+            </Switch>
+        </BrowserRouter>
+
+    </div>
 
 )
 
