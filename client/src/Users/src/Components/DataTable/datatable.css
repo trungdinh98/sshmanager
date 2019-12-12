@@ -46,14 +46,6 @@
     user-select: none;
   }
   
-  .rating {
-    border:none;
-    box-shadow: 2px 2px 2px grey;
-    background-color: lightgray;
-    vertical-align: middle;
-    line-height: 2em;
-  }
-  
   .data-table-caption {
     padding: 15px 5px;
     text-align: left;

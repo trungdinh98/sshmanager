@@ -5,8 +5,7 @@ import AddUsers from './Components/NewUser/AddUsers';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 
 const AppUser = () => (
-    <div>
-        <Header />
+    
         <div>
             <BrowserRouter>
                 <Switch>
@@ -17,7 +16,7 @@ const AppUser = () => (
             </BrowserRouter>
 
         </div>
-    </div>
+
 )
 
 export default AppUser;
