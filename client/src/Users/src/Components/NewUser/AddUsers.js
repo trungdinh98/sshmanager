@@ -1,7 +1,7 @@
 import React from 'react';
 import './AddUsers.css'
-import { throws } from 'assert';
 import Axios from 'axios';
+
 export default class AddUsers extends React.Component {
     constructor(props) {
         super(props);
@@ -11,7 +11,15 @@ export default class AddUsers extends React.Component {
             password: null,
             age: null,
             phone: null,
-            project: null
+            project: null,
+            formErrors: {
+                username: "",
+                password: "",
+                age: "",
+                phone: "",
+                project: ""
+            },
+            handle: false
         }
     }
     handleSubmit = (e) => {
@@ -20,47 +28,84 @@ export default class AddUsers extends React.Component {
 
     handleChange = e => {
         e.preventDefault();
+
         const { name, value } = e.target;
+        let formErrors = { ...this.state.formErrors };
+        switch (name) {
+            case "username":
+                formErrors.username =
+                    value.length < 5 ? "username > 4 characters" : "";
+                break;
+            case "password":
+                formErrors.password =
+                    value.length < 4 ? "password > 3 characters" : "";
+                break;
+            // case "email":
+            //     formErrors.email = emailRegex.test(value)
+            //         ? ""
+            //         : "invalid email address";
+            //     break;
+            case "age":
+                formErrors.age =
+                    value < 18 ? "age >= 18" : "";
+                break;
+            case "project":
+                formErrors.project =
+                    value < 0 ? "project != 0" : "";
+                break;
+            default:
+                break;
+        }
 
-//     switch (name) {
-//         case "username":
-//             formErrors.firstName =
-//                 value.length < 3 ? "minimum 3 characaters required" : "";
-//             break;
-//         case "lastName":
-//             formErrors.lastName =
-//                 value.length < 3 ? "minimum 3 characaters required" : "";
-//             break;
-//         case "email":
-//             formErrors.email = emailRegex.test(value)
-//                 ? ""
-//                 : "invalid email address";
-//             break;
-//         case "password":
-//             formErrors.password =
-//                 value.length < 6 ? "minimum 6 characaters required" : "";
-//             break;
-//         default:
-//             break;
-//     }
+        this.setState({ formErrors, [name]: value, handle: true });
+    };
 
-    this.setState({ [name]: value }, () => console.log(this.state));
-};
+    addUser = (e) => {
+        e.preventDefault();
+        let { formErrors, handle } = this.state;
 
-addUser = (e) => {
-    e.preventDefault();
-    const newUser = this.state;
-    Axios.post(`http://localhost:8000/users/add/`, newUser);
-}
-render() {
-    return (
-        <div className="wrapper">
+        if (handle === true) {
+            console.log(formErrors.username === "")
+            if (formErrors.username === "" && formErrors.password === "" && formErrors.age === "" && formErrors.project === "" && formErrors.phone === "") {
+                const newUser = this.state;
+                Axios.post(`http://localhost:8000/users/add/`, newUser)
+                    .then(response => {
+                        if (response.data.success) {
+                            this.backToUsers();
+                        }
+                    });
+            } else {
+                if (formErrors.username !== "") {
+                    alert(formErrors.username);
+                } else if (formErrors.password !== "") {
+                    alert(formErrors.password);
+                } else if (formErrors.age !== "") {
+                    alert(formErrors.age);
+                } else if (formErrors.project !== "") {
+                    alert(formErrors.project);
+                }
+            }
+        } else {
+            alert("enter information");
+        }
+
+    }
+    backToUsers = () => {
+        return (
+            this.props.history.push('/users')
+        )
+    }
+    render() {
+        const {formErrors} = this.state;
+        return (
             <div className="form-wrapper">
+                <button onClick={this.backToUsers}>Back</button>
                 <h1>New User</h1>
                 <form onSubmit={this.handleSubmit} noValidate>
                     <div className="username">
                         <label htmlFor="username">Username</label>
                         <input
+                            className={formErrors.username.length > 0 ? "error" : null}
                             placeholder="Username"
                             type="text"
                             name="username"
@@ -71,6 +116,7 @@ render() {
                     <div className="password">
                         <label htmlFor="password">Password</label>
                         <input
+                            className={formErrors.password.length > 0 ? "error" : null}
                             placeholder="Password"
                             type="password"
                             name="password"
@@ -81,6 +127,7 @@ render() {
                     <div className="age">
                         <label htmlFor="age">Age</label>
                         <input
+                            className={formErrors.age.length > 0 ? "error" : null}
                             placeholder="Age"
                             type="number"
                             name="age"
@@ -88,9 +135,21 @@ render() {
                             onChange={this.handleChange}
                         />
                     </div>
+                    <div className="project">
+                        <label htmlFor="project">Project</label>
+                        <input
+                            className={formErrors.project.length > 0 ? "error" : null}
+                            placeholder="Project"
+                            type="number"
+                            name="project"
+                            noValidate
+                            onChange={this.handleChange}
+                        />
+                    </div>
                     <div className="phone">
                         <label htmlFor="phone">Phone</label>
                         <input
+                            className={formErrors.phone.length > 0 ? "error" : null}
                             placeholder="Phone"
                             type="text"
                             name="phone"
@@ -98,22 +157,11 @@ render() {
                             onChange={this.handleChange}
                         />
                     </div>
-                    <div className="project">
-                        <label htmlFor="project">Project</label>
-                        <input
-                            placeholder="Project"
-                            type="text"
-                            name="project"
-                            noValidate
-                           onChange={this.handleChange}
-                        />
-                    </div>
                     <div className="addUsers">
                         <button type="submit" onClick={this.addUser}>Add User</button>
                     </div>
                 </form>
             </div>
-        </div>
-    )
-}
+        )
+    }
 }

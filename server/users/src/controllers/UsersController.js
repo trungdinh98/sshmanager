@@ -79,5 +79,6 @@ controllers.add = async (req, res) => {
     console.log("Error "+error)
     return error;
   })
+  res.json({success:true, data:data});
 }
 module.exports = controllers;

@@ -2,7 +2,6 @@ import React from 'react';
 import './App.css';
 import DataTable from './Components/DataTable';
 import Axios from 'axios';
-import Header from '../../Header/Header';
 
 class Users extends React.Component {
   constructor(props) {
@@ -77,7 +76,7 @@ class Users extends React.Component {
       }
     }
 
-    this.setState({
+    await this.setState({
       edit: null,
       data: this.state.data
     });

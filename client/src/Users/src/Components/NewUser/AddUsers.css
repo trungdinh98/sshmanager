@@ -6,15 +6,16 @@
   border-radius: 10px;
   box-shadow: 0px 10px 50px #555;
   background-color: #ffffff;
+  margin:auto;
 }
 
-form {
+div form {
   width: 100%;
-  display: flex;
+  display: inline-flex;
   flex-wrap: wrap;
 }
 
-h2 {
+h1 {
   text-align: center;
   width: 100%;
   color: #111;
@@ -30,7 +31,7 @@ label {
   font-weight: lighter;
 }
 
-input {
+div input {
   padding: 10px 10px;
   border-radius: 5px;
   outline: none;
@@ -53,7 +54,7 @@ input.error {
   display: relative;
 }
 
-.phone {
+.project {
   margin-right: 1%;
 }
 
@@ -71,14 +72,14 @@ input.error {
   margin-bottom: 15px;
 }
 
-.phone,
+.project,
 .age {
   width: 49%;
 }
 
 .username,
 .password,
-.project {
+.phone {
   width: 100%;
 }
 

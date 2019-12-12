@@ -1,8 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './datatable.css';
-import { BrowserRouter, Route, Link } from 'react-router-dom';
-import AddUsers from '../NewUser/AddUsers';
+import {Link } from 'react-router-dom';
 
 export default class DataTable extends React.Component {
     _preSearchData = null;
@@ -33,6 +32,7 @@ export default class DataTable extends React.Component {
             let title = header.title;
             let cleanTitle = header.accessor;
             let width = header.width;
+            console.log(width);
 
             return (
                 <th key={cleanTitle}
@@ -97,11 +97,12 @@ export default class DataTable extends React.Component {
             let edit = this.state.edit;
             let tds = headers.map((header, index) => {
                 let content = row[header.accessor];
+                let hdr = this[header.accessor];
                 let cell = header.cell;
                 if (cell) {
                     if (typeof (cell) === "object") {
                         if (cell.type === "image" && content) {
-                            content = <img style={cell.style} src={content} />
+                            content = <img style={cell.style} src={content} alt="avatar"/>
                         } else if (cell.type === "button") {
                         }
                     } else if (typeof (cell) === "function") {
@@ -115,7 +116,7 @@ export default class DataTable extends React.Component {
                         header.accessor !== this.keyField) {
                         if (edit && edit.row === rowIdx && edit.cell === index) {
                             content = (
-                                <form onSubmit={this.onUpdate}>
+                                <form onSubmit={this.onUpdate} style ={{width: hdr.accessor + "px"}}>
                                     <input type="text" defaultValue={content}
                                         onKeyUp={this.onFormReset} />
                                 </form>
@@ -215,11 +216,10 @@ export default class DataTable extends React.Component {
 
             return (
                 <td key={idx}>
-                    <input type="text"
+                    <input name="inputSearch" type="text"
                         ref={(input) => this[inputId] = input}
-                        style={{
-                            width: hdr.clientWidth - 17 + "px"
-                        }} data-idx={idx} />
+                        style={{width: hdr.widthClient - 10 + "px"}}
+                        data-idx={idx} />
                 </td>
             );
         });

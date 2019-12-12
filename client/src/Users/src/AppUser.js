@@ -1,12 +1,14 @@
 import React from 'react';
 import Users from './Users';
-import Header from '../../Header/Header';
 import AddUsers from './Components/NewUser/AddUsers';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import Header from '../../Header/Header';
 
 const AppUser = () => (
+
     
         <div>
+            <Header />
             <BrowserRouter>
                 <Switch>
                     <Route exact path='/' component={Users} />

@@ -28,10 +28,18 @@
   }
   
   .data-table td {
+    width: 1%;
     border: 1px solid #eee;
     color: #212121;
     vertical-align: middle;
     padding: 4px 7px;
+  }
+
+  .data-table td form {
+    width: fit-content;
+  }
+  .data-table td form input {
+    width: 100% ;
   }
   
   .col-resizer {
