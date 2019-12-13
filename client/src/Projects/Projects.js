@@ -108,7 +108,7 @@ class Projects extends React.Component{
                 <div>
                     <button onClick = {this.apiPostTest}>Post test</button>
                 </div>
-                <div>ct 
+                <div>
                     <button onClick = {this.apiDeleteTest}>Delete test</button>
                 </div>
             </div>

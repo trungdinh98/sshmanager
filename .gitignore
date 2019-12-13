@@ -21,3 +21,4 @@ Homestead.json
 docker/mysql/*
 docker/mongodb/data/*
 .docker
+*.pem
