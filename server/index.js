@@ -11,17 +11,18 @@ const DB_PASSWD = process.env.DB_PASSWD;
 const DB_NAME = process.env.DB_NAME;
 
 const connection = mysql.createConnection({
-    host: DB_HOST,
-    user: DB_USER,
-    password: DB_PASSWD,
-    database: DB_NAME
+    host: '172.10.10.10',
+    user: 'root',
+    password: 'mypasswd',
+    database: 'mydb'
 });
 
 connection.connect(err => {
     if(err) {
         return err;
+    } else {
+        console.log('Connected to the MySQL server');
     }
-    else console.log("Connected to mysql")
 });
 
 app.use(express.json());
@@ -30,6 +31,7 @@ app.use(cors());
 app.get('/', (req, res) => {
     res.send('Hello server!')
 });
+
 
 app.get('/projects', (req, res) => {
     let { user_id } = req.query;
@@ -59,6 +61,7 @@ app.post('/projects', (req, res) => {
 
     let sql_command = "INSERT INTO projects (project_name) VALUES (?)"
     connection.query(sql_command, [project_name], (err, results) => {
+
         if(err) {
             return res.send(err);
         }
@@ -104,10 +107,29 @@ app.delete('/projects', (req, res) => {
 
 
 
+
+app.get('/keys', (req, res) => {
+    let sql_command = 'SELECT * FROM `keys` WHERE project_id = ?';
+    let { project_id } = req.query
+    connection.query(sql_command, [project_id], (err, results) => {
+        if(err) {
+            return res.send(err);
+        }
+        else {
+            return res.json({
+                data: results
+            })
+        }
+    });
+});
+
+
+
+
+
 app.get('/resources', (req, res) => {
     let sql_command = "SELECT * FROM resources WHERE project_id = ?";
     let { project_id } = req.query
-    // console.log(req.query);
     connection.query(sql_command, [project_id], (err, results) => {
         if(err){
             return res.send(err)

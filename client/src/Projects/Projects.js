@@ -64,45 +64,18 @@ class Projects extends React.Component{
         this.removeProject(project_id);
     }
 
-    renderTable(){
-		let projects = this.state.projects;
-		let render = ``;
-		if(projects == undefined){
-			render = "";
-		}
-		else{
-			projects.forEach(project => {
-				render += `
-					<tr>
-						<td></td>
-						<td align="center">${project.project_id}</td>
-						<td align="left">${project.project_name}</td>
-						<td align="center">${project.project_created_at}</td>
-					</tr>
-				`
-			})
-		}
-		
-
-		return(
-			<div>
-				<table>
-					<thead>
-						<tr>
-							<th></th>
-							<th><div>ID</div></th>
-							<th><div>Name</div></th>
-							<th><div>Created At</div></th>
-							<th></th>
-						</tr>
-					</thead>
-					<tbody dangerouslySetInnerHTML={{__html: render}}>
-						
-					</tbody>
-				</table>
-			</div>
-		)
-		
+    renderTableData(){
+        return this.state.projects.map((project, index) => {
+            return (
+                <tr key={project.project_id}>
+                    <td></td>
+                    <td align="center">{project.project_id}</td>
+                    <td align="left">{project.project_name}</td>
+                    <td align="center">{project.project_created_at}</td>
+                    <td align="center"><button onClick={() => {console.log("Delete")}}>Delete</button></td>
+                </tr>
+            )
+        })
     }
     
     apiPostTest = () => {
@@ -117,7 +90,20 @@ class Projects extends React.Component{
             <div>
                 <h3>Projects</h3>
                 <div>
-                    {this.renderTable()}
+                    <table>
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th><div>ID</div></th>
+                                <th><div>Project</div></th>
+                                <th><div>Created At</div></th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {this.renderTableData()}
+                        </tbody>
+                    </table>
                 </div>
                 <div>
                     <button onClick = {this.apiPostTest}>Post test</button>
