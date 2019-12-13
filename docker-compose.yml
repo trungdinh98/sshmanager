@@ -1,30 +1,30 @@
 version: "2.2"
 services:
-  mongo:
-    image: mongo:latest
-    restart: always
-    mem_limit: 1000000000
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: mypasswd
-    networks:
-      app_net:
-        ipv4_address: 172.10.10.20
-    volumes:
-      - ./docker/mongodb/data/configdb:/data/configdb
-      - ./docker/mongodb/data/db:/data/db
+  # mongo:
+  #   image: mongo:latest
+  #   restart: always
+  #   mem_limit: 1000000000
+  #   environment:
+  #     MONGO_INITDB_ROOT_USERNAME: root
+  #     MONGO_INITDB_ROOT_PASSWORD: mypasswd
+  #   networks:
+  #     app_net:
+  #       ipv4_address: 172.10.10.20
+  #   volumes:
+  #     - ./docker/mongodb/data/configdb:/data/configdb
+  #     - ./docker/mongodb/data/db:/data/db
 
-  mongo-express:
-    image: mongo-express
-    restart: always
-    # ports:
-      # - 8081:8081
-    environment:
-      ME_CONFIG_MONGODB_ADMINUSERNAME: root
-      ME_CONFIG_MONGODB_ADMINPASSWORD: mypasswd
-    networks:
-      app_net:
-        ipv4_address: 172.10.10.21
+  # mongo-express:
+  #   image: mongo-express
+  #   restart: always
+  #   # ports:
+  #     # - 8081:8081
+  #   environment:
+  #     ME_CONFIG_MONGODB_ADMINUSERNAME: root
+  #     ME_CONFIG_MONGODB_ADMINPASSWORD: mypasswd
+  #   networks:
+  #     app_net:
+  #       ipv4_address: 172.10.10.21
   
   mysql:
     image: mysql:5.7
