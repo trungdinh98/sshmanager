@@ -1,11 +1,19 @@
 .toolbar {
+    float:none;
     display: inline-block;
     font-size: 0.7em;
   }
   
   .toolbar button {
+    float:none;
     margin-top:10px;
     margin-bottom: 10px;
+    background-color: #20c352;
+    color: #212121;
+    border: 2px solid #000000;
+    letter-spacing: 1px;
+    font-weight: bold;
+    padding: 5px;
   }
   
   .data-table {
@@ -59,7 +67,7 @@
     padding: 15px 5px;
     text-align: left;
     font-weight: bold;
-    font-size: 3em;
+    font-size: 1.5em;
   }
 
   .data-table-caption button {
@@ -72,12 +80,25 @@
     border: 2px solid #000000;
     width: auto;
     font-size: 0.5em;
-    font-weight: lighter;
     letter-spacing: 1px;
+    font-weight: bold;
   }
-  
-  .data-table-caption button:hover {
+
+  .data-inner-table button:hover {
     color: #519e8a;
     background-color: #fff;
     border: 2px solid #519e8a;
+  }
+
+  .toolbar button:hover {
+    color: #519e8a;
+    background-color: #fff;
+    border: 2px solid #519e8a;
+  }
+
+  .note{
+    float: none;
+  }
+  .note div{
+    float:none;
   }

@@ -98,7 +98,7 @@ export default class AddUsers extends React.Component {
     render() {
         const {formErrors} = this.state;
         return (
-            <div className="form-wrapper">
+            <div className="form-wrapper" style={{float:"none"}}>
                 <button onClick={this.backToUsers}>Back</button>
                 <h1>New User</h1>
                 <form onSubmit={this.handleSubmit} noValidate>

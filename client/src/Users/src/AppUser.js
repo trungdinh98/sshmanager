@@ -5,10 +5,7 @@ import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import Header from '../../Header/Header';
 
 const AppUser = () => (
-
-
     <div>
-        <Header />
         <BrowserRouter>
             <Switch>
                 <Route exact path='/' component={Users} />
