@@ -17,9 +17,9 @@ export default class DataTable extends React.Component {
             descending: null,
             search: false,
             direct: false,
-            pageLength: this.props.pagination.pageLength || 5,
+            pageLength: props.pagination.pageLength || 5,
             currentPage: 1,
-        }
+            }
         this.keyField = props.keyField || "id";
         this.noData = props.noData || "No records found!";
         this.width = props.width || "100%";
@@ -178,6 +178,8 @@ export default class DataTable extends React.Component {
             data,
             sortby: colIndex,
             descending
+        }, () => {
+            this.onGotoPage(this.state.currentPage)
         })
     }
                         
@@ -209,7 +211,7 @@ export default class DataTable extends React.Component {
             totalRecords: searchData.length
         }, ()=>{
             if(this.pagination.enabled){
-
+                this.onGotoPage(1);
             }
         });
     }
@@ -315,9 +317,10 @@ export default class DataTable extends React.Component {
     getPagedData = (pageNo, pageLength) => {
         let startOfRecord = (pageNo - 1) * pageLength;
         let endOfRecord = startOfRecord + pageLength;
-        let data = this.state.data;
-        let pagedData = data.slice(startOfRecord,endOfRecord);
+        let {data} = this.state;
+        let pagedData = data.slice(startOfRecord, endOfRecord);
 
+        console.log(pagedData)
         return pagedData;
     }
 
@@ -338,11 +341,7 @@ export default class DataTable extends React.Component {
     }
 
     componentDidMount(){
-        let pagedData = this.getPagedData(1, 5);
-        this.setState({
-            pagedData: pagedData,
-
-        })
+        this.onGotoPage(1);
     }
 
     render() {

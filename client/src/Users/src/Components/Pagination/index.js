@@ -61,9 +61,17 @@ export default class Pagination extends Component {
         return html;
     }
 
+    static getDerivedStateFromProps(nextProps, prevState){
+        if(nextProps.currentPage != prevState.currentPage){
+            return {
+                currentPage: nextProps.currentPage
+            }
+        }
+    }
     render() {
         let totalRecords = this.props.totalRecords;
         let pages = Math.ceil(totalRecords/this.props.pageLength);
+        this.pages = pages;
         let pageSelector = (
             <Fragment key ="f-page-selector">
                 <span key="page-selector" className="page-selector">

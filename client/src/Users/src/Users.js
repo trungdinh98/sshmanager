@@ -46,6 +46,7 @@ class Users extends React.Component {
     ///fetch o day ne :))
     onUpdateTable = (field, id, value) => {
         let data = this.state.data.slice();
+        console.log(data)
         let updateRow = this.state.data.find((d) => {
             return d["id"] == id;
         });
@@ -62,7 +63,6 @@ class Users extends React.Component {
     onDeleteTable = async(idDel) => {
         let data = this.state.data;
         data.splice(idDel - 1, 1);
-        console.log(data);
         await Axios.post(`http://localhost:8000/users/delete/${idDel}`, { id: idDel });
         for (var i = 0; i < data.length; i++) {
             if (data[i].id >= idDel) {
