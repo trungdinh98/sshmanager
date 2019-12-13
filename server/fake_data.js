@@ -26,14 +26,17 @@ projects = [
     {
         project_id: 1001,
         project_name: "project1",
+        owner_id: 1001
     },
     {
         project_id: 1002,
-        project_name: "project2"
+        project_name: "project2",
+        owner_id: 1002
     },
     {
         project_id: 1003,
-        project_name: "project3"
+        project_name: "project3",
+        owner_id: 1003
     },
 ]
 
@@ -180,7 +183,7 @@ project_users = [
 createProject = function() {
     projects.forEach(element => {
         let sql_command = "INSERT INTO `projects` (`project_name`, `project_id`) VALUES (?, ?)"
-        connection.query(sql_command, [element.project_name, element.project_id],
+        connection.query(sql_command, [element.project_name, element.project_id, element.owner_id],
             (err, results) => {
                 if(err){
                     console.log(err);
@@ -252,10 +255,10 @@ createProjectUser = function(){
     })
 }
 
+createUsers()
 createProject()
 createKeys()
 createResources()
-createUsers()
 createProjectUser()
 
 connection.end()
