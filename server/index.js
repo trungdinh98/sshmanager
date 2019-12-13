@@ -36,10 +36,7 @@ app.get('/', (req, res) => {
 app.get('/projects', (req, res) => {
     let { user_id } = req.query;
     
-    let sql_command = "SELECT * FROM projects \
-    INNER JOIN project_users \
-    ON projects.project_id=project_users.project_id \
-    WHERE user_id = ?";
+    let sql_command = "SELECT * FROM projects WHERE owner_id = ?";
 
     connection.query(sql_command, [user_id], (err, results) => {
         if(err) {
@@ -54,18 +51,40 @@ app.get('/projects', (req, res) => {
 });
 
 app.post('/projects', (req, res) => {
-    connection.query(SELECT_ALL_PROJECT_QUERY, (err, results) => {
+
+    let {project_name, user_id} = req.body;
+    console.log(req.body);
+
+    let sql_command = "INSERT INTO projects (project_name, owner_id) VALUES (?, ?)"
+    connection.query(sql_command, [project_name, user_id], (err, results) => {
         if(err) {
             return res.send(err);
         }
         else {
-            return res.json({
-                data: results
-            })
+            return res.send("projects has been updated");
         }
     });
 });
 
+app.delete('/projects', (req, res) => {
+    let {project_id} = req.query;
+
+    console.log(req.query);
+
+    let sql_command = "DELETE FROM projects WHERE project_id = ?"
+
+    connection.query(sql_command, [
+        project_id
+    ], (err, results) => {
+        if(err){
+            return res.send(err)
+        }
+        else{
+            console.log(results);
+            return res.send("project has been deleted")
+        }
+    })
+})
 
 
 
