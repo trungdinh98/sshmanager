@@ -151,38 +151,38 @@ project_users = [
     {
         project_id: 1001,
         user_id: 1001,
-        // is_admin: 1
+        is_admin: 1
     },
     {
         project_id: 1001,
         user_id: 1003,
-        // is_admin: 0
+        is_admin: 0
     },
     {
         project_id: 1002,
         user_id: 1001,
-        // is_admin: 0
+        is_admin: 0
     },
     {
         project_id: 1002,
         user_id: 1002,
-        // is_admin: 1
+        is_admin: 1
     },
     {
         project_id: 1003,
         user_id: 1003,
-        // is_admin: 1
+        is_admin: 1
     },
     {
         project_id: 1003,
         user_id: 1004,
-        // is_admin: 0
+        is_admin: 0
     }
 ]
 
 createProject = function() {
     projects.forEach(element => {
-        let sql_command = "INSERT INTO `projects` (`project_name`, `project_id`, `owner_id`) VALUES (?, ?, ?)"
+        let sql_command = "INSERT INTO `projects` (`project_name`, `project_id`) VALUES (?, ?)"
         connection.query(sql_command, [element.project_name, element.project_id, element.owner_id],
             (err, results) => {
                 if(err){
@@ -242,8 +242,8 @@ createUsers = function(){
 
 createProjectUser = function(){
     project_users.forEach(element => {
-        let sql_command = "INSERT INTO `project_users` (`user_id`, `project_id`) VALUES (?, ?)"
-        connection.query(sql_command, [element.user_id, element.project_id],
+        let sql_command = "INSERT INTO `project_users` (`user_id`, `project_id`, `is_admin`) VALUES (?, ?, ?)"
+        connection.query(sql_command, [element.user_id, element.project_id, element.is_admin],
             (err, results) => {
                 if(err){
                     console.log(err);
