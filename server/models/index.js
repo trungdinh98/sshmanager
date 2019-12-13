@@ -18,8 +18,8 @@ sequelize.sync()
     });
 
 let models = [
-  'project',
   'user',
+  'project',
   'project_user',
   'resource',
   'key'
@@ -30,12 +30,15 @@ models.forEach(function(model){
 });
 
 (function(m){
-  m.project.hasMany(m.resource, {foreignKey: {name: 'project_id', allowNull: false}, onDelete: 'CASCADE', hooks: true});
-  m.project.hasMany(m.key, {foreignKey: {name: 'project_id', allowNull: false}, onDelete: 'CASCADE', hooks: true});
-  m.key.belongsTo(m.project, {foreignKey: {name: 'project_id', allowNull: false}, onDelete: 'CASCADE', hooks: true});
-  m.user.hasMany(m.project, {foreignKey: {name: 'owner_id', allowNull: false}, onDelete: 'CASCADE', hooks: true})
-  m.resource.belongsTo(m.project, {foreignKey: {name: 'project_id', allowNull: false}, onDelete: 'CASCADE', hooks: true});
+  // m.user.hasMany(m.project, {foreignKey: {name: 'owner_id', allowNull: false}, onDelete: 'CASCADE'})
+  
   m.user.belongsToMany(m.project, {through: 'project_user', foreignKey: 'user_id'});
   m.project.belongsToMany(m.user, {through: 'project_user', foreignKey: 'project_id'});
+
+  m.project.hasMany(m.resource, {foreignKey: {name: 'project_id', allowNull: false}, onDelete: 'CASCADE'});
+  m.project.hasMany(m.key, {foreignKey: {name: 'project_id', allowNull: false}, onDelete: 'CASCADE'});
+  m.key.belongsTo(m.project, {foreignKey: {name: 'project_id', allowNull: false}, onDelete: 'CASCADE'});
+  m.resource.belongsTo(m.project, {foreignKey: {name: 'project_id', allowNull: false}, onDelete: 'CASCADE'});
+  
 })(module.exports);
 module.exports.sequelize = sequelize;

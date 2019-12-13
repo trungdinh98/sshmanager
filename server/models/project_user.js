@@ -8,6 +8,11 @@ module.exports = function(sequelize, Sequelize){
             type: Sequelize.INTEGER,
             allowNull: false
         },
+        is_admin: {
+            type: Sequelize.BOOLEAN,
+            allowNull: false,
+            defaultValue: 0
+        },
         user_joined_at: {
             type: Sequelize.DATE,
             allowNull: false,
