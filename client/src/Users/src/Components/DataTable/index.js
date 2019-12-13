@@ -1,7 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './datatable.css';
-import {Redirect} from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
+import Pagination from '../Pagination';
 
 export default class DataTable extends React.Component {
     _preSearchData = null;
@@ -11,15 +12,19 @@ export default class DataTable extends React.Component {
         this.state = {
             headers: props.headers,
             data: props.data,
+            pagedData: props.data,
             sortby: null,
             descending: null,
             search: false,
-            direct: false
+            direct: false,
+            pageLength: this.props.pagination.pageLength || 5,
+            currentPage: 1,
         }
-
         this.keyField = props.keyField || "id";
         this.noData = props.noData || "No records found!";
         this.width = props.width || "100%";
+        
+        this.pagination = this.props.pagination || {};
     }
 
     renderTableHeader = () => {
@@ -33,14 +38,13 @@ export default class DataTable extends React.Component {
             let title = header.title;
             let cleanTitle = header.accessor;
             let width = header.width;
-            console.log(width);
 
             return (
                 <th key={cleanTitle}
                     ref={(th) => this[cleanTitle] = th}
                     style={{ width: width }}
                     data-col={cleanTitle}>
-                    <span data-col={cleanTitle} className="header-cell">
+                    <span data-col={cleanTitle} className="header-cell" >
                         {title}
                     </span>
                 </th>
@@ -52,7 +56,7 @@ export default class DataTable extends React.Component {
     renderNoData = () => {
         return (
             <tr>
-                <td colSpan={this.props.headers.length}>
+                <td colSpan={this.props.headers.length} >
                     {this.noData}
                 </td>
             </tr>
@@ -92,7 +96,8 @@ export default class DataTable extends React.Component {
     }
 
     renderContent = () => {
-        let { headers, data } = this.state;
+        let { headers } = this.state;
+        let data = this.pagination ? this.state.pagedData : this.state.data;
         let contentView = data.map((row, rowIdx) => {
             let id = row[this.keyField];
             let edit = this.state.edit;
@@ -103,9 +108,10 @@ export default class DataTable extends React.Component {
                 if (cell) {
                     if (typeof (cell) === "object") {
                         if (cell.type === "image" && content) {
-                            content = <img style={cell.style} src={content} alt="avatar" />
-                        } else if (cell.type === "button") {
-                        }
+                            content = < img style={cell.style}
+                                src={content}
+                                alt="avatar" />
+                        } else if (cell.type === "button") { }
                     } else if (typeof (cell) === "function") {
                         content = cell(content);
                     }
@@ -117,73 +123,69 @@ export default class DataTable extends React.Component {
                         header.accessor !== this.keyField) {
                         if (edit && edit.row === rowIdx && edit.cell === index) {
                             content = (
-                                <form onSubmit={this.onUpdate} style={{ width: hdr.accessor + "px" }}>
-                                    <input type="text" defaultValue={content}
-                                        onKeyUp={this.onFormReset} />
+                                <form onSubmit={this.onUpdate} style={{ width: hdr.accessor + "px" }} >
+                                    <input type="text"
+                                        defaultValue={content}
+                                        onKeyUp={this.onFormReset}/>
                                 </form>
                             );
                         }
                     } else if (header.dataType && header.dataType === "number" && header.accessor === this.keyField) {
                         if (edit && edit.row === rowIdx && edit.cell === index) {
                             if (window.confirm("Delete user has id: " + id)) {
-                                this.onDelete();
+                                    this.onDelete();
                             }
                         }
                     }
                 }
 
-                return (
-                    <td key={index} data-id={id} data-row={rowIdx}>
-                        {content}
-                    </td>
-                )
-            });
-            return (
-                <tr key={rowIdx}>
-                    {tds}
+                return ( 
+                    <td key={index}
+                        data-id = {id}
+                        data-row = {rowIdx} > {content} 
+                    </td>)
+                });
+            return ( 
+                <tr key={rowIdx} > 
+                    {tds} 
                 </tr>
-            );
-        });
-
+                );
+            });
+                    
         return contentView;
     }
-
+                    
     onSort = (e) => {
         let data = this.state.data.slice();
         let colIndex = ReactDOM.findDOMNode(e.target).parentNode.cellIndex;
         let colTitle = e.target.dataset.col;
-
         let descending = !this.state.descending;
-
+                            
         data.sort((a, b) => {
             let sortValue = 0;
             if (a[colTitle] < b[colTitle]) {
                 sortValue = -1;
             } else if (a[colTitle] > b[colTitle]) {
                 sortValue = 1;
-            }
-
+            }       
             if (descending) {
                 sortValue = -1 * sortValue;
             }
             return sortValue;
-        });
-
+         });
+                    
         this.setState({
             data,
             sortby: colIndex,
             descending
         })
     }
-
+                        
     onSearch = (e) => {
-        let { headers } = this.state;
-
-        let data = this._preSearchData;
-
+        let {headers} = this.state;
+        let data = this._preSearchData;                    
         let searchData = data.filter((row) => {
-            let show = true;
-
+            let show = true;            
             for (let i = 0; i < headers.length; i++) {
                 let fieldName = headers[i].accessor;
                 let fieldValue = row[fieldName];
@@ -193,44 +195,52 @@ export default class DataTable extends React.Component {
                     show = true;
                 } else {
                     show = fieldValue.toString().toLowerCase().indexOf(input.value.toLowerCase()) > -1;
-                    if (!show) break;
+                    if (!show) 
+                        break;
                 }
             }
-            return show;
+             return show;
         });
-
+                
         // UPdate the state
         this.setState({
             data: searchData,
+            pagedData: searchData,
+            totalRecords: searchData.length
+        }, ()=>{
+            if(this.pagination.enabled){
+
+            }
         });
     }
-
+                        
     renderSearch = () => {
-        let { search, headers } = this.state;
+        let {search, headers} = this.state;
+
         if (!search) {
             return null;
         }
-
+                        
         let searchInputs = headers.map((header, idx) => {
             let hdr = this[header.accessor];
-            let inputId = 'inp' + header.accessor;
-
-            return (
-                <td key={idx}>
-                    <input name="inputSearch" type="text"
-                        ref={(input) => this[inputId] = input}
-                        style={{ width: hdr.widthClient - 10 + "px" }}
-                        data-idx={idx} />
-                </td>
-            );
+            let inputId = 'inp' + header.accessor;           
+            return ( 
+                <td key={idx} >
+                    <input  name="inputSearch"
+                            type="text"
+                            ref={(input) => this[inputId] = input}
+                            style={{ width: hdr.widthClient - 10 + "px" }}
+                            data-idx = {idx}/>
+                </td >
+             );
         });
-        return (
-            <tr onChange={this.onSearch}>
-                {searchInputs}
+        return ( 
+            <tr onChange={this.onSearch} > 
+                {searchInputs} 
             </tr>
         );
     }
-
+                                
     onShowEditor = (e) => {
         let id = e.target.dataset.id;
         this.setState({
@@ -238,41 +248,38 @@ export default class DataTable extends React.Component {
                 row: parseInt(e.target.dataset.row, 10),
                 rowId: id,
                 cell: e.target.cellIndex
-            }
+             }
         })
     }
-
+                            
     addNewUser = () => {
-        this.setState({redirect:true})
+        this.setState({ redirect: true })
     }
 
     renderTable = () => {
         let title = this.props.title || "User Table";
         let headerView = this.renderTableHeader();
-        let contentView = this.state.data.length > 0 ?
-            this.renderContent() :
-            this.renderNoData();
-
-        return (
-            <table className="data-inner-table">
-                <caption className="data-table-caption">
-                    {title}
-                    {/* <Link to="/users/add" style={{ float: 'right' }}>New User</Link> */}
-                    <button onClick={this.addNewUser } style={{ float: 'right' }}>New User</button>
-                </caption>
-                <thead onClick={this.onSort}>
-                    <tr>
-                        {headerView}
+        let contentView = this.state.data.length > 0 ? this.renderContent() : this.renderNoData();
+                                    
+        return ( 
+            <table className="data-inner-table" >
+                <caption className="data-table-caption" >
+                    {title} 
+                    <button onClick={this.addNewUser} style={{ float: 'right'}}> New User </button>
+                </caption >
+                <thead onClick={this.onSort} >
+                    <tr >
+                        {headerView} 
                     </tr>
-                </thead>
-                <tbody onDoubleClick={this.onShowEditor}>
+                </thead >
+                <tbody onDoubleClick={this.onShowEditor} >
                     {this.renderSearch()}
                     {contentView}
                 </tbody>
-            </table>
+            </table >
         );
     }
-
+                                                        
     onToggleSearch = (e) => {
         if (this.state.search) {
             this.setState({
@@ -287,35 +294,75 @@ export default class DataTable extends React.Component {
             })
         }
     }
-
+                                                    
     renderToolbar = () => {
-        return (
-            <div className="toolbar">
-                <button onClick={this.onToggleSearch}>
-                    Search
-                </button>
+        return ( 
+            <div className="toolbar" >
+                <button onClick={this.onToggleSearch} >Search </button>
             </div>
         );
     }
-
+                                                                
     renderNote = () => {
         return (
-            <div className="note">
-                <div>Double Click <strong>ID</strong> to delete</div>
-                <div>Double Click <strong>SOMETHING</strong> to edit</div>
+            <div className="note" >
+                <div > Double Click < strong > ID </strong> to delete</div >
+                <div > Double Click < strong > SOMETHING </strong> to edit</div >
             </div>
         )
     }
+
+    getPagedData = (pageNo, pageLength) => {
+        let startOfRecord = (pageNo - 1) * pageLength;
+        let endOfRecord = startOfRecord + pageLength;
+        let data = this.state.data;
+        let pagedData = data.slice(startOfRecord,endOfRecord);
+
+        return pagedData;
+    }
+
+    onPageLengthChange = (pageLength) => {
+        this.setState({
+            pageLength: parseInt(pageLength, 10)
+        }, () => {
+            this.onGotoPage(this.state.currentPage);
+        });
+    }
+
+    onGotoPage = (pageNo) => {
+        let pagedData = this.getPagedData(pageNo, this.state.pageLength);
+        this.setState({
+            pagedData: pagedData,
+            currentPage: pageNo
+        });
+    }
+
+    componentDidMount(){
+        let pagedData = this.getPagedData(1, 5);
+        this.setState({
+            pagedData: pagedData,
+
+        })
+    }
+
     render() {
-        const { redirect } = this.state;
+        const {redirect} = this.state;
         return (
-            <div className={this.props.className}>
+            <div className={this.props.className} >
+                {this.pagination.enabled && 
+                    <Pagination
+                        type={this.props.pagination.type}
+                        totalRecords = {this.state.data.length}
+                        pageLength = {this.state.pageLength}
+                        onPageLengthChange={this.onPageLengthChange}
+                        onGotoPage = {this.onGotoPage}
+                        currentPage={this.state.currentPage}
+                        />
+                }
                 {this.renderTable()}
                 {this.renderToolbar()}
                 {this.renderNote()}
-                {redirect && (
-                    <Redirect push to="/users/add" />
-                )}
+                {redirect && (<Redirect push to="/users/add" />)}
             </div>
         );
     }
