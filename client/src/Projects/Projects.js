@@ -33,7 +33,8 @@ class Projects extends React.Component{
 
     addProject(project_name, user_id){
         api.post('/projects', {
-            project_name: project_name
+            project_name: project_name,
+            user_id: user_id
         })
         .then((response) => {
             console.log(response);
@@ -59,6 +60,10 @@ class Projects extends React.Component{
         })
     }
 
+    apiDelete = (project_id) => {
+        this.removeProject(project_id);
+    }
+
     renderTable(){
 		let projects = this.state.projects;
 		let render = ``;
@@ -73,7 +78,7 @@ class Projects extends React.Component{
 						<td align="center">${project.project_id}</td>
 						<td align="left">${project.project_name}</td>
 						<td align="center">${project.project_created_at}</td>
-						<td></td>
+						<td><button onClick = ${this.apiDelete(project.project_id)}> DELETE </button></td>
 					</tr>
 				`
 			})
@@ -107,11 +112,6 @@ class Projects extends React.Component{
 
 	}
 
-	apiDeleteTest = () => {
-		console.log("Delete test");
-		let resource_ids = [39, 44]
-		this.removeResource(resource_ids);
-	}
 
     render(){
         return (
