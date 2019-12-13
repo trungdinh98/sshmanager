@@ -35,13 +35,14 @@ io.on("connection", function(socket){
     
                 stream.on("close", function(){
                     conn.end()
+                    socket.disconnect();
                 }).on("data", function(data){
                     socket.emit("return", data.toString('binary'));
                     // socket.emit(data);
                 })
             })
         }).connect({
-            host: '54.254.140.154',
+            host: '54.255.163.170',
             port: 22,
             username: 'ubuntu',
             privateKey: require('fs').readFileSync('./web-tester.pem')

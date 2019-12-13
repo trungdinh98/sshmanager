@@ -8,8 +8,8 @@ class App extends React.Component {
     return (
       <div style={{float:'none'}}>
         <Header />
-        <Projects />
-        {/* <Resources /> */}
+        {/* <Projects /> */}
+        <Resources />
       </div>
     );
   }

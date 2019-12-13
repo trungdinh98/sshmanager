@@ -5,8 +5,6 @@ require('dotenv').config();
 
 const app = express();
 
-const SELECT_ALL_PROJECT_QUERY = 'SELECT * FROM Project'
-
 const DB_HOST = process.env.DB_HOST;
 const DB_USER = process.env.DB_USER;
 const DB_PASSWD = process.env.DB_PASSWD;
@@ -36,9 +34,13 @@ app.get('/', (req, res) => {
 app.get('/projects', (req, res) => {
     let { user_id } = req.query;
     
-    let sql_command = "SELECT * FROM projects WHERE owner_id = ?";
+    let sql_command = "SELECT * FROM projects \
+    INNER JOIN project_users \
+    ON projects.project_id=project_users.project_id \
+    WHERE user_id = ?";
 
     connection.query(sql_command, [user_id], (err, results) => {
+        // console.log(results);
         if(err) {
             return res.send(err);
         }
@@ -53,15 +55,26 @@ app.get('/projects', (req, res) => {
 app.post('/projects', (req, res) => {
 
     let {project_name, user_id} = req.body;
-    console.log(req.body);
+    // console.log(req.body);
 
-    let sql_command = "INSERT INTO projects (project_name, owner_id) VALUES (?, ?)"
-    connection.query(sql_command, [project_name, user_id], (err, results) => {
+    let sql_command = "INSERT INTO projects (project_name) VALUES (?)"
+    connection.query(sql_command, [project_name], (err, results) => {
         if(err) {
             return res.send(err);
         }
         else {
-            return res.send("projects has been updated");
+            let project_id = results.insertId;
+            let sql_command = "INSERT INTO project_users (project_id, user_id, is_admin) VALUES (?, ?, ?)";
+            connection.query(sql_command, [project_id, user_id, 1], (err, results) => {
+                if(err){
+                    console.log(err)
+                    return res.send(err);
+                }
+                else{
+                    console.log(results)
+                    return res.send("projects has been updated");
+                }
+            })
         }
     });
 });

@@ -19,7 +19,7 @@
             
             // Browser -> Backend
             term.onKey(e => {
-                const printable = !e.domEvent.altKey && !e.domEvent.altGraphKey && !e.domEvent.ctrlKey && !e.domEvent.metaKey;
+                // const printable = !e.domEvent.altKey && !e.domEvent.altGraphKey && !e.domEvent.ctrlKey && !e.domEvent.metaKey;
                 
                 socket.emit("data", e.key);
             });

@@ -103,52 +103,21 @@ class Resources extends React.Component{
 	}
 
 	
-	renderTable(){
-		let resources = this.state.resources;
-		let render = ``;
-		if(resources == undefined){
-			render = "";
-		}
-		else{
-			resources.forEach(resource => {
-				render += `
-					<tr>
-						<td></td>
-						<td align="center">${resource.resource_id}</td>
-						<td align="left">${resource.resource_name}</td>
-						<td align="center">${resource.project_id}</td>
-						<td align="center">${resource.resource_dns}</td>
-						<td align="center">${resource.key_id}</td>
-						<td align="center">${resource.resource_created_at}</td>
-						<td></td>
-					</tr>
-				`
-			})
-		}
-		
-
-		return(
-			<div>
-				<table>
-					<thead>
-						<tr>
-							<th></th>
-							<th><div>ID</div></th>
-							<th><div>Name</div></th>
-							<th><div>Project ID</div></th>
-							<th><div>DNS</div></th>
-							<th><div>Key ID</div></th>
-							<th><div>Created At</div></th>
-							<th></th>
-						</tr>
-					</thead>
-					<tbody dangerouslySetInnerHTML={{__html: render}}>
-						
-					</tbody>
-				</table>
-			</div>
-		)
-		
+	renderTableData(){
+		return this.state.resources.map((resource, index) => {
+			return (
+				<tr key={resource.resource_id}>
+					<td></td>
+					<td align="center">{resource.resource_id}</td>
+					<td align="left">{resource.resource_name}</td>
+					<td align="center">{resource.project_id}</td>
+					<td align="center">{resource.resource_dns}</td>
+					<td align="center">{resource.key_id}</td>
+					<td align="center">{resource.resource_created_at}</td>
+					<td align="center"><button onClick={() => {this.startConnection(resource.resource_id)}}>Connect</button></td>
+				</tr>
+			)
+		})
 	}
 	
 	
@@ -172,11 +141,27 @@ class Resources extends React.Component{
 				<h3>Resources</h3>
 				<h3>Data: <br/></h3>
 				<div>
-					{this.renderTable()}
+				<table>
+					<thead>
+						<tr>
+							<th></th>
+							<th><div>ID</div></th>
+							<th><div>Name</div></th>
+							<th><div>Project ID</div></th>
+							<th><div>DNS</div></th>
+							<th><div>Key ID</div></th>
+							<th><div>Created At</div></th>
+							<th></th>
+						</tr>
+					</thead>
+					<tbody>
+						{this.renderTableData()}
+					</tbody>
+				</table>
 				</div>
-				<div>
+				{/* <div>
 					<button onClick = {this.apiPostTest}>Post test</button>
-				</div>
+				</div> */}
 				<div>
 					<button onClick = {this.apiDeleteTest}>Delete test</button>
 				</div>

@@ -78,7 +78,6 @@ class Projects extends React.Component{
 						<td align="center">${project.project_id}</td>
 						<td align="left">${project.project_name}</td>
 						<td align="center">${project.project_created_at}</td>
-						<td><button onClick = ${this.apiDelete(project.project_id)}> DELETE </button></td>
 					</tr>
 				`
 			})
@@ -123,7 +122,7 @@ class Projects extends React.Component{
                 <div>
                     <button onClick = {this.apiPostTest}>Post test</button>
                 </div>
-                <div>
+                <div>ct 
                     <button onClick = {this.apiDeleteTest}>Delete test</button>
                 </div>
             </div>
