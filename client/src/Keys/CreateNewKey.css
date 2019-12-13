@@ -1,18 +1,23 @@
-.modal-content {
-    position: absolute;
-    width: 500px;
-    text-align: center;
-    left: 35%;
-    top: 160px;
-    padding: 20px;
-    background-color: white;
-    border: 1px solid grey;
-}
-
 .modal-dialog {
     float: none;
 }
 
-.modal-header {
-    background-color: #1b73e8;
+.form-group {
+    display: contents;
+}
+
+.form-label {
+    font-weight: bold;
+}
+
+.modal-content {
+    top: 130px;
+}
+
+#formBasicPassword {
+    height: 200px;
+}
+
+.choose-file {
+    margin-top: 10px;
 }

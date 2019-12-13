@@ -102,7 +102,7 @@
 /* Style the checkmark/indicator */
 .check-box .checkmark:after {
   left: 5px;
-  top: 1px;
+  top: 2px;
   width: 5px;
   height: 10px;
   border: solid white;

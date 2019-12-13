@@ -43,10 +43,10 @@ class Header extends React.Component {
 
                     <div className="leftNavBar">
                         <div className="homeButton">
-                            <a href="#Home">SSH Manager</a>
+                            <Link to="/">SSH Manager</Link>
                         </div>
                         <div className="projectButton">
-                            <a href="#Project">Project</a>
+                            <Link to="/projects">Project</Link>
                         </div>
                         <div>
                             <form method="get" action="">
