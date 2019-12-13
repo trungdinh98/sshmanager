@@ -1,6 +1,6 @@
 import React from 'react';
 import './Keys.css';
-import './CreateNewKey.js';
+import NewKeys from './CreateNewKey.js';
 
 class Keys extends React.Component {
 
@@ -8,6 +8,7 @@ class Keys extends React.Component {
         super();
         this.state = {
             keys: [],
+            modalShow: false,
             renderKeys: ({key_created_at, key_id, key_name, project_id}) => 
                 <tr key={key_id}>
                     <td><label className="check-box">
@@ -20,6 +21,8 @@ class Keys extends React.Component {
                     <td>{key_created_at}</td>
                 </tr>
         };
+        this.open = this.open.bind(this);
+        this.close = this.close.bind(this);
         this._isMounted = false;
     }
 
@@ -40,8 +43,12 @@ class Keys extends React.Component {
             .catch(err => console.error(err))
     }
 
-    createKey () {
+    close() {
+        this.setState({ modalShow: false });
+    }
 
+    open() {
+        this.setState({ modalShow: true });
     }
 
     deleteKeys () {
@@ -53,12 +60,12 @@ class Keys extends React.Component {
     }
 
     render () {
-        const { keys } = this.state;
+        const { keys, modalShow } = this.state;
         return (
             <div style={{width: '-webkit-fill-available'}}>
                 <div className="top-content">
                     <input className="key-search" type="text" placeholder="Find by key ID or key name" />
-                    <button className="new-key" onClick={this.createKey}>New Key</button>
+                    <button className="new-key" onClick={this.open}>New Key</button>
                     <button className="delete-key" onClick={this.deleteKeys}>Delete Key</button>
                 </div>
                 <div className="bot-content">
@@ -80,6 +87,8 @@ class Keys extends React.Component {
                         </tbody>
                     </table>
                 </div>
+
+                <NewKeys show={modalShow} onHide={this.close}/>
             </div>
         );
     }
