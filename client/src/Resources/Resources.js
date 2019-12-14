@@ -1,8 +1,6 @@
 import React from 'react';
 import api from '../api';
 import './resources.css';
-import { resolve } from 'dns';
-import { rejects } from 'assert';
 
 
 class Resources extends React.Component{
@@ -98,21 +96,39 @@ class Resources extends React.Component{
 		
 	}
 
-	startConnection(resource_id){
-		window.open("./xterm.html", "_blank")
+	sshPopup(url,winName,w,h,scroll) {
+		let popupWindow = null;
+ 		let LeftPosition = (window.screen.width) ? (window.screen.width-w)/2 : 0;
+		let TopPosition = (window.screen.height) ? (window.screen.height-h)/2 : 0;
+		let settings =
+		'height='+h+',width='+w+',top='+TopPosition+',left='+LeftPosition+',scrollbars='+scroll+',resizable'
+		popupWindow = window.open(url,winName,settings)
 	}
 
+	startConnection(resource_id){
+		// window.open("http://localhost:3000/Xterm", "_blank")
+		let url = `http://localhost:3000/Xterm?resource_id=${resource_id}`;
+		this.sshPopup(url,'myWindow','730','430','yes')
+	}
+
+	padWithZeros(number){
+		var my_string = '' + number;
+		while(my_string.length < 11){
+			my_string = '0' + my_string;
+		}
+		return my_string;
+	}
 	
 	renderTableData(){
 		return this.state.resources.map((resource, index) => {
 			return (
 				<tr key={resource.resource_id}>
 					<td></td>
-					<td align="center">{resource.resource_id}</td>
+					<td align="center">{this.padWithZeros(resource.resource_id)}</td>
 					<td align="left">{resource.resource_name}</td>
-					<td align="center">{resource.project_id}</td>
+					<td align="center">{this.padWithZeros(resource.project_id)}</td>
 					<td align="center">{resource.resource_dns}</td>
-					<td align="center">{resource.key_id}</td>
+					<td align="center">{this.padWithZeros(resource.key_id)}</td>
 					<td align="center">{resource.resource_created_at}</td>
 					<td align="center"><button onClick={() => {this.startConnection(resource.resource_id)}}>Connect</button></td>
 				</tr>
@@ -134,8 +150,6 @@ class Resources extends React.Component{
 	}
 
   	render(){
-		let resources = this.state.resources;
-		
     	return(
       		<div>
 				<h3>Resources</h3>
@@ -159,9 +173,6 @@ class Resources extends React.Component{
 					</tbody>
 				</table>
 				</div>
-				{/* <div>
-					<button onClick = {this.apiPostTest}>Post test</button>
-				</div> */}
 				<div>
 					<button onClick = {this.apiDeleteTest}>Delete test</button>
 				</div>

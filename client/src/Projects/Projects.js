@@ -64,12 +64,20 @@ class Projects extends React.Component{
         this.removeProject(project_id);
     }
 
+    padWithZeros(number){
+		var my_string = '' + number;
+		while(my_string.length < 11){
+			my_string = '0' + my_string;
+		}
+		return my_string;
+	}
+
     renderTableData(){
         return this.state.projects.map((project, index) => {
             return (
                 <tr key={project.project_id}>
                     <td></td>
-                    <td align="center">{project.project_id}</td>
+                    <td align="center">{this.padWithZeros(project.project_id)}</td>
                     <td align="left">{project.project_name}</td>
                     <td align="center">{project.project_created_at}</td>
                     <td align="center"><button onClick={() => {this.removeProject(project.project_id)}}>Delete</button></td>
