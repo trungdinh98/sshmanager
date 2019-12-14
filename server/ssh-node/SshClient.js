@@ -42,10 +42,7 @@ io.on("connection", function(socket){
                 })
             })
         }).connect({
-            host: '54.255.163.170',
-            port: 22,
-            username: 'ubuntu',
-            privateKey: require('fs').readFileSync('./web-tester.pem')
+        
         })
     }catch(err){
         console.log(err);

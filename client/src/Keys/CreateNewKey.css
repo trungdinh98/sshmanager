@@ -1,0 +1,23 @@
+.modal-dialog {
+    float: none;
+}
+
+.form-group {
+    display: contents;
+}
+
+.form-label {
+    font-weight: bold;
+}
+
+.modal-content {
+    top: 130px;
+}
+
+#formBasicPassword {
+    height: 200px;
+}
+
+.choose-file {
+    margin-top: 10px;
+}

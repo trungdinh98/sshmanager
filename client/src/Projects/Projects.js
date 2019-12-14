@@ -53,7 +53,7 @@ class Projects extends React.Component{
         })
         .then((response) => {
             console.log(response)
-            // this.getResources()
+            this.getProjects(1001)
         })
         .catch((err) => {
             console.log(err);
@@ -72,7 +72,7 @@ class Projects extends React.Component{
                     <td align="center">{project.project_id}</td>
                     <td align="left">{project.project_name}</td>
                     <td align="center">{project.project_created_at}</td>
-                    <td align="center"><button onClick={() => {console.log("Delete")}}>Delete</button></td>
+                    <td align="center"><button onClick={() => {this.removeProject(project.project_id)}}>Delete</button></td>
                 </tr>
             )
         })
@@ -117,3 +117,4 @@ class Projects extends React.Component{
 }
 
 export default Projects
+

@@ -124,24 +124,28 @@ users = [
     {
         user_id: 1001,
         user_email: "e1@gmail.com",
+        user_password: "passwd",
         user_firstname: "first1",
         user_lastname: "last1"
     },
     {
         user_id: 1002,
         user_email: "e2@gmail.com",
+        user_password: "passwd",
         user_firstname: "first2",
         user_lastname: "last2"
     },
     {
         user_id: 1003,
         user_email: "e3@gmail.com",
+        user_password: "passwd",
         user_firstname: "first3",
         user_lastname: "last3"
     },
     {
         user_id: 1004,
         user_email: "e4@gmail.com",
+        user_password: "passwd",
         user_firstname: "first4",
         user_lastname: "last4"
     }
@@ -227,8 +231,8 @@ createResources = function() {
 
 createUsers = function(){
     users.forEach(element => {
-        let sql_command = "INSERT INTO `users` (`user_id`, `user_email`, `user_lastname`, `user_firstname`) VALUES (?, ?, ?, ?)"
-        connection.query(sql_command, [element.user_id, element.user_email, element.user_lastname, element.user_firstname],
+        let sql_command = "INSERT INTO `users` (`user_id`, `user_email`, `user_password`, `user_lastname`, `user_firstname`) VALUES (?, ?, ?, ?, ?)"
+        connection.query(sql_command, [element.user_id, element.user_email, element.user_password, element.user_lastname, element.user_firstname],
             (err, results) => {
                 if(err){
                     console.log(err);

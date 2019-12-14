@@ -15,7 +15,7 @@
     "express": "^4.17.1",
     "mysql": "^2.17.1",
     "mysql2": "^2.0.1",
-    "npm": "^6.13.1",
+    "npm": "^6.13.4",
     "sequelize": "^5.21.2",
     "sequelize-auto-migrations": "^1.0.3",
     "sequelize-cli": "^5.5.1",

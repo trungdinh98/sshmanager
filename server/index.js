@@ -61,7 +61,6 @@ app.post('/projects', (req, res) => {
 
     let sql_command = "INSERT INTO projects (project_name) VALUES (?)"
     connection.query(sql_command, [project_name], (err, results) => {
-
         if(err) {
             return res.send(err);
         }
