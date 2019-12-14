@@ -69,7 +69,7 @@ class Keys extends React.Component {
                     <button className="delete-key" onClick={this.deleteKeys}>Delete Key</button>
                 </div>
                 <div className="bot-content">
-                    <table>
+                    <table className="key-table">
                         <thead>
                             <tr>
                                 <td><label className="check-box">

@@ -47,27 +47,29 @@ export default class Pagination extends Component {
     _getPaginationButton = (text) => {
         let className = 'pagination-btn';
         if(this.state.currentPage == text){
-            className += 'current-page';
+            className += '-current-page';
         }
 
         let html = (
-            <button key = {`btn-${text}`}
+            <text key = {`btn-${text}`}
                 id={`btn-${text}`}
                 className={className}
                 onClick={(e) => {this.onGotoPage(text)}}>
                     {text}
-                </button>
+                </text>
         );
         return html;
     }
 
-    static getDerivedStateFromProps(nextProps, prevState){
-        if(nextProps.currentPage != prevState.currentPage){
+    static getDerivedStateFromProps(nextProps, prevState) {
+        if (nextProps.currentPage != prevState.currentPage) {
             return {
-                currentPage: nextProps.currentPage
+               currentPage: nextProps.currentPage 
             }
         }
+        return null;
     }
+
     render() {
         let totalRecords = this.props.totalRecords;
         let pages = Math.ceil(totalRecords/this.props.pageLength);
@@ -85,18 +87,18 @@ export default class Pagination extends Component {
         )
 
         let prevButton = (
-            <button key="prev"
+            <text key="prev"
                 className="pagination-btn prev"
                 onClick={this.onPrevPage}>
                     {"<"}
-                </button>
+                </text>
         )
         let nextButton = (
-            <button key="next"
+            <text key="next"
                 className="pagination-btn next"
                 onClick={this.onNextPage}>
                     {">"}
-                </button>
+                </text>
         )
 
         let buttons = [];

@@ -4,30 +4,38 @@
     font-size: 1em;
     padding: 10px 0px;
     color: gray;
+    float: none;
   }
-  .current-page {
-    background-color: skyblue;
-    color: black;
+  .pagination-btn-current-page {
+    font-weight: bold;
+    color: red;
+    font-weight: bolder;
+    font-size: 1.75em;
+    padding: 0px 5px 0px 5px;
   }
     
   .pagination-btn {
     border: 0;
     line-height: 1.7em;
+    font-weight: bolder;
+    font-size: 1.5em;
+    padding: 0px 5px 0px 5px;
   }
+
+  .pagination-btn:hover{
+    color: red;
+  }
+
   .pagination-btn.next, .pagination-btn.prev {
     color: black;
+    font-weight: bolder;
+    font-size: 1.75em;
+  }
+  .pagination-btn.next:hover, .pagination-btn.prev:hover {
+    color: red;
   }
   
   .page-selector {
     padding: 5px;
-  }
-  
-  .page-selector > input {
-    width: 3em;
-    text-align: center;
-  }
-    
-  .current-page-input {
-    width: 3em;
-    text-align: center;
+    size: 1.75em;
   }

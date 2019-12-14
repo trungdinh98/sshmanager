@@ -28,13 +28,10 @@ class Users extends React.Component {
                 { title: "Phone Number", accessor: "phone", index: 5, dataType: "string" },
                 { title: "Done PJs", accessor: "project", index: 6, dataType: "number" },
             ],
-            data: [
-                //"https://png.icons8.com/nolan/50/000000/user.png"
-            ]
+            data: []
         }
         Axios.get('http://localhost:8000/users/list')
             .then(response => {
-                console.log(response.data.data)
                 response.data.data.forEach(element => {
                     model.data.push(element);
                 });
@@ -43,10 +40,13 @@ class Users extends React.Component {
         this.state = model;
     }
 
+    onGetData = () => {
+        
+    }
+
     ///fetch o day ne :))
     onUpdateTable = (field, id, value) => {
         let data = this.state.data.slice();
-        console.log(data)
         let updateRow = this.state.data.find((d) => {
             return d["id"] == id;
         });

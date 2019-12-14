@@ -19,6 +19,7 @@ export default class DataTable extends React.Component {
             direct: false,
             pageLength: props.pagination.pageLength || 5,
             currentPage: 1,
+            first: true
             }
         this.keyField = props.keyField || "id";
         this.noData = props.noData || "No records found!";
@@ -317,10 +318,10 @@ export default class DataTable extends React.Component {
     getPagedData = (pageNo, pageLength) => {
         let startOfRecord = (pageNo - 1) * pageLength;
         let endOfRecord = startOfRecord + pageLength;
-        let {data} = this.state;
+        let data = this.state.data;
+        console.log(data);
         let pagedData = data.slice(startOfRecord, endOfRecord);
-
-        console.log(pagedData)
+        console.log(data.slice(0,5));
         return pagedData;
     }
 
@@ -340,9 +341,31 @@ export default class DataTable extends React.Component {
         });
     }
 
-    componentDidMount(){
-        this.onGotoPage(1);
-    }
+    // static getDerivedStateFromProps(nextProps, prevState) {
+    //     console.log(nextProps.pagedData !== prevState.pagedData, prevState.first === "true")
+    //     if (nextProps.pagedData !== prevState.pagedData) {
+    //         console.log("update1")
+    //         return {
+    //             first: false,
+    //             data: nextProps.data,
+    //             pagedData: nextProps.data,
+    //         }
+    //     }
+    //     return null;
+    // }
+
+    // componentDidUpdate(prevProps, prevState){
+    //     console.log("first: " + prevState.first)
+    //     if(prevProps.pagedData !== prevState.pagedData && prevProps.pagedData === undefined && prevState.first !== "true"){
+    //         console.log("update2")
+    //         this.getPagedData(1,5);
+    //         this.onGotoPage(1);
+    //     }
+    // }
+
+    // componentDidMount(){
+    //     this.onGotoPage(this.state.currentPage);
+    // }
 
     render() {
         const {redirect} = this.state;
