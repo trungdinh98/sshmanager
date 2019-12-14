@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import './Header.css';
 
 class Header extends React.Component {
@@ -28,10 +29,11 @@ class Header extends React.Component {
             <div className = "header" style={{float:'none'}}>
                 <div id="mySidenav" className="sidenav">
                     <div className="closebtn" onClick={this.closeNav}>&times;</div>
-                    <a href="#Users">Users</a>
-                    <a href="#Resources">Resources</a>
-                    <a href="#Projects">Projects</a>
-                    <a href="#Keys">Keys</a>
+                    <Link to="/">Home</Link>
+                    <Link to="/users">Users</Link>
+                    <Link to="/resources">Resources</Link>
+                    <Link to="/projects">Projects</Link>
+                    <Link to="/keys">Keys</Link>
                 </div>
 
                 <div id="main" className="navBar">
@@ -41,10 +43,10 @@ class Header extends React.Component {
 
                     <div className="leftNavBar">
                         <div className="homeButton">
-                            <a href="#Home">SSH Manager</a>
+                            <Link to="/">SSH Manager</Link>
                         </div>
                         <div className="projectButton">
-                            <a href="#Project">Project</a>
+                            <Link to="/projects">Project</Link>
                         </div>
                         <div>
                             <form method="get" action="">

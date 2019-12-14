@@ -1,5 +1,6 @@
 import React from 'react';
 import './Keys.css';
+import NewKeys from './CreateNewKey.js';
 
 class Keys extends React.Component {
 
@@ -7,23 +8,21 @@ class Keys extends React.Component {
         super();
         this.state = {
             keys: [],
-            key: {
-                key_created_at: "",
-                key_id: 0,
-                key_name: "",
-                project_id: 0,
-            },
+            modalShow: false,
             renderKeys: ({key_created_at, key_id, key_name, project_id}) => 
                 <tr key={key_id}>
-                    <th className="check-box">
-                        <input type="checkbox" />
-                    </th>
+                    <td><label className="check-box">
+                        <input type="checkbox"/>
+                        <span className="checkmark"></span>
+                    </label></td>
                     <td>{key_name}</td>
                     <td>{key_id}</td>
                     <td>{project_id}</td>
                     <td>{key_created_at}</td>
                 </tr>
         };
+        this.open = this.open.bind(this);
+        this.close = this.close.bind(this);
         this._isMounted = false;
     }
 
@@ -44,30 +43,43 @@ class Keys extends React.Component {
             .catch(err => console.error(err))
     }
 
+    close() {
+        this.setState({ modalShow: false });
+    }
+
+    open() {
+        this.setState({ modalShow: true });
+    }
+
+    deleteKeys () {
+
+    }
+
     componentWillUnmount () {
         this._isMounted = false;
     }
 
     render () {
-        const { keys, key } = this.state;
+        const { keys, modalShow } = this.state;
         return (
-            <div>
+            <div style={{width: '-webkit-fill-available'}}>
                 <div className="top-content">
                     <input className="key-search" type="text" placeholder="Find by key ID or key name" />
-                    <button className="new-key">New Key</button>
-                    <button className="delete-key">Delete Key</button>
+                    <button className="new-key" onClick={this.open}>New Key</button>
+                    <button className="delete-key" onClick={this.deleteKeys}>Delete Key</button>
                 </div>
                 <div className="bot-content">
                     <table>
                         <thead>
                             <tr>
-                                <th className="check-box">
-                                    <input type="checkbox" />
-                                </th>
-                                <th>Key Name</th>
-                                <th>Key ID</th>
-                                <th>Key Value</th>
-                                <th>Registered Time</th>
+                                <td><label className="check-box">
+                                    <input type="checkbox"/>
+                                    <span className="checkmark"></span>
+                                </label></td>
+                                <th className="key-name">Key Name</th>
+                                <th className="key-id">Key ID</th>
+                                <th className="key-value">Project ID</th>
+                                <th className="key-time">Registered Time</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -75,6 +87,8 @@ class Keys extends React.Component {
                         </tbody>
                     </table>
                 </div>
+
+                <NewKeys show={modalShow} onHide={this.close}/>
             </div>
         );
     }
