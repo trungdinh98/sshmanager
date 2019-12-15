@@ -1,15 +1,15 @@
 const express = require('express');
-const users = express.Router();
+const router = express.Router();
 const cors = require('cors');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 
-const User = require('../models/user.js');
-users.use(cors());
+const Models = require('../models');
+router.use(cors());
 
 process.env.SECRET_KEY = 'secret';
 
-users.post('/register', (req, res) => {
+router.post('/register', (req, res) => {
   const today = new Date()
   const userData = {
     user_firstname: req.body.user_firstname,
@@ -19,7 +19,7 @@ users.post('/register', (req, res) => {
     user_created_at: today
   }
 
-  User.findOne({
+  Models.user.findOne({
     where: {
       user_email: req.body.user_email
     }
@@ -28,7 +28,7 @@ users.post('/register', (req, res) => {
       if (!user) {
         bcrypt.hash(req.body.user_password, 10, (err, hash) => {
           userData.user_password = hash
-          User.create(userData)
+          Models.user.create(userData)
             .then(user => {
               res.json({ status: user.user_email + 'Registered!' })
             })
@@ -45,8 +45,8 @@ users.post('/register', (req, res) => {
     })
 })
 
-users.post('/login', (req, res) => {
-  User.findOne({
+router.post('/login', (req, res) => {
+  Models.user.findOne({
     where: {
       user_email: req.body.user_email
     }
@@ -68,4 +68,4 @@ users.post('/login', (req, res) => {
     })
 })
 
-module.exports = users;
+module.exports = router;

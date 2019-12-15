@@ -1,6 +1,5 @@
-const db = require('../database/db.js');
 module.exports = function(sequelize, Sequelize){
-    return db.sequelize.define('user', {
+    return sequelize.define('user', {
         user_id: {
             type: Sequelize.INTEGER,
             allowNull: false,

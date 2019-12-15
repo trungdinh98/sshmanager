@@ -40,9 +40,7 @@ class Keys extends React.Component {
             }
         })
         .then((response) => {
-			this.setState({keys:response.data.data});
-			console.log(response);
-			console.log(this.state.keys);
+			this.setState({keys:response.data});
 		})
 		.catch((err) => {
 			console.log(err);

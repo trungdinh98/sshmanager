@@ -1,5 +1,5 @@
 import React from 'react'
-import terminal, { Terminal } from 'xterm'
+import { Terminal } from 'xterm'
 import io from 'socket.io-client'
 // import io from './socket.io.js'
 // import '../../node_modules/xterm/css/xterm.css'

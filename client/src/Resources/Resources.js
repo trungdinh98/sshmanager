@@ -1,6 +1,6 @@
 import React from 'react';
 import api from '../api';
-import './resources.css';
+// import './resources.css';
 
 
 class Resources extends React.Component{
@@ -38,7 +38,7 @@ class Resources extends React.Component{
 			}
 		})
 		.then((response) => {
-			this.setState({resources:response.data.data})
+			this.setState({resources:response.data})
 			// console.log(response);
 			
 			// console.log(this.state.resources);
