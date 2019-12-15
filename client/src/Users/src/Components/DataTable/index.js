@@ -19,7 +19,6 @@ export default class DataTable extends React.Component {
             direct: false,
             pageLength: props.pagination.pageLength || 5,
             currentPage: 1,
-            first: true
             }
         this.keyField = props.keyField || "id";
         this.noData = props.noData || "No records found!";
@@ -319,9 +318,9 @@ export default class DataTable extends React.Component {
         let startOfRecord = (pageNo - 1) * pageLength;
         let endOfRecord = startOfRecord + pageLength;
         let data = this.state.data;
-        console.log(data);
+        //console.log(data);
         let pagedData = data.slice(startOfRecord, endOfRecord);
-        console.log(data.slice(0,5));
+        //console.log(data.slice(0,5));
         return pagedData;
     }
 
@@ -341,31 +340,26 @@ export default class DataTable extends React.Component {
         });
     }
 
-    // static getDerivedStateFromProps(nextProps, prevState) {
-    //     console.log(nextProps.pagedData !== prevState.pagedData, prevState.first === "true")
-    //     if (nextProps.pagedData !== prevState.pagedData) {
-    //         console.log("update1")
-    //         return {
-    //             first: false,
-    //             data: nextProps.data,
-    //             pagedData: nextProps.data,
-    //         }
-    //     }
-    //     return null;
-    // }
+    static getDerivedStateFromProps(nextProps, prevState) {
+        if (nextProps.data.length === 0) {
+            console.log("update1")
+            return {
+                data: nextProps.data,
+                pagedData: nextProps.data,
+            }
+        }
+        return null;
+    }
 
-    // componentDidUpdate(prevProps, prevState){
-    //     console.log("first: " + prevState.first)
-    //     if(prevProps.pagedData !== prevState.pagedData && prevProps.pagedData === undefined && prevState.first !== "true"){
-    //         console.log("update2")
-    //         this.getPagedData(1,5);
-    //         this.onGotoPage(1);
-    //     }
-    // }
-
-    // componentDidMount(){
-    //     this.onGotoPage(this.state.currentPage);
-    // }
+    componentDidUpdate(prevProps, prevState){
+        console.log(prevState.pagedData, prevProps.pagedData);
+        console.log(prevState.data, prevProps.data);
+        if(prevState.data.length !== 0 && prevState.data === prevState.pagedData){
+            console.log("update2")
+            this.getPagedData(1,5);
+            this.onGotoPage(1);
+        }
+    }
 
     render() {
         const {redirect} = this.state;
@@ -373,7 +367,6 @@ export default class DataTable extends React.Component {
             <div className={this.props.className} >
                 {this.pagination.enabled && 
                     <Pagination
-                        type={this.props.pagination.type}
                         totalRecords = {this.state.data.length}
                         pageLength = {this.state.pageLength}
                         onPageLengthChange={this.onPageLengthChange}
