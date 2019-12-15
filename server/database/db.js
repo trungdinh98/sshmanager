@@ -10,7 +10,7 @@ const db = {};
 const sequelize = new Sequelize(DB_NAME, DB_USER, DB_PASSWD, {
   host: DB_HOST,
   dialect: 'mysql',
-  operatorsAliases: false,
+  operatorsAliases: 0,
 
   pool: {
     max: 5,
