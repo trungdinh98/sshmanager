@@ -8,13 +8,14 @@ import 'xterm/css/xterm.css'
 
 class Xterm extends React.Component{
 	componentDidMount(){
-		const term = new Terminal({})
+		const term = new Terminal({
+			fontSize: 18
+		})
 		const socket = io.connect("127.0.0.1:9000");
-		// socket.emit("setupConnection",JSON.stringify(parseURLParams(window.location.href)));
-		// console.log(JSON.stringify(parseURLParams(window.location.href)))
 		let url = new URL(window.location.href);
 		let resource_id = url.searchParams.get("resource_id");
 		console.log(resource_id);
+		socket.emit("setupConnection", resource_id);
 		term.open(this.termElm)
 
 		socket.on('connect', function () {

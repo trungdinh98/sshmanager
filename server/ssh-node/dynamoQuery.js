@@ -56,12 +56,13 @@ async function getConnectionInfo(resource_id, callback){
             callback(err, null);
         }
         else {
+            // console.log(results[0])
             let user = results[0].resource_user
             let dns = results[0].resource_dns
             let key_id = results[0].key_id
             let project_id = results[0].project_id
 
-            // console.log("line65: " + results)
+            // console.log("line65: " + project_id)
             // callback(null, results)
 
             // console.log(key_id.toString())

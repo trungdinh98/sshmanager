@@ -10,29 +10,31 @@ const io = require("socket.io")(9000, {
 const dynamoQuery = require('./dynamoQuery')
 const fs = require("fs")
 const thisTime = getTime()
+const dir = "./ssh-node/logs/"
 
-
-if (!fs.existsSync("./logs/")) {
-    fs.mkdirSync("./logs/");
+if (!fs.existsSync(dir)) {
+    fs.mkdirSync(dir);
 }
 
-dynamoQuery.getConnectionInfo(1, (err, results) => {
-    if(err){
-        console.log(err)
-    }
-    else{
-        console.log(results.resource_key)
-    }
-})
+// dynamoQuery.getConnectionInfo(1, (err, results) => {
+//     if(err){
+//         console.log(err)
+//     }
+//     else{
+//         console.log(results.resource_key)
+//     }
+// })
 
 io.on("connection", function(socket){
     
 
     socket.on("setupConnection", function(data){
         try{
+            console.log(data)
             let Client = require('ssh2').Client;
             let conn = new Client();
-            let resource_id = (JSON.parse(data))['resource_id'];
+            // let resource_id = (JSON.parse(data))['resource_id'];
+            let resource_id = data
             dynamoQuery.getConnectionInfo(resource_id, (err, results) => {
                 if(err){
                     return socket.emit("return", '\r\n*** Connection information query failed ***\n\r')
@@ -42,12 +44,15 @@ io.on("connection", function(socket){
                     let resource_key = results.resource_key;
                     let resource_dns = results.resource_dns;
                     let project_id = results.project_id;
+                    console.log("line 47: " + project_id)
+                    console.log("line 48: " + resource_key)
 
-                    if (!fs.existsSync("./logs/" + padWithZeros(project_id) + "/" )) {
-                        fs.mkdirSync("./logs/" + padWithZeros(project_id) + "/");
+                    if (!fs.existsSync(dir + padWithZeros(project_id) + "/" )) {
+                        fs.mkdirSync(dir + padWithZeros(project_id) + "/");
                     }
 
-                    let logWriter = fs.createWriteStream("./logs/" + padWithZeros(project_id) + "/" + thisTime + padWithZeros(resource_id))
+                    let userCmdWriter = fs.createWriteStream(dir + padWithZeros(project_id) + "/" + thisTime + padWithZeros(resource_id) + ".txt")
+                    // let serverResponseWriter = 
 
                     conn.on('ready', function(){
                         conn.shell(function(err, stream){
@@ -57,7 +62,7 @@ io.on("connection", function(socket){
                             
                             socket.on("data", function(data){
                                 stream.write(data);
-                                logWriter.write(data)
+                                // userCmdWriter.write(data)
                             })
                 
                             socket.on("disconnect", function(){
@@ -74,17 +79,22 @@ io.on("connection", function(socket){
                             stream.on("close", function(){
                                 conn.end()
                                 socket.disconnect();
-                                logWriter.close();
+                                userCmdWriter.close();
                             }).on("data", function(data){
                                 socket.emit("return", data.toString('binary'));
+                                userCmdWriter.write(JSON.stringify({time: new Date().getTime(), value: data.toString('binary')}))
                                 // socket.emit(data);
                             })
                         })
                     }).connect({
-                        host: resource_dns,
+                        // host: resource_dns,
+                        // port: 22,
+                        // username: resource_user,
+                        // privateKey: resource_key
+                        host: "54.255.163.170",
                         port: 22,
-                        username: resource_user,
-                        privateKey: resource_key
+                        username: "ubuntu",
+                        privateKey: require('fs').readFileSync("web-tester.pem")
                     })
                 }
             })
