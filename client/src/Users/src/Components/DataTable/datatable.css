@@ -3,6 +3,12 @@
     display: inline-block;
     font-size: 0.7em;
   }
+
+  .page-selector {
+    padding: 5px;
+    size: 1.75em;
+    float: none;
+  }
   
   .toolbar button {
     float:none;
@@ -64,10 +70,14 @@
   }
   
   .data-table-caption {
-    padding: 15px 5px;
+    padding: 15px 5px 5px 15px;
     text-align: left;
     font-weight: bold;
     font-size: 1.5em;
+  }
+
+  .data-table-caption div{
+    float: none;
   }
 
   .data-table-caption button {

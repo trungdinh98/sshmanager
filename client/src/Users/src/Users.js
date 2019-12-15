@@ -66,7 +66,7 @@ class Users extends React.Component {
         await Axios.post(`http://localhost:8000/users/delete/${idDel}`, { id: idDel });
         for (var i = 0; i < data.length; i++) {
             if (data[i].id >= idDel) {
-                await Axios.post(`http://localhost:8000/users/updateID/${data[i].id}`, { id: data[i].id })
+                Axios.post(`http://localhost:8000/users/updateID/${data[i].id}`, { id: data[i].id })
                     .then(response => {
                         if (response.data.success) {
                             console.log("done");
@@ -80,12 +80,11 @@ class Users extends React.Component {
                 data[i].id--;
             }
         }
-
+        console.log(this.state.data)
         this.setState({
             edit: null,
             data: this.state.data
         });
-
     }
 
     render() {

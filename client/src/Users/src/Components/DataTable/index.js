@@ -19,14 +19,15 @@ export default class DataTable extends React.Component {
             direct: false,
             pageLength: props.pagination.pageLength || 5,
             currentPage: 1,
-            }
+        }
         this.keyField = props.keyField || "id";
         this.noData = props.noData || "No records found!";
         this.width = props.width || "100%";
-        
+
         this.pagination = this.props.pagination || {};
     }
 
+    //hiển thị header của bảng
     renderTableHeader = () => {
         let { headers } = this.state;
         headers.sort((a, b) => {
@@ -53,6 +54,7 @@ export default class DataTable extends React.Component {
         return headerView;
     }
 
+    //hiển thị thông tin bảng không có dữ liệu
     renderNoData = () => {
         return (
             <tr>
@@ -63,6 +65,7 @@ export default class DataTable extends React.Component {
         )
     }
 
+    //cập nhật thông tin row khi edit
     onUpdate = (e) => {
         e.preventDefault();
         let input = e.target.firstChild;
@@ -75,8 +78,7 @@ export default class DataTable extends React.Component {
         this.props.onUpdate(header.accessor, rowId, input.value);
     }
 
-
-
+    //ấn Esc để thoát chỉnh sửa thông tin
     onFormReset = (e) => {
         if (e.keyCode === 27) {
             this.setState({
@@ -85,6 +87,7 @@ export default class DataTable extends React.Component {
         }
     }
 
+    //xóa user
     onDelete = (e) => {
         let rowId = this.state.edit.rowId;
 
@@ -95,7 +98,10 @@ export default class DataTable extends React.Component {
         this.props.onDelete(rowId);
     }
 
+    //hiển thị thông tin body của bảng
     renderContent = () => {
+        
+        console.log("hello")
         let { headers } = this.state;
         let data = this.pagination ? this.state.pagedData : this.state.data;
         let contentView = data.map((row, rowIdx) => {
@@ -117,6 +123,7 @@ export default class DataTable extends React.Component {
                     }
                 }
 
+                //hiển thị form edit
                 if (this.props.edit) {
                     if (header.dataType && (header.dataType === "number" ||
                         header.dataType === "string") &&
@@ -126,54 +133,55 @@ export default class DataTable extends React.Component {
                                 <form onSubmit={this.onUpdate} style={{ width: hdr.accessor + "px" }} >
                                     <input type="text"
                                         defaultValue={content}
-                                        onKeyUp={this.onFormReset}/>
+                                        onKeyUp={this.onFormReset} />
                                 </form>
                             );
                         }
+                        //xóa thông tin user
                     } else if (header.dataType && header.dataType === "number" && header.accessor === this.keyField) {
                         if (edit && edit.row === rowIdx && edit.cell === index) {
                             if (window.confirm("Delete user has id: " + id)) {
-                                    this.onDelete();
+                                this.onDelete();
                             }
                         }
                     }
                 }
 
-                return ( 
+                return (
                     <td key={index}
-                        data-id = {id}
-                        data-row = {rowIdx} > {content} 
+                        data-id={id}
+                        data-row={rowIdx} > {content}
                     </td>)
-                });
-            return ( 
-                <tr key={rowIdx} > 
-                    {tds} 
-                </tr>
-                );
             });
-                    
+            return (
+                <tr key={rowIdx} >
+                    {tds}
+                </tr>
+            );
+        });
+
         return contentView;
     }
-                    
+    // sắp xếp bảng theo cột                
     onSort = (e) => {
         let data = this.state.data.slice();
         let colIndex = ReactDOM.findDOMNode(e.target).parentNode.cellIndex;
         let colTitle = e.target.dataset.col;
         let descending = !this.state.descending;
-                            
+
         data.sort((a, b) => {
             let sortValue = 0;
             if (a[colTitle] < b[colTitle]) {
                 sortValue = -1;
             } else if (a[colTitle] > b[colTitle]) {
                 sortValue = 1;
-            }       
+            }
             if (descending) {
                 sortValue = -1 * sortValue;
             }
             return sortValue;
-         });
-                    
+        });
+
         this.setState({
             data,
             sortby: colIndex,
@@ -182,12 +190,13 @@ export default class DataTable extends React.Component {
             this.onGotoPage(this.state.currentPage)
         })
     }
-                        
+
+    //tìm kiếm user theo 1 thông tin nhập vào                    
     onSearch = (e) => {
-        let {headers} = this.state;
-        let data = this._preSearchData;                    
+        let { headers } = this.state;
+        let data = this._preSearchData;
         let searchData = data.filter((row) => {
-            let show = true;            
+            let show = true;
             for (let i = 0; i < headers.length; i++) {
                 let fieldName = headers[i].accessor;
                 let fieldValue = row[fieldName];
@@ -197,52 +206,53 @@ export default class DataTable extends React.Component {
                     show = true;
                 } else {
                     show = fieldValue.toString().toLowerCase().indexOf(input.value.toLowerCase()) > -1;
-                    if (!show) 
+                    if (!show)
                         break;
                 }
             }
-             return show;
+            return show;
         });
-                
-        // UPdate the state
+        // hiển thị thông tin tìm kiếm được
         this.setState({
             data: searchData,
             pagedData: searchData,
             totalRecords: searchData.length
-        }, ()=>{
-            if(this.pagination.enabled){
+        }, () => {
+            if (this.pagination.enabled) {
                 this.onGotoPage(1);
             }
         });
     }
-                        
+
+    //hiển thị form để nhập thông tin tìm kiếm
     renderSearch = () => {
-        let {search, headers} = this.state;
+        let { search, headers } = this.state;
 
         if (!search) {
             return null;
         }
-                        
+        //lấy ra giá trị tìm kiếm                
         let searchInputs = headers.map((header, idx) => {
             let hdr = this[header.accessor];
-            let inputId = 'inp' + header.accessor;           
-            return ( 
+            let inputId = 'inp' + header.accessor;
+            return (
                 <td key={idx} >
-                    <input  name="inputSearch"
-                            type="text"
-                            ref={(input) => this[inputId] = input}
-                            style={{ width: hdr.widthClient - 10 + "px" }}
-                            data-idx = {idx}/>
+                    <input name="inputSearch"
+                        type="text"
+                        ref={(input) => this[inputId] = input}
+                        style={{ width: hdr.widthClient - 10 + "px" }}
+                        data-idx={idx} />
                 </td >
-             );
+            );
         });
-        return ( 
-            <tr onChange={this.onSearch} > 
-                {searchInputs} 
+        return (
+            <tr onChange={this.onSearch} >
+                {searchInputs}
             </tr>
         );
     }
-                                
+
+    //thông tin về ô sẽ chỉnh sửa khi double click
     onShowEditor = (e) => {
         let id = e.target.dataset.id;
         this.setState({
@@ -250,28 +260,30 @@ export default class DataTable extends React.Component {
                 row: parseInt(e.target.dataset.row, 10),
                 rowId: id,
                 cell: e.target.cellIndex
-             }
+            }
         })
     }
-                            
+
+    //chuyển sang giao diện thêm người dùng
     addNewUser = () => {
         this.setState({ redirect: true })
     }
 
+    //hiển thị bảng
     renderTable = () => {
         let title = this.props.title || "User Table";
         let headerView = this.renderTableHeader();
         let contentView = this.state.data.length > 0 ? this.renderContent() : this.renderNoData();
-                                    
-        return ( 
+
+        return (
             <table className="data-inner-table" >
                 <caption className="data-table-caption" >
-                    {title} 
-                    <button onClick={this.addNewUser} style={{ float: 'right'}}> New User </button>
+                    {title}
+                    <button onClick={this.addNewUser} style={{ float: 'right' }}> New User </button>
                 </caption >
                 <thead onClick={this.onSort} >
                     <tr >
-                        {headerView} 
+                        {headerView}
                     </tr>
                 </thead >
                 <tbody onDoubleClick={this.onShowEditor} >
@@ -281,7 +293,7 @@ export default class DataTable extends React.Component {
             </table >
         );
     }
-                                                        
+
     onToggleSearch = (e) => {
         if (this.state.search) {
             this.setState({
@@ -296,15 +308,15 @@ export default class DataTable extends React.Component {
             })
         }
     }
-                                                    
+
     renderToolbar = () => {
-        return ( 
+        return (
             <div className="toolbar" >
                 <button onClick={this.onToggleSearch} >Search </button>
             </div>
         );
     }
-                                                                
+
     renderNote = () => {
         return (
             <div className="note" >
@@ -342,7 +354,6 @@ export default class DataTable extends React.Component {
 
     static getDerivedStateFromProps(nextProps, prevState) {
         if (nextProps.data.length === 0) {
-            console.log("update1")
             return {
                 data: nextProps.data,
                 pagedData: nextProps.data,
@@ -351,28 +362,25 @@ export default class DataTable extends React.Component {
         return null;
     }
 
-    componentDidUpdate(prevProps, prevState){
-        console.log(prevState.pagedData, prevProps.pagedData);
-        console.log(prevState.data, prevProps.data);
-        if(prevState.data.length !== 0 && prevState.data === prevState.pagedData){
-            console.log("update2")
-            this.getPagedData(1,5);
+    componentDidUpdate(prevProps, prevState) {
+        if (prevState.data.length !== 0 && prevState.data === prevState.pagedData) {
+            this.getPagedData(1, 5);
             this.onGotoPage(1);
         }
     }
 
     render() {
-        const {redirect} = this.state;
+        const { redirect } = this.state;
         return (
             <div className={this.props.className} >
-                {this.pagination.enabled && 
+                {this.pagination.enabled &&
                     <Pagination
-                        totalRecords = {this.state.data.length}
-                        pageLength = {this.state.pageLength}
+                        totalRecords={this.state.data.length}
+                        pageLength={this.state.pageLength}
                         onPageLengthChange={this.onPageLengthChange}
-                        onGotoPage = {this.onGotoPage}
+                        onGotoPage={this.onGotoPage}
                         currentPage={this.state.currentPage}
-                        />
+                    />
                 }
                 {this.renderTable()}
                 {this.renderToolbar()}
