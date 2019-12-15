@@ -25,28 +25,24 @@ connection.connect(err => {
     }
 });
 
+app.use(express.json());
 app.use(cors());
 
 app.get('/', (req, res) => {
     res.send('Hello server!')
 });
 
-app.get('/project/add', (req, res) => {
-    const { project_id, project_name } = req.query
-    const INSERT_PROJECTS_QUERY = `INSERT INTO projects (project_id, project_name) VALUES ('${project_id}', '${project_name}')`
-    connection.query(INSERT_PROJECTS_QUERY, (err, results) => {
-        if(err) {
-            return res.send(err);
-        }
-        else {
-            return res.send('Successfully added project!')
-        }
-    });
-});
 
-app.get('/project', (req, res) => {
-    const SELECT_ALL_PROJECT_QUERY = 'SELECT * FROM projects';
-    connection.query(SELECT_ALL_PROJECT_QUERY, (err, results) => {
+app.get('/projects', (req, res) => {
+    let { user_id } = req.query;
+    
+    let sql_command = "SELECT * FROM projects \
+    INNER JOIN project_users \
+    ON projects.project_id=project_users.project_id \
+    WHERE user_id = ?";
+
+    connection.query(sql_command, [user_id], (err, results) => {
+        // console.log(results);
         if(err) {
             return res.send(err);
         }
@@ -58,9 +54,63 @@ app.get('/project', (req, res) => {
     });
 });
 
-app.get('/key', (req, res) => {
-    const SELECT_ALL_KEY_QUERY = 'SELECT * FROM `keys`';
-    connection.query(SELECT_ALL_KEY_QUERY, (err, results) => {
+app.post('/projects', (req, res) => {
+
+    let {project_name, user_id} = req.body;
+    // console.log(req.body);
+
+    let sql_command = "INSERT INTO projects (project_name) VALUES (?)"
+    connection.query(sql_command, [project_name], (err, results) => {
+        if(err) {
+            return res.send(err);
+        }
+        else {
+            let project_id = results.insertId;
+            let sql_command = "INSERT INTO project_users (project_id, user_id, is_admin) VALUES (?, ?, ?)";
+            connection.query(sql_command, [project_id, user_id, 1], (err, results) => {
+                if(err){
+                    console.log(err)
+                    return res.send(err);
+                }
+                else{
+                    console.log(results)
+                    return res.send("projects has been updated");
+                }
+            })
+        }
+    });
+});
+
+app.delete('/projects', (req, res) => {
+    let {project_id} = req.query;
+
+    console.log(req.query);
+
+    let sql_command = "DELETE FROM projects WHERE project_id = ?"
+
+    connection.query(sql_command, [
+        project_id
+    ], (err, results) => {
+        if(err){
+            return res.send(err)
+        }
+        else{
+            console.log(results);
+            return res.send("project has been deleted")
+        }
+    })
+})
+
+
+
+
+
+
+
+app.get('/keys', (req, res) => {
+    let sql_command = 'SELECT * FROM `keys` WHERE project_id = ?';
+    let { project_id } = req.query
+    connection.query(sql_command, [project_id], (err, results) => {
         if(err) {
             return res.send(err);
         }
@@ -71,10 +121,15 @@ app.get('/key', (req, res) => {
         }
     });
 });
+
+
+
+
 
 app.get('/resources', (req, res) => {
     let sql_command = "SELECT * FROM resources WHERE project_id = ?";
-    connection.query(sql_command, [projectId], (err, results) => {
+    let { project_id } = req.query
+    connection.query(sql_command, [project_id], (err, results) => {
         if(err){
             return res.send(err)
         } 
@@ -86,9 +141,56 @@ app.get('/resources', (req, res) => {
     });
 })
 
-app.get('/resources/add', (req, res) => {})
+app.post('/resources', (req, res) => {
+    let {project_id, resource_name, resource_dns, key_id, resource_user} = req.body;
 
-app.get('/resources/remove', (req, res) => {})
+    console.log(req.body);
+
+    let sql_command = "INSERT INTO resources \
+        (project_id, \
+        resource_name, \
+        resource_dns, \
+        key_id, \
+        resource_user) VALUES (?, ?, ?, ?, ?)";
+
+    console.log(project_id, resource_name, resource_dns, key_id, resource_user);
+
+    connection.query(sql_command, [
+        project_id,
+        resource_name,
+        resource_dns,
+        key_id,
+        resource_user
+    ], (err, results) => {
+        if(err){
+            return res.send(err)
+        }
+        else {
+            console.log(results);
+            return res.send("resource has been updated")
+        }
+    })
+})
+
+app.delete('/resources', (req, res) => {
+    let {resource_id} = req.query;
+
+    console.log(req.query);
+
+    let sql_command = "DELETE FROM resources WHERE resource_id = ?"
+
+    connection.query(sql_command, [
+        resource_id
+    ], (err, results) => {
+        if(err){
+            return res.send(err)
+        }
+        else{
+            console.log(results);
+            return res.send("resource has been deleted")
+        }
+    })
+})
 
 app.listen(4000, () => {
     console.log(`Server is listening at http://localhost:4000!`)
