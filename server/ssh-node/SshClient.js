@@ -1,16 +1,17 @@
-const io = require("socket.io")(9000, {
-    // path: '/test',
-    // serveClient: false,
-    // below are engine.IO options
-    // pingInterval: 10000,
-    // pingTimeout: 5000,
-    // cookie: false
-  });
+const io = require("socket.io")(9000, {});
 
 const dynamoQuery = require('./dynamoQuery')
 const fs = require("fs")
 const thisTime = getTime()
 const dir = "./ssh-node/logs/"
+
+// require('dotenv').config();
+// const AWS = require("aws-sdk");
+// AWS.config.update({
+//     region: process.env.AWS_REGION
+// })
+
+// const s3_client = new AWS.S3();
 
 if (!fs.existsSync(dir)) {
     fs.mkdirSync(dir);
@@ -33,7 +34,6 @@ io.on("connection", function(socket){
             console.log(data)
             let Client = require('ssh2').Client;
             let conn = new Client();
-            // let resource_id = (JSON.parse(data))['resource_id'];
             let resource_id = data
             dynamoQuery.getConnectionInfo(resource_id, (err, results) => {
                 if(err){
@@ -51,7 +51,8 @@ io.on("connection", function(socket){
                         fs.mkdirSync(dir + padWithZeros(project_id) + "/");
                     }
 
-                    let userCmdWriter = fs.createWriteStream(dir + padWithZeros(project_id) + "/" + thisTime + padWithZeros(resource_id) + ".txt")
+                    let userCmdWriter = fs.createWriteStream(dir + padWithZeros(project_id) + "/" + new Date().getTime() + "-" + padWithZeros(resource_id) + ".txt")
+                    userCmdWriter.write("[" + JSON.stringify({time: new Date().getTime(), value: "start session"}));
                     // let serverResponseWriter = 
 
                     conn.on('ready', function(){
@@ -79,10 +80,11 @@ io.on("connection", function(socket){
                             stream.on("close", function(){
                                 conn.end()
                                 socket.disconnect();
+                                userCmdWriter.write("]")
                                 userCmdWriter.close();
                             }).on("data", function(data){
                                 socket.emit("return", data.toString('binary'));
-                                userCmdWriter.write(JSON.stringify({time: new Date().getTime(), value: data.toString('binary')}))
+                                userCmdWriter.write("," + JSON.stringify({time: new Date().getTime(), value: data.toString('binary')}))
                                 // socket.emit(data);
                             })
                         })
