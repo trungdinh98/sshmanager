@@ -36,12 +36,11 @@ class Users extends React.Component {
                     model.data.push(element);
                 });
                 this.setState(model.data);
+            })
+            .catch(error => {
+                return error
             });
         this.state = model;
-    }
-
-    onGetData = () => {
-        
     }
 
     ///fetch o day ne :))
@@ -60,52 +59,55 @@ class Users extends React.Component {
         Axios.post(`http://localhost:8000/users/update/${id}`, updateRow);
     }
 
-    onDeleteTable = async(idDel) => {
-        let data = this.state.data;
+    onDeleteTable = async (idDel) => {
+        let data = this.state.data.slice();
         data.splice(idDel - 1, 1);
         await Axios.post(`http://localhost:8000/users/delete/${idDel}`, { id: idDel });
-        for (var i = 0; i < data.length; i++) {
-            if (data[i].id >= idDel) {
-                Axios.post(`http://localhost:8000/users/updateID/${data[i].id}`, { id: data[i].id })
-                    .then(response => {
-                        if (response.data.success) {
-                            console.log("done");
-                        } else {
-                            console.log("fail");
-                        }
-                    })
-                    .catch(error => {
-                        alert(error)
-                    });
-                data[i].id--;
-            }
-        }
-        console.log(this.state.data)
+        // for (var i = 0; i < data.length; i++) {
+        //     if (data[i].id >= idDel) {
+        //         await Axios.post(`http://localhost:8000/users/updateID/${data[i].id}`, { id: data[i].id })
+        //             .then(response => {
+        //                 if (response.data.success) {
+        //                     console.log("done");
+        //                 } else {
+        //                     console.log("fail");
+        //                 }
+        //             })
+        //             .catch(error => {
+        //                 alert(error)
+        //             });
+        //         data[i].id--;
+        //     }
+        // }
+
         this.setState({
             edit: null,
-            data: this.state.data
+            data: data
         });
+    }
+    componentDidUpdate() {
+        this.onDeleteTable();
     }
 
     render() {
-        return ( 
-            <div className = "App" >
-                <DataTable className = "data-table"
-                    title = "USERS"
-                    keyField = "id"
-                    edit = { true }
+        return (
+            <div className="App">
+                <DataTable className="data-table"
+                    title="USERS"
+                    keyField="id"
+                    edit={true}
                     pagination={{
                         enabled: true,
                         pageLength: 5
-                      }}            
-                    width = "100%"
-                    headers = { this.state.headers }
-                    data = { this.state.data }
-                    noData = "No records"
-                    onUpdate = { this.onUpdateTable }
-                    onDelete = { this.onDeleteTable }
+                    }}
+                    width="100%"
+                    headers={this.state.headers}
+                    data={this.state.data}
+                    noData="No records"
+                    onUpdate={this.onUpdateTable}
+                    onDelete={(e) => this.onDeleteTable(e)}
                 />
-            </div >
+            </div>
         )
     }
 }

@@ -51,12 +51,12 @@ export default class Pagination extends Component {
         }
 
         let html = (
-            <text key = {`btn-${text}`}
+            <span key = {`btn-${text}`}
                 id={`btn-${text}`}
                 className={className}
                 onClick={(e) => {this.onGotoPage(text)}}>
                     {text}
-                </text>
+                </span>
         );
         return html;
     }
@@ -87,18 +87,18 @@ export default class Pagination extends Component {
         )
 
         let prevButton = (
-            <text key="prev"
+            <span key="prev"
                 className="pagination-btn prev"
                 onClick={this.onPrevPage}>
                     {"<"}
-                </text>
+                </span>
         )
         let nextButton = (
-            <text key="next"
+            <span key="next"
                 className="pagination-btn next"
                 onClick={this.onNextPage}>
                     {">"}
-                </text>
+                </span>
         )
 
         let buttons = [];

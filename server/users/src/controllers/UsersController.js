@@ -1,6 +1,6 @@
 const controllers = {}
 var sequelize = require('../model/database');
-var Users = require('../model/Users');
+var Users = require('../../../models/user');
 
 controllers.listUser = async (req, res) => {
   const response = await sequelize.sync().then(function () {
@@ -13,6 +13,7 @@ controllers.listUser = async (req, res) => {
   res.json({ data: response });
 }
 sequelize.sync()
+
 controllers.update = async (req, res) => {
   // parameter get id
   const { id } = req.params;

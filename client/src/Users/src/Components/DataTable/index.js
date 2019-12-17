@@ -92,7 +92,8 @@ export default class DataTable extends React.Component {
         let rowId = this.state.edit.rowId;
 
         this.setState({
-            edit: null
+            edit: null,
+            delete: null
         });
 
         this.props.onDelete(rowId);
@@ -100,8 +101,6 @@ export default class DataTable extends React.Component {
 
     //hiển thị thông tin body của bảng
     renderContent = () => {
-        
-        console.log("hello")
         let { headers } = this.state;
         let data = this.pagination ? this.state.pagedData : this.state.data;
         let contentView = data.map((row, rowIdx) => {
@@ -309,6 +308,7 @@ export default class DataTable extends React.Component {
         }
     }
 
+    //hiển thị nút tìm kiếm
     renderToolbar = () => {
         return (
             <div className="toolbar" >
@@ -317,6 +317,7 @@ export default class DataTable extends React.Component {
         );
     }
 
+    //hiển thị ghi chú
     renderNote = () => {
         return (
             <div className="note" >
@@ -326,6 +327,7 @@ export default class DataTable extends React.Component {
         )
     }
 
+    //lấy dữ liệu từng trang khi phân trang
     getPagedData = (pageNo, pageLength) => {
         let startOfRecord = (pageNo - 1) * pageLength;
         let endOfRecord = startOfRecord + pageLength;
@@ -336,6 +338,7 @@ export default class DataTable extends React.Component {
         return pagedData;
     }
 
+    //lấy số lượng dòng của bảng khi có thay đổi
     onPageLengthChange = (pageLength) => {
         this.setState({
             pageLength: parseInt(pageLength, 10)
@@ -344,6 +347,7 @@ export default class DataTable extends React.Component {
         });
     }
 
+    //di chuyển đến phân trang khác
     onGotoPage = (pageNo) => {
         let pagedData = this.getPagedData(pageNo, this.state.pageLength);
         this.setState({
@@ -353,22 +357,38 @@ export default class DataTable extends React.Component {
     }
 
     static getDerivedStateFromProps(nextProps, prevState) {
+        
+        console.log(nextProps.data.length, prevState.data.length)
         if (nextProps.data.length === 0) {
+            console.log("update1")
             return {
                 data: nextProps.data,
                 pagedData: nextProps.data,
             }
-        }
+        } /*else if (prevState.delete === true) {
+            return {
+                data: nextProps.data,
+                pagedData: nextProps.data,
+                totalRecords: nextProps.totalRecords,
+                delete: null
+            }
+        }*/
+
         return null;
     }
 
     componentDidUpdate(prevProps, prevState) {
         if (prevState.data.length !== 0 && prevState.data === prevState.pagedData) {
+            console.log("update2")
             this.getPagedData(1, 5);
             this.onGotoPage(1);
         }
+        // } else if( prevState.delete === null && prevState.data === prevState.pagedData){
+        //     this.onGotoPage(this.state.currentPage);
+        // }
     }
 
+    //hiển thị toàn bộ trang
     render() {
         const { redirect } = this.state;
         return (
