@@ -1,5 +1,6 @@
 import React from 'react';
 import './Keys.css';
+import api from '../api'
 import NewKeys from './CreateNewKey.js';
 
 class Keys extends React.Component {
@@ -28,19 +29,22 @@ class Keys extends React.Component {
 
     componentDidMount () {
         this._isMounted = true;
-        this.getKeys();
+        this.getKeys(1002);
     }
 
-    getKeys () {
+    getKeys (project_id) {
         this._isMounted = true;
-        fetch('http://localhost:4000/key')
-            .then(response => response.json())
-            .then(response => {
-                if (this._isMounted) {
-                    this.setState({ keys: response.data })
-                }
-            })
-            .catch(err => console.error(err))
+        api.get("/keys", {
+            params: {
+                project_id: project_id 
+            }
+        })
+        .then((response) => {
+			this.setState({keys:response.data});
+		})
+		.catch((err) => {
+			console.log(err);
+		})
     }
 
     close() {
