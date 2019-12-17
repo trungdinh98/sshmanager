@@ -30,10 +30,10 @@ class Header extends React.Component {
         const loginRegLink = (
             <div className="nav-item">
                 <Link to="/login" className="login">
-                    Login
+                    <button className="btn btn-success btn-sm">Login</button>
                 </Link>
                 <Link to="/register" className="register">
-                    Register
+                    <button className="btn btn-success btn-sm">Register</button>
                 </Link>
             </div>
         )
@@ -41,7 +41,7 @@ class Header extends React.Component {
         const userLink = (
             <div className="nav-item">
                 <a href="#logOut" onClick={this.logOut.bind(this)} className="register">
-                    Logout
+                    <button className="btn btn-outline-warning btn-sm">Logout</button>
                 </a>
                 <div>
                     <Link to="/profile">

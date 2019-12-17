@@ -103,21 +103,19 @@ html,body {
 }
 
 .nav-item  a {
-    color: white;
     display: inline-flex;
 }
 
 .nav-item  a:hover {
     text-decoration: unset;
-    color: #FFEB3B;
 }
 
 .login {
-    padding: 16px 0;
+    padding: 12px 0;
 }
 
 .register {
-    padding: 16px 10px;
+    padding: 12px 10px;
 }
 
 .rightNavBar {
