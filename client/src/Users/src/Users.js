@@ -64,22 +64,22 @@ class Users extends React.Component {
         let data = this.state.data;
         data.splice(idDel - 1, 1);
         await Axios.post(`http://localhost:8000/users/delete/${idDel}`, { id: idDel });
-        for (var i = 0; i < data.length; i++) {
-            if (data[i].id >= idDel) {
-                await Axios.post(`http://localhost:8000/users/updateID/${data[i].id}`, { id: data[i].id })
-                    .then(response => {
-                        if (response.data.success) {
-                            console.log("done");
-                        } else {
-                            console.log("fail");
-                        }
-                    })
-                    .catch(error => {
-                        alert(error)
-                    });
-                data[i].id--;
-            }
-        }
+        // for (var i = 0; i < data.length; i++) {
+        //     if (data[i].id >= idDel) {
+        //         await Axios.post(`http://localhost:8000/users/updateID/${data[i].id}`, { id: data[i].id })
+        //             .then(response => {
+        //                 if (response.data.success) {
+        //                     console.log("done");
+        //                 } else {
+        //                     console.log("fail");
+        //                 }
+        //             })
+        //             .catch(error => {
+        //                 alert(error)
+        //             });
+        //         data[i].id--;
+        //     }
+        // }
 
         this.setState({
             edit: null,
