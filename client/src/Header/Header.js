@@ -28,33 +28,27 @@ class Header extends React.Component {
     render () {
 
         const loginRegLink = (
-            <ul className="navbar-nav">
-                <li className="nav-item">
-                    <Link to="/login" className="login">
-                        Login
-                    </Link>
-                </li>
-                <li className="nav-item">
-                    <Link to="/register" className="register">
-                        Register
-                    </Link>
-                </li>
-            </ul>
+            <div className="nav-item">
+                <Link to="/login" className="login">
+                    Login
+                </Link>
+                <Link to="/register" className="register">
+                    Register
+                </Link>
+            </div>
         )
 
         const userLink = (
-            <ul className="navbar-nav">
-                <li className="nav-item">
-                    <Link to="/profile" className="login">
-                        User
+            <div className="nav-item">
+                <a href="#logOut" onClick={this.logOut.bind(this)} className="register">
+                    Logout
+                </a>
+                <div>
+                    <Link to="/profile">
+                        <img className="avaProfile" src="/image/avatar.jpeg" alt="avatar" />
                     </Link>
-                </li>
-                <li className="nav-item">
-                    <a href="#logOut" onClick={this.logOut.bind(this)} className="register">
-                        Logout
-                    </a>
-                </li>
-            </ul>
+                </div>
+            </div>
         )
 
         return (
@@ -83,14 +77,7 @@ class Header extends React.Component {
                     </div>
 
                     <div className="rightNavBar">
-                        <div>
-                            {localStorage.usertoken ? userLink : loginRegLink}
-                        </div>
-                        <div>
-                            <Link to="/profile">
-                                <img className="avaProfile" src="/image/avatar.jpeg" alt="avatar" />
-                            </Link>
-                        </div>
+                        {localStorage.usertoken ? userLink : loginRegLink}
                     </div>
                 </div>
             </div>
