@@ -13,7 +13,7 @@ module.exports = function(sequelize, Sequelize){
             unique: true
         },
         user_password: {
-            type: Sequelize.STRING(50),
+            type: Sequelize.TEXT,
             allowNull: false
         },
         user_firstname: {

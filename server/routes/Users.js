@@ -14,8 +14,8 @@ router.post('/register', (req, res) => {
   const userData = {
     user_firstname: req.body.user_firstname,
     user_lastname: req.body.user_lastname,
-    user_user_email: req.body.user_email,
-    user_user_password: req.body.user_password,
+    user_email: req.body.user_email,
+    user_password: req.body.user_password,
     user_created_at: today
   }
 

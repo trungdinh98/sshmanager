@@ -102,6 +102,18 @@ html,body {
     text-decoration: blink;
 }
 
+.nav-item  a {
+    color: white;
+}
+
+.login {
+    position: absolute;
+}
+
+.register {
+    margin-left: 100px;
+}
+
 .rightNavBar {
     float: right;
 }
