@@ -1,6 +1,6 @@
 import React from 'react';
 import api from '../api';
-import './resources.css';
+// import './resources.css';
 
 
 class Resources extends React.Component{
@@ -38,7 +38,7 @@ class Resources extends React.Component{
 			}
 		})
 		.then((response) => {
-			this.setState({resources:response.data.data})
+			this.setState({resources:response.data})
 			// console.log(response);
 			
 			// console.log(this.state.resources);
@@ -64,7 +64,7 @@ class Resources extends React.Component{
 			})
 			.then((response) => {
 				console.log(response)
-				this.getResources(project_id)
+				this.getResources(1001)
 			})
 			.catch((err) => {
 				console.log(err);
@@ -145,7 +145,7 @@ class Resources extends React.Component{
 
 	apiDeleteTest = () => {
 		console.log("Delete test");
-		let resource_ids = [39, 44]
+		let resource_ids = [15, 16, 17, 18, 19]
 		this.removeResource(resource_ids);
 	}
 
@@ -177,7 +177,7 @@ class Resources extends React.Component{
 					<button onClick = {this.apiDeleteTest}>Delete test</button>
 				</div>
 				<div>
-					<button onClick = {this.startConnection}>SSH test</button>
+					<button onClick = {this.apiPostTest}>Post test</button>
 				</div>
 
 			</div>

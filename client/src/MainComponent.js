@@ -5,7 +5,9 @@ import Users from './Users/Users.js';
 import Projects from './Projects/Projects.js';
 import Resources from './Resources/Resources.js';
 import Login from './Login/Login.js';
-import Xterm from './Resources/Xterm'
+import Xterm from './Resources/Xterm';
+import Logging from './Logging/Logging'
+import LogTerm from './Logging/LogTerm'
 
 export default () => (
     <Switch>
@@ -16,5 +18,8 @@ export default () => (
         <Route path='/keys' component={Keys}/>
         <Route path='/login' component={Login}/>
         <Route path='/xterm' component={Xterm}/>
+        <Route path='/logging' component={Logging}/>
+        <Route path='/logTerm' component={LogTerm}/>
+
     </Switch>
 )

@@ -1,15 +1,15 @@
 const fs = require("fs");
-const dir = "./ssh-node/logs/"
+const dir = "./logs/"
 
 
-// listLogs(1001, (err, logs) => {
-//     if(err){
-//         console.log(err);
-//     }
-//     else{
-//         console.log(logs)
-//     }
-// })
+listLogs(1001, (err, logs) => {
+    if(err){
+        console.log(err);
+    }
+    else{
+        console.log(logs)
+    }
+})
 
 logReplay(1001,"1576434455901-00000000001.txt", (err, results) => {
     if(err){
@@ -50,6 +50,8 @@ function logReplay(project_id, log, callback){
     })
 }
 
+function writeLog()
+
 function padWithZeros(number){
     var my_string = '' + number;
     while(my_string.length < 11){
@@ -57,3 +59,5 @@ function padWithZeros(number){
     }
     return my_string;
 }
+
+module.exports = {listLogs}

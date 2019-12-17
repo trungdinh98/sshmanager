@@ -22,7 +22,7 @@ class Projects extends React.Component{
             }
         })
         .then((response) => {
-			this.setState({projects:response.data.data});
+			this.setState({projects:response.data});
 			console.log(response);
 			console.log(this.state.projects);
 		})
@@ -38,7 +38,7 @@ class Projects extends React.Component{
         })
         .then((response) => {
             console.log(response);
-            this.getProjects(user_id);
+            this.getProjects(1001);
         })
         .catch((err) => {
             console.log(err);
@@ -125,4 +125,3 @@ class Projects extends React.Component{
 }
 
 export default Projects
-

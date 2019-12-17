@@ -4,31 +4,27 @@ import io from 'socket.io-client'
 import 'xterm/css/xterm.css'
 
 
-class Xterm extends React.Component{
+class LogTerm extends React.Component{
 	componentDidMount(){
 		const term = new Terminal({
 			fontSize: 18
 		})
 		const socket = io.connect("127.0.0.1:9000");
 		let url = new URL(window.location.href);
-		let resource_id = url.searchParams.get("resource_id");
-		console.log(resource_id);
-		socket.emit("setupConnection", resource_id);
+        let log_id = url.searchParams.get("log_id");
+		let project_id = url.searchParams.get("project_id");
+		console.log(log_id);
+		socket.emit("getSshLog", log_id);
 		term.open(this.termElm)
 
 		socket.on('connect', function () {
-            // Browser -> Backend
-            term.onKey(e => {
-                socket.emit("data", e.key);
-            });
-        
             // Backend -> Browser
-            socket.on('return', function (data) {
+            socket.on('returnLog', function (data) {
                 term.write(data.replace(/\r/g, '\n\r'));
             });
         
             socket.on('disconnect', function () {
-                term.write('\r\n*** Disconnected from backend***\r\n');
+                term.write('\r\n*** END ***\r\n');
             });
         });
 
@@ -41,4 +37,4 @@ class Xterm extends React.Component{
 	}
 }
 
-export default Xterm
+export default LogTerm

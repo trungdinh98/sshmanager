@@ -1,6 +1,6 @@
 module.exports = function(sequelize, Sequelize){
-    return sequelize.define('key', {
-        key_id: {
+    return sequelize.define('sshLog', {
+        log_id: {
             type: Sequelize.INTEGER,
             allowNull: false,
             primaryKey: true,
@@ -11,10 +11,11 @@ module.exports = function(sequelize, Sequelize){
             type: Sequelize.INTEGER,
             allowNull: false,
         },
-        key_name: {
-            type: Sequelize.STRING(30)
+        log_name: {
+            type: Sequelize.STRING(25),
+            allowNull: false
         },
-        key_created_at: {
+        log_created_at: {
             type: Sequelize.DATE,
             allowNull: false,
             defaultValue: sequelize.literal('CURRENT_TIMESTAMP')
