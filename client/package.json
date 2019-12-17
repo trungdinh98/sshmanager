@@ -3,13 +3,25 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+<<<<<<< HEAD
+    "@babel/runtime": "^7.7.6",
     "axios": "^0.19.0",
+    "bootstrap": "^4.4.1",
+    "jwt-decode": "^2.2.0",
+    "npm": "^6.13.4",
+=======
+    "axios": "^0.19.0",
+>>>>>>> 91a2d4f4d55d3f85c7f347d3afb2b498851e396b
     "react": "^16.12.0",
     "react-bootstrap": "^1.0.0-beta.16",
     "react-dom": "^16.12.0",
     "react-router": "^5.1.2",
     "react-router-dom": "^5.1.2",
     "react-scripts": "^3.3.0",
+<<<<<<< HEAD
+    "yarn": "^1.21.1",
+=======
+>>>>>>> 91a2d4f4d55d3f85c7f347d3afb2b498851e396b
     "socket.io": "^2.3.0",
     "xterm": "^4.3.0"
   },

@@ -35,7 +35,7 @@
     color: red;
   }
   
-  .page-selector {
+  .page-selector select{
     padding: 5px;
     size: 1.75em;
   }
