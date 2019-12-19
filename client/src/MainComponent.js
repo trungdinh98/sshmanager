@@ -8,12 +8,14 @@ import Login from './LoginRegister/Login.js';
 import Register from './LoginRegister/Register.js';
 //import Profile from './Users/Profile.js';
 import Xterm from './Resources/Xterm';
+import ProjectUsers from './Users/ProjectUsers.js';
 
 class MainComponent extends React.Component {
     render () {
          return (
             <Switch>
                 <Route exact path='/' component={Projects}/>
+                <Route path='/project_users' component={ProjectUsers} />
                 <Route path='/users' component={Users}/>
                 <Route path='/projects' component={Projects}/>
                 <Route path='/resources' component={Resources}/>

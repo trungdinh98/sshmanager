@@ -1,71 +1,85 @@
 import React from 'react';
+import Axios from 'axios';
 
 class ProjectUsers extends React.Component {
 
-  constructor() {
+  constructor(props) {
 
-    super();
+    super(props);
+    let users = {
+      user_id: "",
+      user_email: "",
+      user_password: "",
+      user_firstname: "",
+      user_lastname: ""
+    };
+    
     this.state = {
-      users: [],
-      users: {
-
-      }
+      project_id: 1001,
+      users: []
     }
+    Axios.get(`http://localhost:4000/Users/projectUsers/${this.stateproject_id}`, this.state.project_id)
+      .then(response => {
+        users = response.data.data;
+        this.setState(users)
+      })
+      .catch((err) => {
+        return err;
+      })
+      
   }
 
-  componentDidMount() {
-    this.getUsers();
+  getUsers = (project_id) => {
+    let users = [];
+    Axios.get(`http://localhost:4000/Users/projectUsers/${project_id}`, project_id)
+      .then(response => {
+        users = response.data.data;
+      })
+      .catch((err) => {
+        return err;
+      })
+      this.setState({users: users})
+  }
+  componentDidUpdate(){
+    let project_id = this.state.project_id;
+    this.getUsers(project_id);
   }
 
-  async getUsers(user_id) {
-    await api.get('/users', {
-      params: {
-        user_id: user_id
+  // async inviteUser(user_id) {
+  //   await Axios.post('/inviteUser', user_id)
+  //     .then(response => {
+  //       this.getUsers(project_id);
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     })
+  // }
+
+  async removeUser(user_id) {
+    let users = this.state.users.slice();
+    let project_id = this.state.project_id;
+    users.splice(user_id-1, 1);
+    await Axios.delete(`http://localhost:4000/Users/delete/${project_id}/${user_id}`, {project_id, user_id})
+    .then(response => {
+      if(response.data.success){
+        this.getUsers(project_id);
       }
     })
-      .then((response) => {
-        this.setState({ users: response.data })
-      })
-      .catch((err) => {
-        console.log(err)
-      })
-  }
-
-  inviteUser(user_id) {
-    api.post('/inviteUser', {
-      user_id: user_id,
+    .catch(error => {
+      return error;
     })
-      .then((response) => {
-        console.log(response)
-        this.getUsers(user_id)
-      })
-      .catch((err) => {
-        console.log(err);
-      })
-  }
-
-  removeUser(user_ids) {
-    resource_ids.forEach(resource_id => {
-      api.delete('/users', {
-        params: {
-          user_id: user_id
-        }
-      })
-        .then((response) => {
-          console.log(response)
-          this.getUsers()
-        })
-        .catch((err) => {
-          console.log(err);
-        })
-    })
-
   }
 
   renderTableData() {
-    return this.state.users.map((user, index) => {
+    return this.state.users.map((user) => {
       return (
-        <tr key={users.user_id}>
+        <tr key={user.user_id}>
+          <td>{user.user_id}</td>
+          <td>{user.user_email}</td>
+          <td>{user.user_password}</td>
+          <td>{user.user_firstname}</td>
+          <td>{user.user_lastname}</td>
+          <td><button onClick={this.removeUser(user.user_id)}>Delete</button></td>
         </tr>
       )
     })
@@ -74,12 +88,16 @@ class ProjectUsers extends React.Component {
   render() {
     return (
       <div>
-        <h3>Users</h3>
-        <h3>Data: <br /></h3>
+        <h1>Project Users</h1>
         <div>
-          <table>
+          <table className="project-users">
             <thead>
               <tr>
+                <td>ID</td>
+                <td>Email</td>
+                <td>Password</td>
+                <td>Firstname</td>
+                <td>Lastname</td>
               </tr>
             </thead>
             <tbody>

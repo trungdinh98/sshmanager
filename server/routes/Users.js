@@ -9,6 +9,13 @@ router.use(cors());
 
 process.env.SECRET_KEY = 'secret';
 
+var con = mysql.createConnection({
+  host: "172.10.10.10",
+  user: "root",
+  password: "mypasswd",
+  database: "mydb"
+});
+
 router.post('/register', (req, res) => {
   const today = new Date()
   const userData = {
@@ -69,22 +76,6 @@ router.post('/login', (req, res) => {
 })
 
 router.get('/', (req, res) => {
-  //   Models.user.findAll({
-  //     attributes: { include: [[Sequelize.fn("COUNT", Sequelize.col("project_users.project_id")), "Projects"]] 
-  //   },
-  //   include: [{
-  //       model: Models.project_user, attributes: []
-  //   }],
-  //   group: ['users.user_id']
-  //   }).then(response => {
-  //     res.json({data: response})
-  // })
-  var con = mysql.createConnection({
-    host: "172.10.10.10",
-    user: "root",
-    password: "mypasswd",
-    database: "mydb"
-  });
   const SELECT_ALL_QUERY = `select u.user_id, user_email, user_password, user_firstname, user_lastname, (select count(project_id) from project_users pu where pu.user_id = u.user_id) as countPJ from users u inner join project_users pu on pu.user_id = u.user_id group by u.user_id`
   con.connect(function (err) {
     if (err) return err;
@@ -95,7 +86,7 @@ router.get('/', (req, res) => {
   })
 })
 
-router.post('/update/:user_id',(req, res) => {
+router.post('/update/:user_id', (req, res) => {
   const { user_id } = req.params;
   const { user_email, user_firstname, user_lastname, user_password, user_countPJ } = req.body;
 
@@ -115,8 +106,32 @@ router.post('/update/:user_id',(req, res) => {
     .catch(error => {
       return error;
     })
-    console.log(data)
-  res.json({ success: true, data: data, message: "Updated successful" });
+  res.json({ success: true, data: data });
 })
+
+router.get('/projectUsers/:project_id', (req, res) => {
+  const { project_id } = req.params;
+  const SELECT_QUERY = `select * from users u inner join project_users pu on u.user_id = pu.user_id where pu.project_id = ${project_id}`
+  con.connect(function (err) {
+    if (err) return err;
+    con.query(SELECT_QUERY, function (err, result) {
+      if (err) return err;
+      res.json({ data: result })
+    });
+  })
+})
+router.delete('/delete/:project_id/:user_id', (req, res) => {
+  const { user_id, project_id } = req.params;
+  Models.project_users.destroy({
+    where: { user_id: user_id, project_id: project_id }
+  })
+    .then(response => {
+      res.json({ data: response })
+    })
+    .catch(error => {
+      return error;
+    })
+})
+
 
 module.exports = router;

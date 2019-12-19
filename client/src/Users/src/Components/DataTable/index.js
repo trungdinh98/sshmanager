@@ -96,9 +96,8 @@ export default class DataTable extends React.Component {
             let tds = headers.map((header, index) => {
                 let content = row[header.accessor];
                 let hdr = this[header.accessor];
-                let cell = header.cell;
 
-                //hiển thị form edit
+                //hiển thị form edit, kiểm tra ô khác với user_id cho phép chỉnh sửa
                 if (this.props.edit) {
                     if (header.dataType && (header.dataType === "number" ||
                         header.dataType === "string") &&
@@ -116,9 +115,8 @@ export default class DataTable extends React.Component {
                 }
 
                 return (
-                    <td key={index}
-                        data-id={id}
-                        data-row={rowIdx} > {content}
+                    <td key={index} data-id={id} data-row={rowIdx} >
+                        {content}
                     </td>)
             });
             return (

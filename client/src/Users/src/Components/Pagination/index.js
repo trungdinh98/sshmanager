@@ -13,6 +13,7 @@ export default class Pagination extends Component {
         this.onPageLengthChange = this.onPageLengthChange.bind(this);
     }
 
+    //lấy số dòng tối đa hiển thị cho bảng
     onPageLengthChange = (e) => {
         e.preventDefault();
         this.setState({
@@ -21,16 +22,19 @@ export default class Pagination extends Component {
         this.props.onPageLengthChange(e.target.value);
     }
 
+    //chuyển đến phân trang liền trước
     onPrevPage = (e) => {
         if(this.state.currentPage === 1) return;
         this.onGotoPage(this.state.currentPage - 1);
     }
 
+    //chuyển đến phân trang liền sau
     onNextPage = (e) => {
         if(this.state.currentPage > this.pages - 1) return;
         this.onGotoPage(this.state.currentPage + 1);
     }
 
+    //chuyển phân trang
     onGotoPage = (pageNo) => {
         if(pageNo === this.state.currentPage){
             return;
@@ -44,6 +48,7 @@ export default class Pagination extends Component {
         this.props.onGotoPage(pageNo);
     }
 
+    //tạo số phân trang 1 2 3...
     _getPaginationButton = (text) => {
         let className = 'pagination-btn';
         if(this.state.currentPage == text){
@@ -70,10 +75,12 @@ export default class Pagination extends Component {
         return null;
     }
 
+    //hiển thị
     render() {
-        let totalRecords = this.props.totalRecords;
-        let pages = Math.ceil(totalRecords/this.props.pageLength);
+        let totalRecords = this.props.totalRecords; // tổng số object trong data
+        let pages = Math.ceil(totalRecords/this.props.pageLength); // số lượng phân trang
         this.pages = pages;
+        //selector lựa chọn số lượng hiển thị 5 10 15 object mỗi phân trang
         let pageSelector = (
             <Fragment key ="f-page-selector">
                 <span key="page-selector" className="page-selector">
@@ -86,6 +93,7 @@ export default class Pagination extends Component {
             </Fragment>
         )
 
+        //button chuyển phân trang liền trước
         let prevButton = (
             <span key="prev"
                 className="pagination-btn prev"
@@ -93,6 +101,7 @@ export default class Pagination extends Component {
                     {"<"}
                 </span>
         )
+        //button chuyển phân trang liền sau
         let nextButton = (
             <span key="next"
                 className="pagination-btn next"
@@ -101,6 +110,7 @@ export default class Pagination extends Component {
                 </span>
         )
 
+        //button các phân trang 1 2 3 ...
         let buttons = [];
         for(let i = 1; i <=pages; i++){
             buttons.push(this._getPaginationButton(i));

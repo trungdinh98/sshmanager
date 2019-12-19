@@ -24,5 +24,8 @@
     "sequelize-cli": "^5.5.1",
     "socket.io": "^2.3.0",
     "ssh2": "^0.8.6"
+  },
+  "devDependencies": {
+    "ws": "3.3.2"
   }
 }
