@@ -1,7 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './datatable.css';
-import { Redirect } from 'react-router-dom';
 import Pagination from '../Pagination';
 
 export default class DataTable extends React.Component {
@@ -20,7 +19,7 @@ export default class DataTable extends React.Component {
             pageLength: props.pagination.pageLength || 5,
             currentPage: 1,
         }
-        this.keyField = props.keyField || "id";
+        this.keyField = props.keyField || "user_id";
         this.noData = props.noData || "No records found!";
         this.width = props.width || "100%";
 
@@ -87,18 +86,6 @@ export default class DataTable extends React.Component {
         }
     }
 
-    //xóa user
-    onDelete = (e) => {
-        let rowId = this.state.edit.rowId;
-
-        this.setState({
-            edit: null,
-            delete: null
-        });
-
-        this.props.onDelete(rowId);
-    }
-
     //hiển thị thông tin body của bảng
     renderContent = () => {
         let { headers } = this.state;
@@ -110,17 +97,6 @@ export default class DataTable extends React.Component {
                 let content = row[header.accessor];
                 let hdr = this[header.accessor];
                 let cell = header.cell;
-                if (cell) {
-                    if (typeof (cell) === "object") {
-                        if (cell.type === "image" && content) {
-                            content = < img style={cell.style}
-                                src={content}
-                                alt="avatar" />
-                        } else if (cell.type === "button") { }
-                    } else if (typeof (cell) === "function") {
-                        content = cell(content);
-                    }
-                }
 
                 //hiển thị form edit
                 if (this.props.edit) {
@@ -135,13 +111,6 @@ export default class DataTable extends React.Component {
                                         onKeyUp={this.onFormReset} />
                                 </form>
                             );
-                        }
-                        //xóa thông tin user
-                    } else if (header.dataType && header.dataType === "number" && header.accessor === this.keyField) {
-                        if (edit && edit.row === rowIdx && edit.cell === index) {
-                            if (window.confirm("Delete user has id: " + id)) {
-                                this.onDelete();
-                            }
                         }
                     }
                 }
@@ -263,11 +232,6 @@ export default class DataTable extends React.Component {
         })
     }
 
-    //chuyển sang giao diện thêm người dùng
-    addNewUser = () => {
-        this.setState({ redirect: true })
-    }
-
     //hiển thị bảng
     renderTable = () => {
         let title = this.props.title || "User Table";
@@ -278,7 +242,7 @@ export default class DataTable extends React.Component {
             <table className="data-inner-table" >
                 <caption className="data-table-caption" >
                     {title}
-                    <button onClick={this.addNewUser} style={{ float: 'right' }}> New User </button>
+                    <button onClick={this.onToggleSearch} className="toolbar" style={{ float: 'right' }} >Search</button>
                 </caption >
                 <thead onClick={this.onSort} >
                     <tr >
@@ -308,20 +272,10 @@ export default class DataTable extends React.Component {
         }
     }
 
-    //hiển thị nút tìm kiếm
-    renderToolbar = () => {
-        return (
-            <div className="toolbar" >
-                <button onClick={this.onToggleSearch} >Search </button>
-            </div>
-        );
-    }
-
     //hiển thị ghi chú
     renderNote = () => {
         return (
             <div className="note" >
-                <div > Double Click < strong > ID </strong> to delete</div >
                 <div > Double Click < strong > SOMETHING </strong> to edit</div >
             </div>
         )
@@ -332,9 +286,7 @@ export default class DataTable extends React.Component {
         let startOfRecord = (pageNo - 1) * pageLength;
         let endOfRecord = startOfRecord + pageLength;
         let data = this.state.data;
-        //console.log(data);
         let pagedData = data.slice(startOfRecord, endOfRecord);
-        //console.log(data.slice(0,5));
         return pagedData;
     }
 
@@ -360,32 +312,20 @@ export default class DataTable extends React.Component {
         
         console.log(nextProps.data.length, prevState.data.length)
         if (nextProps.data.length === 0) {
-            console.log("update1")
             return {
                 data: nextProps.data,
                 pagedData: nextProps.data,
             }
-        } /*else if (prevState.delete === true) {
-            return {
-                data: nextProps.data,
-                pagedData: nextProps.data,
-                totalRecords: nextProps.totalRecords,
-                delete: null
-            }
-        }*/
+        } 
 
         return null;
     }
 
     componentDidUpdate(prevProps, prevState) {
         if (prevState.data.length !== 0 && prevState.data === prevState.pagedData) {
-            console.log("update2")
             this.getPagedData(1, 5);
             this.onGotoPage(1);
         }
-        // } else if( prevState.delete === null && prevState.data === prevState.pagedData){
-        //     this.onGotoPage(this.state.currentPage);
-        // }
     }
 
     //hiển thị toàn bộ trang
@@ -403,9 +343,7 @@ export default class DataTable extends React.Component {
                     />
                 }
                 {this.renderTable()}
-                {this.renderToolbar()}
                 {this.renderNote()}
-                {redirect && (<Redirect push to="/users/add" />)}
             </div>
         );
     }

@@ -1,5 +1,5 @@
 module.exports = function(sequelize, Sequelize){
-    return sequelize.define('user', {
+    return sequelize.define('users', {
         user_id: {
             type: Sequelize.INTEGER,
             allowNull: false,
