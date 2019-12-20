@@ -1,16 +1,14 @@
 .form-wrapper {
     width: 400px;
-    display: table-cell;
+    display: block;
     flex-direction: column;
     border-radius: 10px;
     box-shadow: 0px 10px 50px #555;
     background-color: #ffffff;
-    vertical-align: middle;
-    padding-bottom: 170px;
-    padding-right: 600px;
     margin: auto;
-    padding-left: 600px;
-    padding-top: 50px;
+    padding: 50px;
+    padding-top: 80px;
+    padding-bottom: 80px;
 }
 
 div form {
@@ -35,20 +33,24 @@ label {
     font-weight: lighter;
 }
 
-div input {
+div input , div textarea {
     padding: 10px 10px;
     border-radius: 5px;
     outline: none;
     border: 1px solid #cfcfcf;
 }
 
-input::placeholder {
+input::placeholder, textarea::placeholder{
     font-size: 1.2em;
     font-weight: lighter;
     color: #999;
 }
 
-input.error {
+.email_content input{
+    height: 100px;
+}
+
+input.error , textarea.error{
     border: 1px solid red;
 }
 
@@ -58,32 +60,13 @@ input.error {
     display: relative;
 }
 
-.project {
-    margin-right: 1%;
-}
-
-.age {
-    margin-left: 1%;
-}
-
-.username,
-.age,
-.phone,
-.project,
-.password {
+.user_email, .email_content {
     display: flex;
     flex-direction: column;
     margin-bottom: 15px;
 }
 
-.project,
-.age {
-    width: 49%;
-}
-
-.username,
-.password,
-.phone {
+.user_email, .email_content {
     width: 100%;
 }
 

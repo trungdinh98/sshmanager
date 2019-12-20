@@ -125,18 +125,66 @@ router.get('/projectUsers/:project_id', (req, res) => {
     });
   })
 })
-// router.delete('/delete/:project_id/:user_id', (req, res) => {
-//   const { user_id, project_id } = req.params;
-//   Models.project_users.destroy({
-//     where: { user_id: user_id, project_id: project_id }
-//   })
-//     .then(response => {
-//       res.json({ data: response })
-//     })
-//     .catch(error => {
-//       return error;
-//     })
-// })
+
+router.post('/deleteFromPJ', (req, res) => {
+  const { user_id, project_id } = req.body;
+  var con = mysql.createConnection({
+    host: "172.10.10.10",
+    user: "root",
+    password: "mypasswd",
+    database: "mydb"
+  });
+  console.log(user_id, project_id)
+  const DELETE_QUERY = `delete from project_users where project_id = ${project_id} && user_id = ${user_id}`
+  con.connect(function(err){
+    if(err) return err;
+    con.query(DELETE_QUERY, function (err, result){
+      if(err) return err;
+      res.json({success: true, data: result})
+    })
+  })
+})
+
+router.post('/checkuser', (req, res) => {
+  const { user_email } = req.body;
+  Models.user.findOne({
+    where: { user_email: user_email }
+  }).then(user => {
+    if (user === null) {
+      res.json({ success: false })
+    } else {
+      res.json({ success: true, data: user.user_id })
+    }
+  }).catch(error => {
+    return error;
+  })
+})
+
+router.post('/addToPJ', async (req, res) => {
+  const { project_id, user_id } = req.body;
+  var con = mysql.createConnection({
+    host: "172.10.10.10",
+    user: "root",
+    password: "mypasswd",
+    database: "mydb"
+  });
+  const SELECT_QUERY = `select * from project_users pu where pu.project_id = ${project_id} && pu.user_id = ${user_id}`
+  con.connect(function (err) {
+    if (err) return err;
+    con.query(SELECT_QUERY, function (err, result) {
+      if(err) return err;
+      if(result.length === 0){
+        const INSERT_QUERY = `insert into project_users(project_id,user_id,is_admin) values (${project_id}, ${user_id}, 0)`
+        con.query(INSERT_QUERY, function(err, result) {
+          if(err) return err;
+          res.json({success: true, data: result})
+        })
+      } else {
+        res.json({success: false})
+      }
+    });
+  })
+})
 
 
 module.exports = router;

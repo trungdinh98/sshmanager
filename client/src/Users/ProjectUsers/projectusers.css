@@ -1,10 +1,11 @@
 .project-users {
     width: -webkit-fill-available;
     border-collapse: collapse;
+    float: none;
   }
   
   .project-users thead {
-    text-align: left;
+    text-align: center;
   }
   
   .project-users thead:after {
@@ -14,18 +15,14 @@
     text-indent:-99999px;
   }
   
-  .project-users thead tr th {
-    width: 24%;
+  .project-users thead td {
+    font-weight: bold;
     padding: 0px 0px 0px 13px;
     border-left: 1px solid rgba(187, 187, 187, 1);
   }
   
-  .project-users thead tr td label {
-    margin-left: 13px;
-  }
-  
   .project-users tbody {
-    text-align: left;
+    text-align: center;
     border-top: 2px solid rgba(187, 187, 187, 1);
   }
   
@@ -36,3 +33,35 @@
   .project-users tbody tr td {
     padding: 20px 0px 20px 13px;
   }
+
+  .table-content {
+      padding: 15px 100px;
+      width: -webkit-fill-available;
+      float: none;
+  }
+ div .table-content{
+    float: none;
+  }
+
+  #pjusers-header {
+    padding-top: 5%;
+    padding-bottom: 2%;
+  }
+
+  .project-users button {
+    -webkit-appearance: button;
+    background-color: #20c352;
+    color: #fff;
+    border: 1px solid rgba(7, 40, 84, 0.8);
+    /* //width: 50%; */
+    padding: 1px 6px;
+    font-size: 1em;
+    font-weight: lighter;
+    letter-spacing: 1px;
+}
+
+.project-users button:hover {
+    color: #519e8a;
+    background-color: #fff;
+    border: 1px solid #519e8a;
+}

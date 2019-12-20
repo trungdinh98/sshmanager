@@ -112,3 +112,7 @@
   .note div{
     float:none;
   }
+  #inputSearch {
+    padding: 0;
+    width: -webkit-fill-available;
+  }

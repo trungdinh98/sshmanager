@@ -203,10 +203,10 @@ export default class DataTable extends React.Component {
             let inputId = 'inp' + header.accessor;
             return (
                 <td key={idx} >
-                    <input name="inputSearch"
+                    <input id="inputSearch"
                         type="text"
                         ref={(input) => this[inputId] = input}
-                        style={{ width: hdr.widthClient - 10 + "px" }}
+                        style={{ width: hdr.widthClient - 20 + "px" }}
                         data-idx={idx} />
                 </td >
             );
