@@ -10,15 +10,6 @@ if (!fs.existsSync(dir)) {
     fs.mkdirSync(dir);
 }
 
-// dbQuery.getConnectionInfo(1, (err, results) => {
-//     if(err){
-//         console.log(err)
-//     }
-//     else{
-//         console.log(results.resource_key)
-//     }
-// })
-
 io.on("connection", function(socket){
     
 
@@ -63,9 +54,22 @@ io.on("connection", function(socket){
                                 if(err){
                                     return socket.emit("return", '\r\n*** SSH CONNECTION ERROR: ' + err.message + ' ***\r\n');
                                 }
+
+                                // let value = "";
+                                // let timeStamp = new Date().getTime()
                                 
                                 socket.on("data", function(data){
                                     stream.write(data);
+
+                                    // value = value + data
+                                    // console.log(value)
+                                    // userCmdWriter.write(data);
+                                    
+                                    // if(data == "\n" || data=="\r" || data == "\r\n"){
+                                    //     userCmdWriter.write(JSON.stringify({time: timeStamp, value: value}) + ",");
+                                    //     timeStamp = new Date().getTime()
+                                    //     value = ""
+                                    // }
                                 })
                     
                                 socket.on("disconnect", function(){
@@ -82,7 +86,7 @@ io.on("connection", function(socket){
                                 stream.on("close", function(){
                                     conn.end()
                                     socket.disconnect();
-                                    userCmdWriter.write("]")
+                                    userCmdWriter.write("," + JSON.stringify({time: new Date().getTime(), value: "end session".toString('binary')}) + "]")
                                     userCmdWriter.close();
                                 }).on("data", function(data){
                                     socket.emit("return", data.toString('binary'));
@@ -114,13 +118,22 @@ io.on("connection", function(socket){
 
     socket.on("getSshLog", function(project_id, log_name){
         try{
+            console.log(project_id)
+            console.log(log_name)
+
             let fileDir = dir + padWithZeros(project_id) + "/" + log_name + ".txt"
-            fileReader = fs.readFile(dir, (err, data) => {
+            
+            fileReader = fs.readFile(fileDir, (err, data) => {
                 if(err){
                     socket.emit("returnLog", err.toString);
                 }
                 else{
-                    return(data.toJSON())
+                    // values = JSON.parse(data)
+                    // values.forEach(element => {
+                    //     socket.emit("returnLog", element.value)
+                    // });
+                    socket.emit("returnLog", data.toString())
+                    // console.log(data)
                 }
             })
         } catch(err) {
@@ -142,4 +155,8 @@ function padWithZeros(number){
         my_string = '0' + my_string;
     }
     return my_string;
+}
+
+function setSpeed(miliseconds){
+    return miliseconds
 }

@@ -1,7 +1,6 @@
 import React from 'react'
 import api from '../api'
 
-
 class Logging extends React.Component{
     constructor(){
         super();
@@ -53,8 +52,8 @@ class Logging extends React.Component{
 		popupWindow = window.open(url,winName,settings)
 	}
 
-	replayLog(log_name){
-		let url = `http://localhost:3000/logTerm?log_name=${log_name}`;
+	replayLog(project_id, log_name){
+		let url = `http://localhost:3000/logTerm?project_id=${project_id}&log_name=${log_name}`;
 		this.replayPopup(url,'ssh log replay','730','430','yes')
 	}
 
@@ -73,7 +72,8 @@ class Logging extends React.Component{
                     <td></td>
                     <td align="center">{this.padWithZeros(log.log_id)}</td>
                     <td align="left">{log.log_name}</td>
-                    <td align="center"><button onClick={() => {this.replayLog(log.log_name)}}>Replay</button></td>
+                    <td align="left">{new Date(log.log_created_at).toLocaleString()}</td>
+                    <td align="center"><button onClick={() => {this.replayLog(this.state.project_id,log.log_name)}}>Replay</button></td>
                 </tr>
             )
         })
@@ -89,6 +89,7 @@ class Logging extends React.Component{
                                 <th></th>
                                 <th><div>ID</div></th>
                                 <th><div>Name</div></th>
+                                <th><div>Created at</div></th>
                                 <th></th>
                             </tr>
                         </thead>

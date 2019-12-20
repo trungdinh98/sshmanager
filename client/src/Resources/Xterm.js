@@ -7,9 +7,11 @@ import 'xterm/css/xterm.css'
 class Xterm extends React.Component{
 	componentDidMount(){
 		const term = new Terminal({
-			fontSize: 18
+			fontSize: 16
 		})
 		const socket = io.connect("127.0.0.1:9000");
+		// const socket = io.connect("192.168.1.171:9000");
+
 		let url = new URL(window.location.href);
 		let resource_id = url.searchParams.get("resource_id");
 		console.log(resource_id);

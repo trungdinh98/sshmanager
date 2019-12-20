@@ -5,22 +5,58 @@ import 'xterm/css/xterm.css'
 
 
 class LogTerm extends React.Component{
+	constructor(){
+		super();
+		this.state = {
+			delaySpeed: 1,
+			speed: 1
+		}
+	}
+
+
 	componentDidMount(){
 		const term = new Terminal({
 			fontSize: 18
 		})
 		const socket = io.connect("127.0.0.1:9000");
+		// const socket = io.connect("192.168.1.171:9000");
+
 		let url = new URL(window.location.href);
-        let log_id = url.searchParams.get("log_id");
+        let log_name = url.searchParams.get("log_name");
 		let project_id = url.searchParams.get("project_id");
-		console.log(log_id);
-		socket.emit("getSshLog", log_id);
+		socket.emit("getSshLog", project_id, log_name);
 		term.open(this.termElm)
 
 		socket.on('connect', function () {
             // Backend -> Browser
             socket.on('returnLog', function (data) {
-                term.write(data.replace(/\r/g, '\n\r'));
+				// term.write(data.replace(/\r/g, '\n\r'));
+				// term.write(data);
+
+				// console.log(JSON.parse(data))
+				let commands = JSON.parse(data)
+				let firtTimeStamp = commands[0].time;
+				let lastTimeStamp = commands[commands.length - 1].time
+				console.log("first:" + firtTimeStamp)
+				console.log("last: " + lastTimeStamp)
+
+				let tmp = firtTimeStamp;
+
+				commands.forEach(async element => {
+					// console.log(element.time + "----" + tmp)
+					function sleep(ms) {
+						return new Promise(resolve => setTimeout(resolve, ms));
+					}
+					while(tmp < element.time){
+						let time = element.time - tmp
+						console.log(time)
+						await sleep(time)
+						tmp = element.time
+						term.write(element.value.replace(/\r/g, '\n\r'));
+					}
+					
+				});
+
             });
         
             socket.on('disconnect', function () {
@@ -29,10 +65,33 @@ class LogTerm extends React.Component{
         });
 
 	}
-  
+	delaySpeed(thisTime, needTime, speed){
+		// this.setState({delaySpeed: milisec})
+		setTimeout(() => {
+			thisTime ++;
+			if(thisTime >= needTime){
+				return;
+			}
+		}, speed)
+	}
+	setSpeed(value) {
+		this.setState({speed: value});
+	}
 	render(){
 		return(
-		<div id="terminal" style={{margin:"0px",height:"100%",width:"100%",overflowY:"hidden"}}></div>
+		<div>
+			<div id="terminal" style={{margin:"0px",height:"100%",width:"100%",overflowY:"hidden"}}></div>
+			<div>
+				<input 
+					id="typeinp" 
+					type="range" 
+					min="0.5" max="3" 
+					value={this.state.speed} 
+					onChange={(e) => {this.setSpeed(e.target.value)}}
+					step="0.25"/>
+				<p class="value">{ this.state.speed }</p>
+			</div>
+		</div>
 		)
 	}
 }

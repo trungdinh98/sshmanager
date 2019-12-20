@@ -107,7 +107,7 @@ class Resources extends React.Component{
 
 	startConnection(resource_id){
 		// window.open("http://localhost:3000/Xterm", "_blank")
-		let url = `http://localhost:3000/Xterm?resource_id=${resource_id}`;
+		let url = `http://192.168.1.171:3000/Xterm?resource_id=${resource_id}`;
 		this.sshPopup(url,'myWindow','730','430','yes')
 	}
 
@@ -129,7 +129,7 @@ class Resources extends React.Component{
 					<td align="center">{this.padWithZeros(resource.project_id)}</td>
 					<td align="center">{resource.resource_dns}</td>
 					<td align="center">{this.padWithZeros(resource.key_id)}</td>
-					<td align="center">{resource.resource_created_at}</td>
+					<td align="center">{new Date(resource.resource_created_at).toLocaleString()}</td>
 					<td align="center"><button onClick={() => {this.startConnection(resource.resource_id)}}>Connect</button></td>
 				</tr>
 			)
