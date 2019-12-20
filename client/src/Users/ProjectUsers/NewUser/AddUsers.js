@@ -92,7 +92,7 @@ export default class AddUsers extends React.Component {
     }
     backToUsers = () => {
         return (
-            this.props.history.push('/users')
+            this.props.history.push('/projectusers')
         )
     }
     render() {

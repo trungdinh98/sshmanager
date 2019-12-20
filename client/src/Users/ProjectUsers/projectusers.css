@@ -1,0 +1,38 @@
+.project-users {
+    width: -webkit-fill-available;
+    border-collapse: collapse;
+  }
+  
+  .project-users thead {
+    text-align: left;
+  }
+  
+  .project-users thead:after {
+    content:"@";
+    display:block;
+    line-height:17px;
+    text-indent:-99999px;
+  }
+  
+  .project-users thead tr th {
+    width: 24%;
+    padding: 0px 0px 0px 13px;
+    border-left: 1px solid rgba(187, 187, 187, 1);
+  }
+  
+  .project-users thead tr td label {
+    margin-left: 13px;
+  }
+  
+  .project-users tbody {
+    text-align: left;
+    border-top: 2px solid rgba(187, 187, 187, 1);
+  }
+  
+  .project-users tbody tr {
+    border-bottom: 1px solid rgba(187, 187, 187, 1);
+  }
+  
+  .project-users tbody tr td {
+    padding: 20px 0px 20px 13px;
+  }

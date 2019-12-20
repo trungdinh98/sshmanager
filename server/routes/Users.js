@@ -9,13 +9,6 @@ router.use(cors());
 
 process.env.SECRET_KEY = 'secret';
 
-var con = mysql.createConnection({
-  host: "172.10.10.10",
-  user: "root",
-  password: "mypasswd",
-  database: "mydb"
-});
-
 router.post('/register', (req, res) => {
   const today = new Date()
   const userData = {
@@ -76,6 +69,12 @@ router.post('/login', (req, res) => {
 })
 
 router.get('/', (req, res) => {
+  var con = mysql.createConnection({
+    host: "172.10.10.10",
+    user: "root",
+    password: "mypasswd",
+    database: "mydb"
+  });
   const SELECT_ALL_QUERY = `select u.user_id, user_email, user_password, user_firstname, user_lastname, (select count(project_id) from project_users pu where pu.user_id = u.user_id) as countPJ from users u inner join project_users pu on pu.user_id = u.user_id group by u.user_id`
   con.connect(function (err) {
     if (err) return err;
@@ -110,6 +109,12 @@ router.post('/update/:user_id', (req, res) => {
 })
 
 router.get('/projectUsers/:project_id', (req, res) => {
+  var con = mysql.createConnection({
+    host: "172.10.10.10",
+    user: "root",
+    password: "mypasswd",
+    database: "mydb"
+  });
   const { project_id } = req.params;
   const SELECT_QUERY = `select * from users u inner join project_users pu on u.user_id = pu.user_id where pu.project_id = ${project_id}`
   con.connect(function (err) {
@@ -120,18 +125,18 @@ router.get('/projectUsers/:project_id', (req, res) => {
     });
   })
 })
-router.delete('/delete/:project_id/:user_id', (req, res) => {
-  const { user_id, project_id } = req.params;
-  Models.project_users.destroy({
-    where: { user_id: user_id, project_id: project_id }
-  })
-    .then(response => {
-      res.json({ data: response })
-    })
-    .catch(error => {
-      return error;
-    })
-})
+// router.delete('/delete/:project_id/:user_id', (req, res) => {
+//   const { user_id, project_id } = req.params;
+//   Models.project_users.destroy({
+//     where: { user_id: user_id, project_id: project_id }
+//   })
+//     .then(response => {
+//       res.json({ data: response })
+//     })
+//     .catch(error => {
+//       return error;
+//     })
+// })
 
 
 module.exports = router;

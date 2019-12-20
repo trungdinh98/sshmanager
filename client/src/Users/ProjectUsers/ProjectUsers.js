@@ -1,50 +1,44 @@
 import React from 'react';
 import Axios from 'axios';
+import {Redirect} from 'react-router-dom';
+import './projectusers.css';
 
 class ProjectUsers extends React.Component {
 
   constructor(props) {
 
     super(props);
-    let users = {
-      user_id: "",
-      user_email: "",
-      user_password: "",
-      user_firstname: "",
-      user_lastname: ""
-    };
-    
     this.state = {
+      users: [],
+      user: {
+        user_id: "",
+        user_email: "",
+        user_password: "",
+        user_firstname: "",
+        user_lastname: ""
+      },
       project_id: 1001,
-      users: []
-    }
-    Axios.get(`http://localhost:4000/Users/projectUsers/${this.stateproject_id}`, this.state.project_id)
-      .then(response => {
-        users = response.data.data;
-        this.setState(users)
-      })
-      .catch((err) => {
-        return err;
-      })
-      
+    };
   }
 
   getUsers = (project_id) => {
-    let users = [];
+    console.log("hello1")
     Axios.get(`http://localhost:4000/Users/projectUsers/${project_id}`, project_id)
       .then(response => {
-        users = response.data.data;
+        console.log("he")
+        this.setState({ users: response.data.data})
       })
       .catch((err) => {
         return err;
       })
-      this.setState({users: users})
   }
-  componentDidUpdate(){
+  componentDidMount() {
     let project_id = this.state.project_id;
+    console.log(project_id);
+    console.log(this.state.users)
     this.getUsers(project_id);
   }
-
+  ;
   // async inviteUser(user_id) {
   //   await Axios.post('/inviteUser', user_id)
   //     .then(response => {
@@ -58,16 +52,20 @@ class ProjectUsers extends React.Component {
   async removeUser(user_id) {
     let users = this.state.users.slice();
     let project_id = this.state.project_id;
-    users.splice(user_id-1, 1);
-    await Axios.delete(`http://localhost:4000/Users/delete/${project_id}/${user_id}`, {project_id, user_id})
-    .then(response => {
-      if(response.data.success){
-        this.getUsers(project_id);
-      }
-    })
-    .catch(error => {
-      return error;
-    })
+    users.splice(user_id - 1, 1);
+    // await Axios.delete(`http://localhost:4000/Users/delete/${project_id}/${user_id}`, { project_id, user_id })
+    //   .then(response => {
+    //     if (response.data.success) {
+    //       this.getUsers(project_id);
+    //     }
+    //   })
+    //   .catch(error => {
+    //     return error;
+    //   })
+  }
+
+  inviteUser = () => {
+    this.setState({redirect: true});
   }
 
   renderTableData() {
@@ -86,6 +84,7 @@ class ProjectUsers extends React.Component {
   }
 
   render() {
+    const {redirect} = this.state;
     return (
       <div>
         <h1>Project Users</h1>
@@ -98,6 +97,7 @@ class ProjectUsers extends React.Component {
                 <td>Password</td>
                 <td>Firstname</td>
                 <td>Lastname</td>
+                <td><button onClick={this.inviteUser}>Add</button></td>
               </tr>
             </thead>
             <tbody>
@@ -105,6 +105,7 @@ class ProjectUsers extends React.Component {
             </tbody>
           </table>
         </div>
+        {redirect && (<Redirect push to = '/projectUsers/add'/>)}
       </div>
     )
   }
