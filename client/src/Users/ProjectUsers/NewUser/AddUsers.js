@@ -2,6 +2,7 @@ import React from 'react';
 import './AddUsers.css'
 import Axios from 'axios';
 
+//định dạng email
 const emailRegex = RegExp(
     /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
 );
@@ -21,10 +22,8 @@ export default class AddUsers extends React.Component {
             project_id: this.props.location.state.project_id,
         }
     }
-    handleSubmit = (e) => {
-        e.preventDefault();
-    };
 
+    //lấy thông tin từ input và check trạng thái input
     handleChange = e => {
         e.preventDefault();
 
@@ -45,6 +44,7 @@ export default class AddUsers extends React.Component {
         this.setState({ formErrors, [name]: value, handle: true });
     };
 
+    //thêm 1 nhân viên vào project
     addUser = (e) => {
         e.preventDefault();
 
@@ -54,12 +54,12 @@ export default class AddUsers extends React.Component {
         if (handle === true) {
             if (formErrors.user_email === "") {
                 const { user_email } = this.state;
-                console.log(user_email)
+                //kiểm tra nhân viên có tồn tại không
                 Axios.post(`http://localhost:4000/users/checkuser`, {user_email})
                     .then(response => {
-                        console.log('hello2')
                         if (response.data.success) {
                             let user_id = response.data.data;
+                            //thêm nhân viên vào project
                             Axios.post(`http://localhost:4000/users/addToPJ/`, { project_id, user_id })
                                 .then(response => {
                                     if (response.data.success) {
@@ -83,19 +83,21 @@ export default class AddUsers extends React.Component {
         }
     }
 
+    //quay lại trang nhân viên trong project, hủy thêm nhân viên mới
     backToUsers = () => {
         return (
             this.props.history.push('/projectusers')
         )
     }
 
+    //hiển thị form thêm nhân viên
     render() {
         const { formErrors } = this.state;
         return (
             <div className="form-wrapper" style={{ float: "none" }}>
                 <button onClick={this.backToUsers}>Back</button>
                 <h1>New User</h1>
-                <form onSubmit={this.handleSubmit} noValidate>
+                <form noValidate>
                     <div className="user_email">
                         <label htmlFor="user_email">Email</label>
                         <input

@@ -6,7 +6,6 @@ import './projectusers.css';
 class ProjectUsers extends React.Component {
 
   constructor(props) {
-
     super(props);
     this.state = {
       users: [],
@@ -21,6 +20,7 @@ class ProjectUsers extends React.Component {
     };
   }
 
+  //lấy thông tin nhân viên có trong project
   getUsers = (project_id) => {
     console.log("hello1")
     Axios.get(`http://localhost:4000/Users/projectUsers/${project_id}`, project_id)
@@ -31,11 +31,13 @@ class ProjectUsers extends React.Component {
         return err;
       })
   }
+
   componentDidMount() {
     let project_id = this.state.project_id;
     this.getUsers(project_id);
   };
 
+  //xóa nhân viên khỏi project
   removeUser(user_id) {
     let project_id = this.state.project_id;
     if (window.confirm(`Delete user id ${user_id} from this project?`)) {
@@ -51,10 +53,12 @@ class ProjectUsers extends React.Component {
     }
   }
 
+  //thêm nhân viên mới vào project
   inviteUser = () => {
     this.setState({ redirect: true });
   }
 
+  //hiển thị body của bảng nhân viên
   renderTableData() {
     return this.state.users.map((user) => {
       return (
@@ -70,6 +74,7 @@ class ProjectUsers extends React.Component {
     })
   }
 
+  //hiển thị bảng nhân viên trong project
   render() {
     const { redirect } = this.state;
     return (

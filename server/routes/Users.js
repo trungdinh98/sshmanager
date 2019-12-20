@@ -68,6 +68,7 @@ router.post('/login', (req, res) => {
     })
 })
 
+//hiển thị toàn bộ nhân viên công ty
 router.get('/', (req, res) => {
   var con = mysql.createConnection({
     host: "172.10.10.10",
@@ -85,6 +86,7 @@ router.get('/', (req, res) => {
   })
 })
 
+//cập nhật thông tin sửa đổi của 1 nhân viên
 router.post('/update/:user_id', (req, res) => {
   const { user_id } = req.params;
   const { user_email, user_firstname, user_lastname, user_password, user_countPJ } = req.body;
@@ -108,6 +110,7 @@ router.post('/update/:user_id', (req, res) => {
   res.json({ success: true, data: data });
 })
 
+//hiên thị nhân viên có trong 1 project
 router.get('/projectUsers/:project_id', (req, res) => {
   var con = mysql.createConnection({
     host: "172.10.10.10",
@@ -126,6 +129,7 @@ router.get('/projectUsers/:project_id', (req, res) => {
   })
 })
 
+//xóa nhân viên khỏi 1 project
 router.post('/deleteFromPJ', (req, res) => {
   const { user_id, project_id } = req.body;
   var con = mysql.createConnection({
@@ -145,6 +149,7 @@ router.post('/deleteFromPJ', (req, res) => {
   })
 })
 
+//kiểm tra email nhập vào có là nhân viên không
 router.post('/checkuser', (req, res) => {
   const { user_email } = req.body;
   Models.user.findOne({
@@ -160,6 +165,7 @@ router.post('/checkuser', (req, res) => {
   })
 })
 
+//thêm 1 nhân viên mới vào project
 router.post('/addToPJ', async (req, res) => {
   const { project_id, user_id } = req.body;
   var con = mysql.createConnection({
@@ -185,6 +191,5 @@ router.post('/addToPJ', async (req, res) => {
     });
   })
 })
-
 
 module.exports = router;
