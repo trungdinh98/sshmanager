@@ -16,8 +16,9 @@ class ProjectUsers extends React.Component {
         user_firstname: "",
         user_lastname: ""
       },
-      project_id: 1001,
+      project_id: this.props.location.state.project_id,
     };
+    console.log(this.state.project_id)
   }
 
   //lấy thông tin nhân viên có trong project
@@ -73,12 +74,18 @@ class ProjectUsers extends React.Component {
       )
     })
   }
+  onBackProject = () =>{
+    return (
+      this.props.history.push('/projects')
+  )
+  }
 
   //hiển thị bảng nhân viên trong project
   render() {
     const { redirect } = this.state;
     return (
       <div className="table-content">
+        <button onClick={this.onBackProject}>Back</button>
         <h1 id="pjusers-header">Project Users</h1>
         <table className="project-users">
           <thead>

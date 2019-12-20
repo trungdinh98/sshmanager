@@ -44,7 +44,7 @@
   }
 
   #pjusers-header {
-    padding-top: 5%;
+    padding-top: 1%;
     padding-bottom: 2%;
   }
 
@@ -58,6 +58,9 @@
     font-size: 1em;
     font-weight: lighter;
     letter-spacing: 1px;
+}
+.table-content button {
+  margin-top: 1%;
 }
 
 .project-users button:hover {
