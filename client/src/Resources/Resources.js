@@ -97,17 +97,18 @@ class Resources extends React.Component{
 	}
 
 	sshPopup(url,winName,w,h,scroll) {
-		let popupWindow = null;
+		// let popupWindow = null;
  		let LeftPosition = (window.screen.width) ? (window.screen.width-w)/2 : 0;
 		let TopPosition = (window.screen.height) ? (window.screen.height-h)/2 : 0;
 		let settings =
 		'height='+h+',width='+w+',top='+TopPosition+',left='+LeftPosition+',scrollbars='+scroll+',resizable'
-		popupWindow = window.open(url,winName,settings)
+		// popupWindow = 
+		window.open(url,winName,settings)
 	}
 
 	startConnection(resource_id){
 		// window.open("http://localhost:3000/Xterm", "_blank")
-		let url = `http://192.168.1.171:3000/Xterm?resource_id=${resource_id}`;
+		let url = `http://localhost:3000/Xterm?resource_id=${resource_id}`;
 		this.sshPopup(url,'myWindow','730','430','yes')
 	}
 
