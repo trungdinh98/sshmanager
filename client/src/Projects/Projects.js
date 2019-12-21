@@ -1,5 +1,6 @@
 import React from "react";
 import api from "../api";
+import { Redirect } from "react-router";
 
 
 class Projects extends React.Component{
@@ -72,6 +73,11 @@ class Projects extends React.Component{
 		return my_string;
 	}
 
+    redirectToUser = (project_id) => {
+        console.log(project_id);
+        this.setState({redirect : true, project_id: project_id})
+    }
+
     renderTableData(){
         return this.state.projects.map((project, index) => {
             return (
@@ -80,6 +86,7 @@ class Projects extends React.Component{
                     <td align="left">{project.project_name}</td>
                     <td align="center">{new Date(project.project_created_at).toLocaleString()}</td>
                     <td align="center"><button onClick={() => {this.removeProject(project.project_id)}}>Delete</button></td>
+                    <td align="center"><button onClick={() => this.redirectToUser(project.project_id)}>Show</button></td>
                 </tr>
             )
         })
@@ -93,6 +100,8 @@ class Projects extends React.Component{
 
 
     render(){
+        const {redirect, project_id} = this.state;
+        console.log(project_id)
         return (
             <div>
                 <h3>Projects</h3>
@@ -117,6 +126,9 @@ class Projects extends React.Component{
                 <div>
                     <button onClick = {this.apiDeleteTest}>Delete test</button>
                 </div>
+                {redirect && (<Redirect to={{
+                    pathname: '/projectusers/',
+                    state: {project_id}}}/>)}
             </div>
         )  
     }

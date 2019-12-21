@@ -1,0 +1,119 @@
+.toolbar {
+    float:none;
+    display: inline-block;
+    font-size: 0.7em;
+  }
+
+  .page-selector {
+    padding: 5px;
+    size: 1.75em;
+    float: none;
+  }
+  
+  .toolbar button {
+    float:none;
+    margin-top:10px;
+    margin-bottom: 10px;
+    background-color: #20c352;
+    color: #212121;
+    border: 2px solid #000000;
+    letter-spacing: 1px;
+    font-weight: bold;
+    padding: 5px;
+  }
+  
+  .data-table {
+    padding:10px;
+    box-shadow: 2px 2px 2px 1px rgb(90, 88, 88);
+  }
+  
+  .data-inner-table {
+    width:100%;
+    border-collapse: collapse;
+  }
+  
+  .data-table th {
+    background-color:whitesmoke;
+    padding: 7px;
+    position: relative;
+    border: 1px solid #e5e5e5;
+    text-align: center;
+    font-weight: normal;
+    line-height: 2em;
+  }
+  
+  .data-table td {
+    width: 1%;
+    border: 1px solid #eee;
+    color: #212121;
+    vertical-align: middle;
+    padding: 4px 7px;
+  }
+
+  .data-table td form {
+    width: fit-content;
+  }
+  .data-table td form input {
+    width: 100% ;
+  }
+  
+  .col-resizer {
+    position: absolute;
+    width: 20px;
+    height:30px;
+    cursor: col-resize;
+    z-index: 10;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    user-select: none;
+  }
+  
+  .data-table-caption {
+    padding: 5px 5px 5px 5px;
+    text-align: left;
+    font-weight: bold;
+    font-size: 1.5em;
+    caption-side: top;
+  }
+
+  .data-table-caption div{
+    float: none;
+  }
+
+  .data-table-caption button {
+    background-color: #20c352;
+    color: #212121;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    padding-left: 5px;
+    padding-right: 5px;
+    border: 2px solid #000000;
+    width: auto;
+    font-size: 0.5em;
+    letter-spacing: 1px;
+    font-weight: bold;
+  }
+
+  .data-inner-table button:hover {
+    color: #519e8a;
+    background-color: #fff;
+    border: 2px solid #519e8a;
+  }
+
+  .toolbar button:hover {
+    color: #519e8a;
+    background-color: #fff;
+    border: 2px solid #519e8a;
+  }
+
+  .note{
+    float: none;
+  }
+  .note div{
+    float:none;
+  }
+  #inputSearch {
+    padding: 0;
+    width: -webkit-fill-available;
+  }

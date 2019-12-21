@@ -1,0 +1,40 @@
+
+.pagination {
+    display: inline-block;
+    font-size: 1em;
+    color: gray;
+    float: none;
+  }
+  .pagination-btn-current-page {
+    font-weight: bold;
+    color: red;
+    font-weight: bolder;
+    font-size: 1.75em;
+    padding: 0px 5px 0px 5px;
+  }
+    
+  .pagination-btn {
+    border: 0;
+    line-height: 1.7em;
+    font-weight: bolder;
+    font-size: 1.5em;
+    padding: 0px 5px 0px 5px;
+  }
+
+  .pagination-btn:hover{
+    color: red;
+  }
+
+  .pagination-btn.next, .pagination-btn.prev {
+    color: black;
+    font-weight: bolder;
+    font-size: 1.75em;
+  }
+  .pagination-btn.next:hover, .pagination-btn.prev:hover {
+    color: red;
+  }
+  
+  .page-selector select{
+    padding: 5px;
+    size: 1.75em;
+  }

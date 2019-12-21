@@ -113,41 +113,41 @@
 }
 
 /*                  TABLE                  */
-table {
+.key-table {
   width: -webkit-fill-available;
   border-collapse: collapse;
 }
 
-thead {
+.key-table thead {
   text-align: left;
 }
 
-thead:after {
+.key-table thead:after {
   content:"@";
   display:block;
   line-height:17px;
   text-indent:-99999px;
 }
 
-thead tr th {
+.key-table thead tr th {
   width: 24%;
   padding: 0px 0px 0px 13px;
   border-left: 1px solid rgba(187, 187, 187, 1);
 }
 
-thead tr td label {
+.key-table thead tr td label {
   margin-left: 13px;
 }
 
-tbody {
+.key-table tbody {
   text-align: left;
   border-top: 2px solid rgba(187, 187, 187, 1);
 }
 
-tbody tr {
+.key-table tbody tr {
   border-bottom: 1px solid rgba(187, 187, 187, 1);
 }
 
-tbody tr td {
+.key-table tbody tr td {
   padding: 20px 0px 20px 13px;
 }
