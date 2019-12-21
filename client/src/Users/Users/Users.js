@@ -39,7 +39,7 @@ class Users extends React.Component {
     onUpdateTable = (field, id, value) => {
         let data = this.state.data.slice();
         let updateRow = this.state.data.find((d) => {
-            return d["user_id"] == id;
+            return d["user_id"] === id;
         });
         updateRow[field] = value;
 

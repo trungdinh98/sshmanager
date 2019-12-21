@@ -51,7 +51,7 @@ export default class Pagination extends Component {
     //tạo số phân trang 1 2 3...
     _getPaginationButton = (text) => {
         let className = 'pagination-btn';
-        if(this.state.currentPage == text){
+        if(this.state.currentPage === text){
             className += '-current-page';
         }
 
@@ -67,7 +67,7 @@ export default class Pagination extends Component {
     }
 
     static getDerivedStateFromProps(nextProps, prevState) {
-        if (nextProps.currentPage != prevState.currentPage) {
+        if (nextProps.currentPage !== prevState.currentPage) {
             return {
                currentPage: nextProps.currentPage 
             }
