@@ -27,6 +27,6 @@
     "ssh2": "^0.8.6"
   },
   "devDependencies": {
-    "ws": "3.3.2"
+    "eslint": ">=4.18.2"
   }
 }

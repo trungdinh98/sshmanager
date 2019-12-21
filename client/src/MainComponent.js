@@ -5,7 +5,7 @@ import Projects from './Projects/Projects.js';
 import Resources from './Resources/Resources.js';
 import Login from './LoginRegister/Login.js';
 import Register from './LoginRegister/Register.js';
-//import Profile from './Users/Profile.js';
+import Profile from './Users/Profile.js';
 import Xterm from './Resources/Xterm';
 import ProjectUsers from './Users/ProjectUsers/ProjectUsers.js';
 import AddUsers from './Users/ProjectUsers/NewUser/AddUsers.js';
@@ -26,7 +26,7 @@ class MainComponent extends React.Component {
                 <Route path='/keys' component={Keys}/>
                 <Route path='/login' component={Login}/>
                 <Route path='/register' component={Register}/>
-                {/* <Route path='/profile' component={Profile}/> */}
+                <Route path='/profile' component={Profile}/>
                 <Route path='/xterm' component={Xterm}/>
                 <Route path='/logging' component={Logging}/>
                 <Route path='/logTerm' component={LogTerm}/>
