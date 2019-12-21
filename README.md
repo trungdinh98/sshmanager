@@ -4,8 +4,7 @@
 
 **Author: Dao Ngoc Lam**
 
-**Note:**
-Trong trường hợp muốn sử dụng container để deploy web frontend và web backend, vui lòng bỏ comment các component web-frontend và web-backend và thêm vào ssh-node dựa trên web-frontend và web-backend
+**Note:** Trong trường hợp muốn sử dụng container để deploy web frontend và web backend, vui lòng bỏ comment các component web-frontend và web-backend và thêm vào thành phần ssh-node dựa trên web-frontend và web-backend
 
 
 ## bước 1: khởi động database container 
@@ -27,9 +26,9 @@ docker-compose start
 
 ## bước 2: tạo database
 
-**Note**:
-Chỉ cần làm bước này lần đầu tiên, hoặc trong trường hợp database đã bị xóa <br/>
-Trong trường hợp chưa cài đặt mysql trong máy, có thể sử dụng admnider đã được cài sẵn trong container tại địa chỉ: 172.10.10.11:8080 hoặc localhost/8080 (đã được mount với port của local) <br/>
+**Note**<br/>:
+1. Chỉ cần làm bước này lần đầu tiên, hoặc trong trường hợp database đã bị xóa <br/>
+2. Trong trường hợp chưa cài đặt mysql trong máy, có thể sử dụng admnider đã được cài sẵn trong container tại địa chỉ: 172.10.10.11:8080 hoặc localhost/8080 (đã được mount với port của local) <br/>
 
 truy cập vào database với các thông số sau:
 > server: 172.10.10.10 <br/>
@@ -40,19 +39,35 @@ tạo database có tên:
 
 > db: mydb <br/>
 
-## step 3: khởi động
+## bước 3: cấu hình file .env
+cấu hình theo các thôg số sau: 
+
+DB_HOST = ""
+DB_USER = ""
+DB_PASSWD = ""
+DB_NAME = ""
+
+AWS_ACCESS_KEY_ID = ""
+AWS_SECRET_ACCESS_KEY = ""
+AWS_REGION = ""
+
+DYNAMO_TABLE = ""
+
+**Note:** với các thông số về kết nối MySQL có thể lấy từ bước thứ 2)
+
+## bước 4: khởi động
 Chạy các câu lệnh sau **tại thư mục sshmanager**: <br/>
-***Khởi động web server***
+*Khởi động web server*
 ```
 cd server
 node index.js
 ```
-***Khởi động ssh node***
+*Khởi động ssh node*
 ```
 cd ssh-node
 node SshClient.js
 ```
-***Khởi động web frontend***
+*Khởi động web frontend*
 ```
 cd client
 npm start
