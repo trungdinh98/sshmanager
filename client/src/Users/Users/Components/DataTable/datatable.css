@@ -70,10 +70,11 @@
   }
   
   .data-table-caption {
-    padding: 15px 5px 5px 15px;
+    padding: 5px 5px 5px 5px;
     text-align: left;
     font-weight: bold;
     font-size: 1.5em;
+    caption-side: top;
   }
 
   .data-table-caption div{

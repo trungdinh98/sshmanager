@@ -1,6 +1,7 @@
 import React from 'react';
 import './AddUsers.css'
 import Axios from 'axios';
+import { Redirect } from 'react-router';
 
 //định dạng email
 const emailRegex = RegExp(
@@ -85,14 +86,12 @@ export default class AddUsers extends React.Component {
 
     //quay lại trang nhân viên trong project, hủy thêm nhân viên mới
     backToUsers = () => {
-        return (
-            this.props.history.push('/projectusers')
-        )
+        this.setState({ redirect: true });
     }
 
     //hiển thị form thêm nhân viên
     render() {
-        const { formErrors } = this.state;
+        const { formErrors, redirect } = this.state;
         return (
             <div className="form-wrapper" style={{ float: "none" }}>
                 <button onClick={this.backToUsers}>Back</button>
@@ -124,6 +123,8 @@ export default class AddUsers extends React.Component {
                         <button type="submit" onClick={this.addUser}>Invite User</button>
                     </div>
                 </form>
+                {redirect && (<Redirect to=
+          {{ pathname: '/projectUsers', state: { project_id: this.state.project_id } }} />)}
             </div>
         )
     }
