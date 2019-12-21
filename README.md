@@ -41,7 +41,7 @@ tạo database có tên:
 
 ## bước 3: cấu hình file .env
 cấu hình theo các thôg số sau: 
-
+```
 DB_HOST = ""
 DB_USER = ""
 DB_PASSWD = ""
@@ -52,6 +52,7 @@ AWS_SECRET_ACCESS_KEY = ""
 AWS_REGION = ""
 
 DYNAMO_TABLE = ""
+```
 
 **Note:** với các thông số về kết nối MySQL có thể lấy từ bước thứ 2)
 
@@ -77,10 +78,10 @@ npm start
 1. Các file hoặc folder quan trọng chạy trong docker đã được mount với file/folder quan trọng trên local. Vì vậy, không cần lo lắng việc sau dữ liệu bị mất sau khi tắt container <br/>
 2. địa chỉ IP của container đã được cài đặt cố định, vì vậy không cần thay đổi cài đặt trong file .env khi khởi động lại container <br/>
 3. Để tiết kiệm tài nguyên máy, có thể tắt container sau khi sử dụng bằng command <br/>
-```
-docker-compose down -d
-```
-hoặc chỉ để tắt tạm thời (container sẽ khởi động lại sau khi restart máy) <br/>
-```
-docker-compose down
-```
+    ```
+    docker-compose down -d
+    ```
+    hoặc chỉ để tắt tạm thời (container sẽ khởi động lại sau khi restart máy) <br/>
+    ```
+    docker-compose down
+    ```
