@@ -7,7 +7,7 @@
 **Note:** Trong trường hợp muốn sử dụng container để deploy web frontend và web backend, vui lòng bỏ comment các component web-frontend và web-backend và thêm vào thành phần ssh-node dựa trên web-frontend và web-backend
 
 
-## bước 1: khởi động database container 
+## Bước 1: Khởi động database container 
 Tại thư mục chứa file docker-compose, chạy command:
 
 ```
@@ -24,13 +24,13 @@ hoặc <br/>
 docker-compose start
 ```
 
-## bước 2: tạo database
+## Bước 2: Tạo database
 
-**Note**<br/>
+**Note:**<br/>
 1. Chỉ cần làm bước này lần đầu tiên, hoặc trong trường hợp database đã bị xóa <br/>
 2. Trong trường hợp chưa cài đặt mysql trong máy, có thể sử dụng admnider đã được cài sẵn trong container tại địa chỉ: 172.10.10.11:8080 hoặc localhost/8080 (đã được mount với port của local) <br/>
 
-truy cập vào database với các thông số sau:
+Truy cập vào database với các thông số sau:
 > server: 172.10.10.10 <br/>
 > username: root <br/>
 > password: mypasswd <br/>
@@ -39,8 +39,8 @@ tạo database có tên:
 
 > db: mydb <br/>
 
-## bước 3: cấu hình file .env
-cấu hình theo các thôg số sau: 
+## Bước 3: Cấu hình file .env
+Cấu hình theo các thôg số sau: 
 ```
 DB_HOST = ""
 DB_USER = ""
@@ -56,7 +56,7 @@ DYNAMO_TABLE = ""
 
 **Note:** với các thông số về kết nối MySQL có thể lấy từ bước thứ 2
 
-## bước 4: khởi động
+## Bước 4: Khởi động
 Chạy các câu lệnh sau **tại thư mục sshmanager**: <br/>
 *Khởi động web server*
 ```
