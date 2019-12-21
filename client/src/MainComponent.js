@@ -8,6 +8,8 @@ import Login from './LoginRegister/Login.js';
 import Register from './LoginRegister/Register.js';
 import Profile from './Users/Profile.js';
 import Xterm from './Resources/Xterm';
+import Logging from './Logging/Logging'
+import LogTerm from './Logging/LogTerm'
 
 class MainComponent extends React.Component {
     render () {
@@ -22,6 +24,8 @@ class MainComponent extends React.Component {
                 <Route path='/register' component={Register}/>
                 <Route path='/profile' component={Profile}/>
                 <Route path='/xterm' component={Xterm}/>
+                <Route path='/logging' component={Logging}/>
+                <Route path='/logTerm' component={LogTerm}/>    
             </Switch>
         )
     }

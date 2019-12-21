@@ -22,9 +22,9 @@ router.post('/', (req, res, nex) => {
         key_name: req.body.key_name
     }).then(function (key) {
         if (key) {
-            response.send(key);
+            res.send(key);
         } else {
-            response.status(400).send('Error in insert new record');
+            res.status(400).send('Error in insert new record');
         }
     });
 });

@@ -21,6 +21,9 @@ app.use('/resources', Resources);
 var Projects = require('./routes/Projects');
 app.use('/projects', Projects);
 
+var SshLog = require('./routes/SshLog');
+app.use('/logs', SshLog)
+
 app.get('/', (req, res) => {
     res.send('Hello server!')
 });

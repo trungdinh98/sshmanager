@@ -38,7 +38,7 @@ class Projects extends React.Component{
         })
         .then((response) => {
             console.log(response);
-            this.getProjects(user_id);
+            this.getProjects(1001);
         })
         .catch((err) => {
             console.log(err);
@@ -76,10 +76,9 @@ class Projects extends React.Component{
         return this.state.projects.map((project, index) => {
             return (
                 <tr key={project.project_id}>
-                    <td></td>
                     <td align="center">{this.padWithZeros(project.project_id)}</td>
                     <td align="left">{project.project_name}</td>
-                    <td align="center">{project.project_created_at}</td>
+                    <td align="center">{new Date(project.project_created_at).toLocaleString()}</td>
                     <td align="center"><button onClick={() => {this.removeProject(project.project_id)}}>Delete</button></td>
                 </tr>
             )
@@ -101,7 +100,6 @@ class Projects extends React.Component{
                     <table>
                         <thead>
                             <tr>
-                                <th></th>
                                 <th><div>ID</div></th>
                                 <th><div>Project</div></th>
                                 <th><div>Created At</div></th>

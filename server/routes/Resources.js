@@ -25,9 +25,9 @@ router.post('/', (req, res, nex) => {
         resource_user: req.body.resource_user
     }).then(function (resource) {
         if (resource) {
-            response.send(resource);
+            res.send(resource);
         } else {
-            response.status(400).send('Error in insert new record');
+            res.status(400).send('Error in insert new record');
         }
     });
 });

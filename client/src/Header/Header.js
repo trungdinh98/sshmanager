@@ -60,6 +60,7 @@ class Header extends React.Component {
                     <Link to="/resources">Resources</Link>
                     <Link to="/projects">Projects</Link>
                     <Link to="/keys">Keys</Link>
+                    <Link to="/Logging">Logging</Link>
                 </div>
 
                 <div id="main" className="navBar">

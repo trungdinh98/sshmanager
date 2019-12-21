@@ -64,7 +64,7 @@ class Resources extends React.Component{
 			})
 			.then((response) => {
 				console.log(response)
-				this.getResources(project_id)
+				this.getResources(1001)
 			})
 			.catch((err) => {
 				console.log(err);
@@ -97,12 +97,13 @@ class Resources extends React.Component{
 	}
 
 	sshPopup(url,winName,w,h,scroll) {
-		let popupWindow = null;
+		// let popupWindow = null;
  		let LeftPosition = (window.screen.width) ? (window.screen.width-w)/2 : 0;
 		let TopPosition = (window.screen.height) ? (window.screen.height-h)/2 : 0;
 		let settings =
 		'height='+h+',width='+w+',top='+TopPosition+',left='+LeftPosition+',scrollbars='+scroll+',resizable'
-		popupWindow = window.open(url,winName,settings)
+		// popupWindow = 
+		window.open(url,winName,settings)
 	}
 
 	startConnection(resource_id){
@@ -123,13 +124,16 @@ class Resources extends React.Component{
 		return this.state.resources.map((resource, index) => {
 			return (
 				<tr key={resource.resource_id}>
-					<td></td>
+					<td><label className="check-box">
+                        <input type="checkbox"/>
+                        <span className="checkmark"></span>
+                    </label></td>
 					<td align="center">{this.padWithZeros(resource.resource_id)}</td>
 					<td align="left">{resource.resource_name}</td>
 					<td align="center">{this.padWithZeros(resource.project_id)}</td>
 					<td align="center">{resource.resource_dns}</td>
 					<td align="center">{this.padWithZeros(resource.key_id)}</td>
-					<td align="center">{resource.resource_created_at}</td>
+					<td align="center">{new Date(resource.resource_created_at).toLocaleString()}</td>
 					<td align="center"><button onClick={() => {this.startConnection(resource.resource_id)}}>Connect</button></td>
 				</tr>
 			)
@@ -145,7 +149,7 @@ class Resources extends React.Component{
 
 	apiDeleteTest = () => {
 		console.log("Delete test");
-		let resource_ids = [39, 44]
+		let resource_ids = [15, 16, 17, 18, 19]
 		this.removeResource(resource_ids);
 	}
 
@@ -158,7 +162,10 @@ class Resources extends React.Component{
 				<table>
 					<thead>
 						<tr>
-							<th></th>
+							<th><label className="check-box">
+								<input type="checkbox"/>
+								<span className="checkmark"></span>
+							</label></th>
 							<th><div>ID</div></th>
 							<th><div>Name</div></th>
 							<th><div>Project ID</div></th>
@@ -177,7 +184,7 @@ class Resources extends React.Component{
 					<button onClick = {this.apiDeleteTest}>Delete test</button>
 				</div>
 				<div>
-					<button onClick = {this.startConnection}>SSH test</button>
+					<button onClick = {this.apiPostTest}>Post test</button>
 				</div>
 
 			</div>

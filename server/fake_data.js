@@ -246,7 +246,7 @@ createUsers = function(){
 
 createProjectUser = function(){
     project_users.forEach(element => {
-        let sql_command = "INSERT INTO `project_users` (`user_id`, `project_id`, `is_admin`) VALUES (?, ?, ?)"
+        let sql_command = "INSERT INTO `projectUsers` (`user_id`, `project_id`, `is_admin`) VALUES (?, ?, ?)"
         connection.query(sql_command, [element.user_id, element.project_id, element.is_admin],
             (err, results) => {
                 if(err){
