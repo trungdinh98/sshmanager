@@ -25,7 +25,7 @@ class MainComponent extends React.Component {
                 <Route path='/profile' component={Profile}/>
                 <Route path='/xterm' component={Xterm}/>
                 <Route path='/logging' component={Logging}/>
-                <Route path='/logTerm' component={LogTerm}/>    
+                <Route path='/logTerm' component={LogTerm}/>
             </Switch>
         )
     }
