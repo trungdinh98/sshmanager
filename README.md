@@ -26,7 +26,7 @@ docker-compose start
 
 ## bước 2: tạo database
 
-**Note**<br/>:
+**Note**<br/>
 1. Chỉ cần làm bước này lần đầu tiên, hoặc trong trường hợp database đã bị xóa <br/>
 2. Trong trường hợp chưa cài đặt mysql trong máy, có thể sử dụng admnider đã được cài sẵn trong container tại địa chỉ: 172.10.10.11:8080 hoặc localhost/8080 (đã được mount với port của local) <br/>
 
@@ -54,7 +54,7 @@ AWS_REGION = ""
 DYNAMO_TABLE = ""
 ```
 
-**Note:** với các thông số về kết nối MySQL có thể lấy từ bước thứ 2)
+**Note:** với các thông số về kết nối MySQL có thể lấy từ bước thứ 2
 
 ## bước 4: khởi động
 Chạy các câu lệnh sau **tại thư mục sshmanager**: <br/>
