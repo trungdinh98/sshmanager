@@ -22,4 +22,4 @@ docker/mysql/*
 docker/mongodb/data/*
 .docker
 *.pem
-server/ssh-node/logs/*
+ssh-node/logs/*

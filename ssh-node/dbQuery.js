@@ -16,6 +16,20 @@ const DB_NAME = process.env.DB_NAME;
 
 console.log("Connected to dynamoDb");
 
+const connection = mysql.createConnection({
+    host: DB_HOST,
+    user: DB_USER,
+    password: DB_PASSWD,
+    database: DB_NAME
+});
+
+connection.connect(err => {
+    if(err) {
+        callback(err, null);
+    }
+    else console.log("Connected to mysql")
+});
+
 // connectionInfo(1);
 // getItem('1001')
 // putItem('1002', '1002value')
@@ -31,65 +45,50 @@ console.log("Connected to dynamoDb");
 //     }
 // })
 
-async function getConnectionInfo(resource_id, callback){
+async function addLog(project_id, log_name, callback){
+    let sql_command = "INSERT INTO sshLogs (project_id, log_name) VALUES (?, ?)"
 
-
-    const connection = mysql.createConnection({
-        host: DB_HOST,
-        user: DB_USER,
-        password: DB_PASSWD,
-        database: DB_NAME
-    });
-
-    connection.connect(err => {
-        if(err) {
-            callback(err, null);
+    connection.query(sql_command, [project_id, log_name], (err, results) => {
+        if(err){
+            callback(err, null)
         }
-        else console.log("Connected to mysql")
-    });
+        else{
+            callback(null, results)
+        }
+    })
+}
 
-    sql_command = "SELECT * FROM resources WHERE resource_id = ?";
+
+async function getConnectionInfo(resource_id, callback){
+    let sql_command = "SELECT * FROM resources WHERE resource_id = ?";
 
     connection.query(sql_command, [resource_id], (err, results) => {
         if(err){
-            // console.log(err)
             callback(err, null);
         }
         else {
-            // console.log(results[0])
             let user = results[0].resource_user
             let dns = results[0].resource_dns
             let key_id = results[0].key_id
             let project_id = results[0].project_id
 
-            // console.log("line65: " + project_id)
-            // callback(null, results)
-
-            // console.log(key_id.toString())
-
             getItem(key_id.toString(), (err, key_value) => {
                 if(err){
-                    // console.log(err)
                     callback(err, null)
                 }
                 else{
-                    // console.log(key_value) 
                     callback(null, {
                         resource_user: user,
                         resource_dns: dns,
                         resource_key: key_value,
                         project_id: project_id
                     })
-                    // return results
                 }
             })
 
             
         }
     })
-
-    connection.end();
-
 }
 
 function getItem(key_id, callback){
@@ -104,12 +103,9 @@ function getItem(key_id, callback){
 
     dynamoClient.getItem(params, function(err, data){
         if(err){
-            // console.error("Unable to query. Error:", JSON.stringify(err, null, 2));
             callback(JSON.stringify(err, null, 2), null)
         }
         else{
-            // console.log("Query succeeded.");
-            // console.log(AWS.DynamoDB.Converter.unmarshall(data.Item))
             callback(null, AWS.DynamoDB.Converter.unmarshall(data.Item).key_value)
         }
     })
@@ -117,12 +113,6 @@ function getItem(key_id, callback){
 }
 
 function putItem(key_id, key_value){
-    // fs.readFile('web-tester.pem', (err, data) => {
-    //     if(err){
-    //         console.log(err)
-    //     }
-    //     else{
-    //         console.log(data.toString('binary'))
     var params = {
         TableName: process.env.DYNAMO_TABLE,
         Item: {
@@ -143,9 +133,6 @@ function putItem(key_id, key_value){
             console.log("Success", data);
         }
     })
-    
-        // }
-    // })
 }
 
-module.exports = {getConnectionInfo}
+module.exports = {addLog, getConnectionInfo}

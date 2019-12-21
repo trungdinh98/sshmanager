@@ -19,7 +19,7 @@ class Keys extends React.Component {
                     <td>{key_name}</td>
                     <td>{key_id}</td>
                     <td>{project_id}</td>
-                    <td>{key_created_at}</td>
+                    <td>{new Date(key_created_at).toLocaleString()}</td>
                 </tr>
         };
         this.open = this.open.bind(this);
