@@ -1,0 +1,25 @@
+.form-container {
+    width: -webkit-fill-available;
+    padding: 0px 200px;
+    text-align: center;
+}
+
+.guest-page-form-body {
+    width: -webkit-fill-available;
+}
+
+.form-input {
+    border-radius: 5px;
+    border: 1px solid #b4b4b4;
+    width: -webkit-fill-available;
+    margin-bottom: 20px;
+    height: 35px;
+    padding: 10px;
+    font-size: 14px;
+}
+
+.label-form {
+    font-weight: bold;
+    margin-bottom: 3px;
+    font-size: 20px;
+}

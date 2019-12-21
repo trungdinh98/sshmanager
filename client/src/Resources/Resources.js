@@ -123,7 +123,10 @@ class Resources extends React.Component{
 		return this.state.resources.map((resource, index) => {
 			return (
 				<tr key={resource.resource_id}>
-					<td></td>
+					<td><label className="check-box">
+                        <input type="checkbox"/>
+                        <span className="checkmark"></span>
+                    </label></td>
 					<td align="center">{this.padWithZeros(resource.resource_id)}</td>
 					<td align="left">{resource.resource_name}</td>
 					<td align="center">{this.padWithZeros(resource.project_id)}</td>
@@ -158,7 +161,10 @@ class Resources extends React.Component{
 				<table>
 					<thead>
 						<tr>
-							<th></th>
+							<th><label className="check-box">
+								<input type="checkbox"/>
+								<span className="checkmark"></span>
+							</label></th>
 							<th><div>ID</div></th>
 							<th><div>Name</div></th>
 							<th><div>Project ID</div></th>

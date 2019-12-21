@@ -1,6 +1,14 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import './Header.css';
+
+export const closeNav = () => {
+    if (document.getElementById("mySidenav") && document.getElementById("main")) {
+        document.getElementById("mySidenav").style.width = "0";
+        document.getElementById("main").style.marginLeft = "0";
+        document.body.style.backgroundColor = "white";
+    }
+};
 
 class Header extends React.Component {
     openNav = () => {
@@ -11,24 +19,42 @@ class Header extends React.Component {
         }
     };
 
-    closeNav = () => {
-        if (document.getElementById("mySidenav") && document.getElementById("main")) {
-            document.getElementById("mySidenav").style.width = "0";
-            document.getElementById("main").style.marginLeft = "0";
-            document.body.style.backgroundColor = "white";
-        }
-    };
-
-    // handleClickOutside = () => {
-    //     console.log('you clicked outside components!');
-    //     this.closeNav();
-    // };
+    logOut (e) {
+        e.preventDefault()
+        localStorage.removeItem('usertoken')
+        this.props.history.push(`/`)
+    }
 
     render () {
+
+        const loginRegLink = (
+            <div className="nav-item">
+                <Link to="/login" className="login">
+                    <button className="btn btn-success btn-sm">Login</button>
+                </Link>
+                <Link to="/register" className="register">
+                    <button className="btn btn-success btn-sm">Register</button>
+                </Link>
+            </div>
+        )
+
+        const userLink = (
+            <div className="nav-item">
+                <a href="#logOut" onClick={this.logOut.bind(this)} className="register">
+                    <button className="btn btn-outline-warning btn-sm">Logout</button>
+                </a>
+                <div>
+                    <Link to="/profile">
+                        <img className="avaProfile" src="/image/avatar.jpeg" alt="avatar" />
+                    </Link>
+                </div>
+            </div>
+        )
+
         return (
             <div style={{float:'none'}}>
                 <div id="mySidenav" className="sidenav">
-                    <div className="closebtn" onClick={this.closeNav}>&times;</div>
+                    <div className="closebtn" onClick={closeNav}>&times;</div>
                     <Link to="/">Home</Link>
                     <Link to="/users">Users</Link>
                     <Link to="/resources">Resources</Link>
@@ -49,24 +75,10 @@ class Header extends React.Component {
                         <div className="projectButton">
                             <Link to="/projects">Project</Link>
                         </div>
-                        <div>
-                            <form method="get" action="">
-                                <div>
-                                    <div>
-                                        <input type="text" placeholder="Search" />
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
                     </div>
 
                     <div className="rightNavBar">
-                        <div className="notify-icon">
-                            <span aria-label="sheep" role="img">&#128276;</span>
-                        </div>
-                        <div>
-                            <img className="avaProfile" src="/image/avatar.jpeg" alt="avatar" />
-                        </div>
+                        {localStorage.usertoken ? userLink : loginRegLink}
                     </div>
                 </div>
             </div>
@@ -74,4 +86,4 @@ class Header extends React.Component {
     }
 }
 
-export default Header;
+export default withRouter(Header);
