@@ -1,6 +1,6 @@
 import React from 'react';
 import './Keys.css';
-import api from '../api'
+import api from '../api';
 import NewKeys from './CreateNewKey.js';
 
 class Keys extends React.Component {
@@ -9,17 +9,15 @@ class Keys extends React.Component {
         super();
         this.state = {
             keys: [],
+            project_id: '',
             modalShow: false,
             renderKeys: ({key_created_at, key_id, key_name, project_id}) => 
                 <tr key={key_id}>
-                    <td><label className="check-box">
-                        <input type="checkbox"/>
-                        <span className="checkmark"></span>
-                    </label></td>
                     <td>{key_name}</td>
                     <td>{key_id}</td>
                     <td>{project_id}</td>
                     <td>{new Date(key_created_at).toLocaleString()}</td>
+                    <td><button className="delete-key" onClick={() => {this.deleteKey(key_id)}}>Delete Key</button></td>
                 </tr>
         };
         this.open = this.open.bind(this);
@@ -29,7 +27,7 @@ class Keys extends React.Component {
 
     componentDidMount () {
         this._isMounted = true;
-        this.getKeys(1002);
+        this.getKeys(1001);
     }
 
     getKeys (project_id) {
@@ -40,11 +38,11 @@ class Keys extends React.Component {
             }
         })
         .then((response) => {
-			this.setState({keys:response.data});
-		})
-		.catch((err) => {
-			console.log(err);
-		})
+            this.setState({keys:response.data});
+        })
+        .catch((err) => {
+            console.log(err);
+        })
     }
 
     close() {
@@ -55,8 +53,18 @@ class Keys extends React.Component {
         this.setState({ modalShow: true });
     }
 
-    deleteKeys () {
-
+    deleteKey (key_id) {
+        api.delete('keys', {
+            params: {
+                key_id: key_id
+            }
+        })
+        .then((response) => {
+            this.getKeys(1001)
+        })
+        .catch((err) => {
+            console.log(err);
+        })
     }
 
     componentWillUnmount () {
@@ -70,16 +78,11 @@ class Keys extends React.Component {
                 <div className="top-content">
                     <input className="key-search" type="text" placeholder="Find by key ID or key name" />
                     <button className="new-key" onClick={this.open}>New Key</button>
-                    <button className="delete-key" onClick={this.deleteKeys}>Delete Key</button>
                 </div>
                 <div className="bot-content">
                     <table className="key-table">
                         <thead>
                             <tr>
-                                <td><label className="check-box">
-                                    <input type="checkbox"/>
-                                    <span className="checkmark"></span>
-                                </label></td>
                                 <th className="key-name">Key Name</th>
                                 <th className="key-id">Key ID</th>
                                 <th className="key-value">Project ID</th>
@@ -91,7 +94,6 @@ class Keys extends React.Component {
                         </tbody>
                     </table>
                 </div>
-
                 <NewKeys show={modalShow} onHide={this.close}/>
             </div>
         );

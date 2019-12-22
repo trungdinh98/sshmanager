@@ -8,14 +8,11 @@
 
 .form-label {
     font-weight: bold;
+    font-size: 16px;
 }
 
 .modal-content {
     top: 130px;
-}
-
-#formBasicPassword {
-    height: 200px;
 }
 
 .choose-file {
