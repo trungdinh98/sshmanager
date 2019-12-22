@@ -7,7 +7,8 @@ class Profile extends React.Component {
         this.state = {
             user_firstname:'',
             user_lastname:'',
-            user_email: ''
+            user_email: '',
+            user_id: ''
         }
     }
 
@@ -17,7 +18,8 @@ class Profile extends React.Component {
         this.setState({
             user_firstname: decode.user_firstname,
             user_lastname: decode.user_lastname,
-            user_email: decode.user_email
+            user_email: decode.user_email,
+            user_id: decode.user_id
         })
     }
 
@@ -41,6 +43,10 @@ class Profile extends React.Component {
                             <tr>
                                 <td>Email</td>
                                 <td>{this.state.user_email}</td>
+                            </tr>
+                            <tr>
+                                <td>ID</td>
+                                <td>{this.state.user_id}</td>
                             </tr>
                         </tbody>
                     </table>

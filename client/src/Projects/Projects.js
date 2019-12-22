@@ -1,19 +1,26 @@
 import React from "react";
 import api from "../api";
 import { Redirect } from "react-router";
+import jwt_decode from 'jwt-decode';
+import './Projects.css';
 
 
 class Projects extends React.Component{
-    constructor(){
-		
-		super();
-		this.state = {
-			projects: []
-		}
-	}
+    constructor() {
+        super();
+        this.state = {
+            projects: [],
+            user_id: ''
+        }
+    }
 
-	componentDidMount(){
-		this.getProjects(1001)
+    componentDidMount () {
+        const token = localStorage.usertoken;
+        const decode = jwt_decode(token);
+        this.setState({
+            user_id: decode.user_id
+        });
+        this.getProjects(decode.user_id);
     }
 
     async getProjects(user_id){
@@ -23,13 +30,12 @@ class Projects extends React.Component{
             }
         })
         .then((response) => {
-			this.setState({projects:response.data});
-			console.log(response);
-			console.log(this.state.projects);
-		})
-		.catch((err) => {
-			console.log(err);
-		})
+            this.setState({projects:response.data});
+            console.log(this.state.projects);
+        })
+        .catch((err) => {
+            console.log(err);
+        })
     }
 
     addProject(project_name, user_id){
@@ -38,8 +44,7 @@ class Projects extends React.Component{
             user_id: user_id
         })
         .then((response) => {
-            console.log(response);
-            this.getProjects(1001);
+            this.getProjects(this.state.user_id);
         })
         .catch((err) => {
             console.log(err);
@@ -53,8 +58,7 @@ class Projects extends React.Component{
             }
         })
         .then((response) => {
-            console.log(response)
-            this.getProjects(1001)
+            this.getProjects(this.state.user_id)
         })
         .catch((err) => {
             console.log(err);
@@ -65,13 +69,13 @@ class Projects extends React.Component{
         this.removeProject(project_id);
     }
 
-    padWithZeros(number){
-		var my_string = '' + number;
-		while(my_string.length < 11){
-			my_string = '0' + my_string;
-		}
-		return my_string;
-	}
+    // padWithZeros(number){
+    //     var my_string = '' + number;
+    //     while(my_string.length < 11){
+    //         my_string = '0' + my_string;
+    //     }
+    //     return my_string;
+    // }
 
     redirectToUser = (project_id) => {
         console.log(project_id);
@@ -82,37 +86,38 @@ class Projects extends React.Component{
         return this.state.projects.map((project, index) => {
             return (
                 <tr key={project.project_id}>
-                    <td align="center">{this.padWithZeros(project.project_id)}</td>
-                    <td align="left">{project.project_name}</td>
-                    <td align="center">{new Date(project.project_created_at).toLocaleString()}</td>
-                    <td align="center"><button onClick={() => {this.removeProject(project.project_id)}}>Delete</button></td>
-                    <td align="center"><button onClick={() => this.redirectToUser(project.project_id)}>Show</button></td>
+                    <td>{project.project_id}</td>
+                    <td>{project.project_name}</td>
+                    <td>{new Date(project.project_created_at).toLocaleString()}</td>
+                    <td><button className="delete-project" onClick={() => {this.removeProject(project.project_id)}}>Delete</button></td>
+                    <td><button className="show-project" onClick={() => this.redirectToUser(project.project_id)}>Show</button></td>
                 </tr>
             )
         })
     }
     
     apiPostTest = () => {
-		console.log("Post test");
-		this.addProject("project x", 1001);
+        console.log("Post test");
+        this.addProject("project x", this.state.user_id);
 
-	}
+    }
 
 
     render(){
         const {redirect, project_id} = this.state;
-        console.log(project_id)
         return (
-            <div>
-                <h3>Projects</h3>
-                <div>
-                    <table>
+            <div style={{width: '-webkit-fill-available'}}>
+                <div className="top-content">
+                    <input className="project-search" type="text" placeholder="Find by project ID or project name" />
+                    <button className="new-project" onClick = {this.apiPostTest}>Post test</button>
+                </div>
+                <div className="bot-content">
+                    <table className="project-table">
                         <thead>
                             <tr>
-                                <th><div>ID</div></th>
-                                <th><div>Project</div></th>
-                                <th><div>Created At</div></th>
-                                <th></th>
+                                <th className="project-id">Project ID</th>
+                                <th className="project-name">Project Name</th>
+                                <th className="project-time">Created At</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -120,17 +125,9 @@ class Projects extends React.Component{
                         </tbody>
                     </table>
                 </div>
-                <div>
-                    <button onClick = {this.apiPostTest}>Post test</button>
-                </div>
-                <div>
-                    <button onClick = {this.apiDeleteTest}>Delete test</button>
-                </div>
-                {redirect && (<Redirect to={{
-                    pathname: '/projectusers/',
-                    state: {project_id}}}/>)}
+                    {redirect && (<Redirect to={{ pathname: '/projectusers/', state: {project_id}}}/>)}
             </div>
-        )  
+        )
     }
 }
 
