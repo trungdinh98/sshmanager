@@ -3,6 +3,20 @@ import './Keys.css';
 import api from '../api';
 import NewKeys from './CreateNewKey.js';
 
+export const createKey = key => {
+    return api
+    .post('/keys', {
+        project_id: key.project_id,
+        key_name: key.key_name
+    })
+    .then((response) => {
+        console.log(response.data);
+    })
+    .catch((err) => {
+        console.log(err);
+    })
+}
+
 class Keys extends React.Component {
 
     constructor () {
@@ -45,14 +59,6 @@ class Keys extends React.Component {
         })
     }
 
-    close() {
-        this.setState({ modalShow: false });
-    }
-
-    open() {
-        this.setState({ modalShow: true });
-    }
-
     deleteKey (key_id) {
         api.delete('keys', {
             params: {
@@ -65,6 +71,14 @@ class Keys extends React.Component {
         .catch((err) => {
             console.log(err);
         })
+    }
+
+    close() {
+        this.setState({ modalShow: false });
+    }
+
+    open() {
+        this.setState({ modalShow: true });
     }
 
     componentWillUnmount () {

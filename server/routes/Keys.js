@@ -17,16 +17,34 @@ router.get('/', (req, res, next) => {
 })
 
 router.post('/', (req, res, nex) => {
-    return Models.key.create({
+    const today = new Date()
+    const keyData = {
+        key_name: req.body.key_name,
         project_id: req.body.project_id,
-        key_name: req.body.key_name
-    }).then(function (key) {
-        if (key) {
-            res.send(key);
-        } else {
-            res.status(400).send('Error in insert new record');
+        key_created_at: today
+    }
+    Models.key.findOne ({
+        where: {
+            key_name: req.body.key_name
         }
-    });
+    })
+    .then (key => {
+        if (!key) {
+            Models.key.create(keyData)
+            .then(function (key) {
+                if (key) {
+                    res.send(key);
+                } else {
+                    res.status(400).send('Error in insert new record');
+                }
+            });
+        } else {
+            res.json({ error: 'Key already exists' })
+        }
+    })
+    .catch(err => {
+      res.send('error: ' + err)
+    })
 });
 
 router.delete('/', (req, res, next) => {
