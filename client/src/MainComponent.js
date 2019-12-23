@@ -17,7 +17,7 @@ class MainComponent extends React.Component {
     render () {
          return (
             <Switch>
-                <Route exact path='/' component={Projects}/>
+                <Route exact path='/' component={Resources}/>
                 <Route exact path='/projectUsers/' component={ProjectUsers} />
                 <Route exact path='/projectUsers/add' component={AddUsers} />
                 <Route path='/users' component={Users}/>

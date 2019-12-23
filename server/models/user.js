@@ -30,6 +30,9 @@ module.exports = function(sequelize, Sequelize){
         user_linked_url: {
             type: Sequelize.STRING(255)
         },
+    },{
+        charset: 'utf8',
+        collate: 'utf8_unicode_ci'
     },
     {
         timestamps: false,
