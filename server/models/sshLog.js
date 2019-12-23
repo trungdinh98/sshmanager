@@ -23,5 +23,5 @@ module.exports = function(sequelize, Sequelize){
     },
     {
         timestamps: false,
-    })
+    });
 }
