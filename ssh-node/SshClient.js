@@ -2,12 +2,20 @@ const io = require("socket.io")(9000, {});
 
 const dbQuery = require('./dbQuery')
 const fs = require("fs")
-const thisTime = getTime()
 const dir = "./logs/"
-const sshLog = "./SshLog"
+const cmdDir = dir + "logs-replay/"
+const userCmdDir = dir + "user-logs/"
 
 if (!fs.existsSync(dir)) {
     fs.mkdirSync(dir);
+}
+
+if (!fs.existsSync(cmdDir)) {
+    fs.mkdirSync(cmdDir);
+}
+
+if (!fs.existsSync(userCmdDir)) {
+    fs.mkdirSync(userCmdDir);
 }
 
 io.on("connection", function(socket){
@@ -15,7 +23,6 @@ io.on("connection", function(socket){
 
     socket.on("setupConnection", function(data){
         try{
-            console.log(data)
             let Client = require('ssh2').Client;
             let conn = new Client();
             let resource_id = data
@@ -28,16 +35,16 @@ io.on("connection", function(socket){
                     let resource_key = results.resource_key;
                     let resource_dns = results.resource_dns;
                     let project_id = results.project_id;
-                    console.log("line 47: " + project_id)
-                    console.log("line 48: " + resource_key)
 
-                    if (!fs.existsSync(dir + padWithZeros(project_id) + "/" )) {
-                        fs.mkdirSync(dir + padWithZeros(project_id) + "/");
+                    if (!fs.existsSync(cmdDir + padWithZeros(project_id) + "/" )) {
+                        fs.mkdirSync(cmdDir + padWithZeros(project_id) + "/");
                     }
 
+                    if (!fs.existsSync(userCmdDir + padWithZeros(project_id) + "/" )) {
+                        fs.mkdirSync(userCmdDir + padWithZeros(project_id) + "/");
+                    }
                     
                     let log_name = new Date().getTime() + "-" + padWithZeros(resource_id)
-                    console.log(log_name)
 
                     dbQuery.addLog(project_id, log_name, (err, result) => {
                         if(err){
@@ -45,31 +52,33 @@ io.on("connection", function(socket){
                             socket.emit("return", "db connection error")
                         }
                         
-                        let userCmdWriter = fs.createWriteStream(dir + padWithZeros(project_id) + "/" + log_name + ".txt")
+                        let userCmdWriter = fs.createWriteStream(userCmdDir + padWithZeros(project_id) + "/" + log_name + ".txt")
+                        let cmdWriter = fs.createWriteStream(cmdDir + padWithZeros(project_id) + "/" + log_name + ".txt")
+
 
                         conn.on('ready', function(){
-                            userCmdWriter.write("[" + JSON.stringify({time: new Date().getTime(), value: "start session"}));
+                            userCmdWriter.write(JSON.stringify({time: new Date().getTime(), value: "start session"}));
+                            cmdWriter.write(JSON.stringify({time: new Date().getTime(), value: "start session"}));
+
 
                             conn.shell(function(err, stream){
                                 if(err){
                                     return socket.emit("return", '\r\n*** SSH CONNECTION ERROR: ' + err.message + ' ***\r\n');
                                 }
 
-                                // let value = "";
-                                // let timeStamp = new Date().getTime()
+                                let value = "";
+                                let timeStamp = new Date().getTime()
                                 
                                 socket.on("data", function(data){
                                     stream.write(data);
 
-                                    // value = value + data
-                                    // console.log(value)
-                                    // userCmdWriter.write(data);
+                                    value = value + data
                                     
-                                    // if(data == "\n" || data=="\r" || data == "\r\n"){
-                                    //     userCmdWriter.write(JSON.stringify({time: timeStamp, value: value}) + ",");
-                                    //     timeStamp = new Date().getTime()
-                                    //     value = ""
-                                    // }
+                                    if(data == "\n" || data=="\r" || data == "\r\n"){
+                                        userCmdWriter.write("," + JSON.stringify({time: timeStamp, value: value}));
+                                        timeStamp = new Date().getTime()
+                                        value = ""
+                                    }
                                 })
                     
                                 socket.on("disconnect", function(){
@@ -86,22 +95,25 @@ io.on("connection", function(socket){
                                 stream.on("close", function(){
                                     conn.end()
                                     socket.disconnect();
-                                    userCmdWriter.write("," + JSON.stringify({time: new Date().getTime(), value: "end session".toString('binary')}) + "]")
+                                    cmdWriter.write("," + JSON.stringify({time: new Date().getTime(), value: "end session".toString('binary')}))
+                                    userCmdWriter.write("," + JSON.stringify({time: new Date().getTime(), value: "end session".toString('binary')}))
+                                    
+                                    cmdWriter.close();
                                     userCmdWriter.close();
                                 }).on("data", function(data){
                                     socket.emit("return", data.toString('binary'));
-                                    userCmdWriter.write("," + JSON.stringify({time: new Date().getTime(), value: data.toString('binary')}))
+                                    cmdWriter.write("," + JSON.stringify({time: new Date().getTime(), value: data.toString('binary')}))
                                 })
                             })
                         }).connect({
-                            // host: resource_dns,
-                            // port: 22,
-                            // username: resource_user,
-                            // privateKey: resource_key
-                            host: "54.255.163.170",
+                            host: resource_dns,
                             port: 22,
-                            username: "ubuntu",
-                            privateKey: require('fs').readFileSync("web-tester.pem")
+                            username: resource_user,
+                            privateKey: resource_key
+                            // host: "54.255.163.170",
+                            // port: 22,
+                            // username: "ubuntu",
+                            // privateKey: require('fs').readFileSync("web-tester.pem")
                         })
                     })
                     
@@ -116,24 +128,39 @@ io.on("connection", function(socket){
         }
     })
 
-    socket.on("getSshLog", function(project_id, log_name){
+    socket.on("replayLog", function(project_id, log_name){
         try{
-            console.log(project_id)
-            console.log(log_name)
+            // console.log(project_id)
+            // console.log(log_name)
 
-            let fileDir = dir + padWithZeros(project_id) + "/" + log_name + ".txt"
+            let fileDir = cmdDir + padWithZeros(project_id) + "/" + log_name + ".txt"
+            // console.log(fileDir)
             
             fileReader = fs.readFile(fileDir, (err, data) => {
                 if(err){
-                    socket.emit("returnLog", err.toString);
+                    socket.emit("replayLog", err.toString);
                 }
                 else{
-                    // values = JSON.parse(data)
-                    // values.forEach(element => {
-                    //     socket.emit("returnLog", element.value)
-                    // });
-                    socket.emit("returnLog", data.toString())
+                    socket.emit("replayLog", data.toString())
                     // console.log(data)
+                }
+            })
+        } catch(err) {
+            console.log(err)
+        }
+    })
+
+    socket.on("getCommands", function(project_id, log_name){
+        try{
+            let fileDir = userCmdDir + padWithZeros(project_id) + "/" + log_name + ".txt"
+            
+            fileReader = fs.readFile(fileDir, (err, data) => {
+                if(err){
+                    socket.emit("getCommands", err.toString);
+                }
+                else{
+                    console.log(data.toString())
+                    socket.emit("getCommands", data.toString())
                 }
             })
         } catch(err) {
