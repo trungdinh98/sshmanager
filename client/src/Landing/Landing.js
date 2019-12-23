@@ -11,7 +11,7 @@ class Landing extends React.Component{
                         <div className="heading-title">
                           <h1 className="title">Welcome to SSH Manager</h1>
                         </div>
-                        <div className="presentation">
+                        <div className="presentation1">
                           <p>Please SIGN UP or SIGN IN to start SSH Manager</p>
                         </div>
                         <div className="presentation">

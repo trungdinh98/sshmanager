@@ -1,5 +1,5 @@
 import React from 'react';
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, Link, withRouter } from 'react-router-dom';
 import Keys from './Keys/Keys.js';
 import Projects from './Projects/Projects.js';
 import Resources from './Resources/Resources.js';
@@ -13,8 +13,23 @@ import Users from './Users/Users/Users.js';
 import Logging from './Logging/Logging';
 import LogTerm from './Logging/LogTerm';
 import Landing from './Landing/Landing';
+import jwt_decode from 'jwt-decode';
 
 class MainComponent extends React.Component {
+
+    constructor() {
+        super();
+        this.state = {
+        }
+    }
+
+    componentDidMount () {
+        const token = localStorage.usertoken;
+        console.log(token);
+        if (token === undefined) {
+            this.props.history.push(`/login`)
+        }
+    }
     render () {
          return (
             <Switch>
@@ -36,4 +51,4 @@ class MainComponent extends React.Component {
     }
 }
 
-export default MainComponent;
+export default withRouter(MainComponent);

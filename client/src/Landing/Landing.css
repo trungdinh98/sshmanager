@@ -12,12 +12,18 @@
   text-align: center;
 }
 
+.presentation1 {
+  font-size: 25px;
+  float: none;
+  color: #fff;
+  text-align: center;
+}
+
 .heading-title {
   float: none;
   text-align: center;
   color: #fff;
   text-transform: uppercase;
-  margin-bottom: 40px;
 }
 
 .title {
