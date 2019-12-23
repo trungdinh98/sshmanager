@@ -7,7 +7,7 @@
   }
   .pagination-btn-current-page {
     font-weight: bold;
-    color: red;
+    color: #1b73e8;
     font-weight: bolder;
     font-size: 1.75em;
     padding: 0px 5px 0px 5px;
@@ -22,7 +22,7 @@
   }
 
   .pagination-btn:hover{
-    color: red;
+    color: #1b73e8;
   }
 
   .pagination-btn.next, .pagination-btn.prev {
@@ -31,7 +31,7 @@
     font-size: 1.75em;
   }
   .pagination-btn.next:hover, .pagination-btn.prev:hover {
-    color: red;
+    color: #1b73e8;
   }
   
   .page-selector select{

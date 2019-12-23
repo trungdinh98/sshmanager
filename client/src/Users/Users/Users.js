@@ -10,11 +10,11 @@ class Users extends React.Component {
         let model = {
             headers: [
                 { title: "Id", accessor: "user_id", index: 0, dataType: "number" },
-                { title: "Email", accessor: "user_email", index: 2, dataType: "string" },
-                { title: "Password", accessor: "user_password", index: 3, dataType: "string" },
-                { title: "First Name", accessor: "user_firstname", index: 4, dataType: "string" },
-                { title: "Last Name", accessor: "user_lastname", index: 5, dataType: "string" },
-                { title: "Count PJ", accessor: "countPJ", index: 6, dataType: "number" },
+                { title: "Email", accessor: "user_email", index: 1, dataType: "string" },
+                { title: "First Name", accessor: "user_firstname", index: 2, dataType: "string" },
+                { title: "Last Name", accessor: "user_lastname", index: 3, dataType: "string" },
+                { title: "Count PJ", accessor: "countPJ", index: 4, dataType: "number" },
+                { title: "Created at", accessor: "user_created_at", index: 5, dataType: "string" },
             ],
             data: []
         }

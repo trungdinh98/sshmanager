@@ -24,5 +24,5 @@ module.exports = function(sequelize, Sequelize){
         charset: 'utf8',
         collate: 'utf8_unicode_ci',
         timestamps: false
-    })
+    });
 }

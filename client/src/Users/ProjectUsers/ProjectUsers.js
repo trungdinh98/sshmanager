@@ -12,7 +12,7 @@ class ProjectUsers extends React.Component {
       user: {
         user_id: "",
         user_email: "",
-        user_password: "",
+        user_created_at: "",
         user_firstname: "",
         user_lastname: ""
       },
@@ -66,10 +66,10 @@ class ProjectUsers extends React.Component {
         <tr key={user.user_id}>
           <td>{user.user_id}</td>
           <td>{user.user_email}</td>
-          <td>{user.user_password}</td>
           <td>{user.user_firstname}</td>
           <td>{user.user_lastname}</td>
-          <td><button onClick={() => this.removeUser(user.user_id)}>Delete</button></td>
+          <td>{user.user_created_at}</td>
+          <td><button className="delete-user" onClick={() => this.removeUser(user.user_id)}>Delete</button></td>
         </tr>
       )
     })
@@ -85,17 +85,17 @@ class ProjectUsers extends React.Component {
     const { redirect } = this.state;
     return (
       <div className="table-content">
-        <button onClick={this.onBackProject}>Back</button>
+        <button className="back" onClick={this.onBackProject}>Back</button>
         <h1 id="pjusers-header">Project Users</h1>
         <table className="project-users">
           <thead>
             <tr>
               <td>ID</td>
               <td>Email</td>
-              <td>Password</td>
               <td>Firstname</td>
               <td>Lastname</td>
-              <td><button onClick={() => this.inviteUser()}>Add</button></td>
+              <td>Created at</td>
+              <td><button className="new-user" onClick={() => this.inviteUser()}>Add</button></td>
             </tr>
           </thead>
           <tbody>

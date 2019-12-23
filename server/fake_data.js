@@ -124,28 +124,28 @@ users = [
     {
         user_id: 1001,
         user_email: "e1@gmail.com",
-        user_password: "123456",
+        user_password: "$2b$10$3MjZKYQtTily46krrezCP.LOyEX.j6cFqiVOL2nFLs.zx6xnAql9a",
         user_firstname: "first1",
         user_lastname: "last1"
     },
     {
         user_id: 1002,
         user_email: "e2@gmail.com",
-        user_password: "123456",
+        user_password: "$2b$10$3MjZKYQtTily46krrezCP.LOyEX.j6cFqiVOL2nFLs.zx6xnAql9a",
         user_firstname: "first2",
         user_lastname: "last2"
     },
     {
         user_id: 1003,
         user_email: "e3@gmail.com",
-        user_password: "123456",
+        user_password: "$2b$10$3MjZKYQtTily46krrezCP.LOyEX.j6cFqiVOL2nFLs.zx6xnAql9a",
         user_firstname: "first3",
         user_lastname: "last3"
     },
     {
         user_id: 1004,
         user_email: "e4@gmail.com",
-        user_password: "123456",
+        user_password: "$2b$10$3MjZKYQtTily46krrezCP.LOyEX.j6cFqiVOL2nFLs.zx6xnAql9a",
         user_firstname: "first4",
         user_lastname: "last4"
     }
