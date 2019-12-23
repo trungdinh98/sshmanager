@@ -1,6 +1,25 @@
 import React from 'react';
 import api from '../api';
 import './Resources.css';
+import NewResource from './CreateNewResource'
+
+
+export const createResource = resource => {
+    return api
+    .post('/resources', {
+		resource_name: resource.resource_name,
+		resource_user: resource.resource_user,
+		resource_dns: resource.resource_dns,
+		key_id: resource.resource_key_id,
+		project_id: 1001 
+    })
+    .then((response) => {
+        console.log(response.data);
+    })
+    .catch((err) => {
+        console.log(err);
+    })
+}
 
 class Resources extends React.Component{
 
@@ -8,16 +27,12 @@ class Resources extends React.Component{
 		super();
 		this.state = {
 			resources : [],
-			resource : {
-				resource_id: '',
-				project_id: '',
-				resource_name: '',
-				resource_platform: '',
-				resource_dns: '',
-				resource_user: '',
-				resource_created_at: ''
-			}
+			project_id: "",
+			modalShow: false
 		}
+		this.open = this.open.bind(this);
+        this.close = this.close.bind(this);
+        this._isMounted = false;
 	}
 
 	componentDidMount(){
@@ -137,18 +152,25 @@ class Resources extends React.Component{
 		})
 	}
 	
-	
-	apiPostTest = () => {
-		console.log("Post test");
-		this.addResource(1001, "name", "dns", 1001, "ubuntu");
-	}
+	close() {
+        this.setState({ modalShow: false });
+    }
+
+    open() {
+        this.setState({ modalShow: true });
+    }
+
+    componentWillUnmount () {
+        this._isMounted = false;
+    }
 
 	render(){
+		let {resources, modalShow} = this.state;
 		return(
 			<div style={{width: '-webkit-fill-available'}}>
 				<div className="top-content">
 					<input className="resource-search" type="text" placeholder="Find by resource ID or resource name" />
-					<button className="new-resource" onClick = {this.apiPostTest}>Post test</button>
+					<button className="new-resource" onClick = {this.open}>Add Resource</button>
 				</div>
 				<div className="bot-content">
 					<table className="resource-table">
@@ -167,6 +189,7 @@ class Resources extends React.Component{
 						</tbody>
 					</table>
 				</div>
+				<NewResource show={modalShow} onHide={this.close}/>
 			</div>
 		)
 	}

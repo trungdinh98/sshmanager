@@ -3,15 +3,34 @@ import api from "../api";
 import { Redirect } from "react-router";
 import jwt_decode from 'jwt-decode';
 import './Projects.css';
+import NewProject from './CreateNewProject';
 
+export const createProject = project => {
+    return api
+    .post('/projects', {
+        project_name: project.project_name,
+        user_id: project.user_id
+    })
+    .then((response) => {
+        this.getProjects(this.state.user_id);
+        Projects.close();
+    })
+    .catch((err) => {
+        console.log(err);
+    })
+}
 
 class Projects extends React.Component{
     constructor() {
         super();
         this.state = {
             projects: [],
-            user_id: ''
+            user_id: '',
+            modalShow: false
         }
+        this.open = this.open.bind(this);
+        this.close = this.close.bind(this);
+        this._isMounted = false;
     }
 
     componentDidMount () {
@@ -78,6 +97,18 @@ class Projects extends React.Component{
         this.setState({redirect : true, project_id: project_id})
     }
 
+    close() {
+        this.setState({ modalShow: false });
+    }
+
+    open() {
+        this.setState({ modalShow: true });
+    }
+
+    componentWillUnmount () {
+        this._isMounted = false;
+    }
+
     renderTableData(){
         return this.state.projects.map((project, index) => {
             return (
@@ -101,11 +132,12 @@ class Projects extends React.Component{
 
     render(){
         const {redirect, project_id} = this.state;
+        let {projects, modalShow} = this.state
         return (
             <div style={{width: '-webkit-fill-available'}}>
                 <div className="top-content">
                     <input className="project-search" type="text" placeholder="Find by project ID or project name" />
-                    <button className="new-project" onClick = {this.apiPostTest}>Post test</button>
+                    <button className="new-project" onClick = {this.open}>New Project</button>
                 </div>
                 <div className="bot-content">
                     <table className="project-table">
@@ -121,6 +153,7 @@ class Projects extends React.Component{
                         </tbody>
                     </table>
                 </div>
+                <NewProject show={modalShow} onHide={this.close}/>
                     {redirect && (<Redirect to={{ pathname: '/projectusers/', state: {project_id}}}/>)}
             </div>
         )
