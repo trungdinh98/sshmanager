@@ -12,7 +12,8 @@ class CreateNewKey extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            project_id: '',
+            project_id: 1001,
+            key_value: '',
             key_name: ''
         }
         this.onChange = this.onChange.bind(this)
@@ -28,7 +29,8 @@ class CreateNewKey extends React.Component {
 
         const key = {
             project_id: this.state.project_id,
-            key_name: this.state.key_name
+            key_name: this.state.key_name,
+            key_value: this.state.key_value
         }
 
         createKey(key).then(response => {
@@ -64,8 +66,8 @@ class CreateNewKey extends React.Component {
                         <Form.Label>Key Value</Form.Label>
                         <InputGroup>
                             <Form.Control
-                                name="project_id"
-                                value={this.state.project_id}
+                                name="key_value"
+                                value={this.state.key_value}
                                 onChange={this.onChange}
                                 placeholder="Paste key value here or choose a key.pem file"
                                 as="textarea"

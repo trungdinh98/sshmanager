@@ -21,7 +21,8 @@ router.post('/', (req, res, nex) => {
     const keyData = {
         key_name: req.body.key_name,
         project_id: req.body.project_id,
-        key_created_at: today
+        key_created_at: today,
+        key_value: req.body.key_value
     }
     Models.key.findOne ({
         where: {
@@ -32,7 +33,9 @@ router.post('/', (req, res, nex) => {
         if (!key) {
             Models.key.create(keyData)
             .then(function (key) {
+                console.log(key.dataValues)
                 if (key) {
+                    console.log()
                     res.send(key);
                 } else {
                     res.status(400).send('Error in insert new record');
@@ -60,5 +63,28 @@ router.delete('/', (req, res, next) => {
         res.send('Error: ' + err)
     })
 })
+
+function putItem(key_id, key_value){
+    var params = {
+        TableName: process.env.DYNAMO_TABLE,
+        Item: {
+            "key_id": {
+                N: key_id
+            },
+            "key_value": {
+                S: key_value
+            }
+        }
+    }
+
+    dynamoClient.putItem(params, function(err, data){
+        if(err){
+            console.log("Error", err);
+        }
+        else{
+            console.log("Success", data);
+        }
+    })
+}
 
 module.exports = router;
