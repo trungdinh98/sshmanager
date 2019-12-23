@@ -27,7 +27,7 @@ class CreateNewResource extends React.Component{
         e.preventDefault()
 
         let resource = {
-            project_id: this.props.projectID,
+            project_id: this.props.projectid,
             resource_name: this.state.resource_name,
             resource_key_id: this.state.resource_key_id,
             resource_dns: this.state.resource_dns,

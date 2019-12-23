@@ -175,7 +175,7 @@ class Resources extends React.Component{
 						</tbody>
 					</table>
 				</div>
-				<NewResource projectID={this.state.dropDownValue} show={modalShow} onHide={this.close}/>
+				<NewResource projectid={this.state.dropDownValue} show={modalShow} onHide={this.close}/>
 			</div>
 		)
 	}

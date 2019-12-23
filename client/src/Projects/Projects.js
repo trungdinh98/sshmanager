@@ -142,7 +142,7 @@ class Projects extends React.Component{
                         </tbody>
                     </table>
                 </div>
-                <NewProject userId={this.state.user_id} show={modalShow} onHide={this.close}/>
+                <NewProject userid={this.state.user_id} show={modalShow} onHide={this.close}/>
                     {redirect && (<Redirect to={{ pathname: '/projectusers/', state: {project_id}}}/>)}
             </div>
         )

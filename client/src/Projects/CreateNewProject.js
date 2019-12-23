@@ -24,7 +24,7 @@ class CreateNewProject extends React.Component{
 
         const project = {
             project_name: this.state.project_name,
-            user_id: this.props.userId
+            user_id: this.props.userid
         }
 
         createProject(project).then(response => {

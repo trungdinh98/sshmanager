@@ -147,7 +147,7 @@ class Keys extends React.Component {
                         </tbody>
                     </table>
                 </div>
-                <NewKeys  projectID={this.state.dropDownValue} show={modalShow} onHide={this.close}/>
+                <NewKeys  projectid={this.state.dropDownValue} show={modalShow} onHide={this.close}/>
             </div>
         );
     }

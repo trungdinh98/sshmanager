@@ -27,7 +27,7 @@ class CreateNewKey extends React.Component {
         e.preventDefault()
 
         const key = {
-            project_id: this.props.projectID,
+            project_id: this.props.projectid,
             key_name: this.state.key_name,
             key_value: this.state.key_value
         }
