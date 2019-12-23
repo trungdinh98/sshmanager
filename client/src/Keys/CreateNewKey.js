@@ -12,7 +12,6 @@ class CreateNewKey extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            project_id: 1001,
             key_value: '',
             key_name: ''
         }
@@ -28,7 +27,7 @@ class CreateNewKey extends React.Component {
         e.preventDefault()
 
         const key = {
-            project_id: this.state.project_id,
+            project_id: this.props.projectID,
             key_name: this.state.key_name,
             key_value: this.state.key_value
         }

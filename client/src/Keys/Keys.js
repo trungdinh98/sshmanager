@@ -2,6 +2,8 @@ import React from 'react';
 import './Keys.css';
 import api from '../api';
 import NewKeys from './CreateNewKey.js';
+import { Dropdown, DropdownButton } from 'react-bootstrap';
+import jwt_decode from 'jwt-decode';
 
 export const createKey = key => {
     return api
@@ -24,8 +26,10 @@ class Keys extends React.Component {
         super();
         this.state = {
             keys: [],
-            project_id: '',
+            projects: [],
             modalShow: false,
+            dropDownValue: "Select an Projects ID",
+            user_id: '',
             renderKeys: ({key_created_at, key_id, key_name, project_id}) => 
                 <tr key={key_id}>
                     <td>{key_name}</td>
@@ -33,7 +37,10 @@ class Keys extends React.Component {
                     <td>{project_id}</td>
                     <td>{new Date(key_created_at).toLocaleString()}</td>
                     <td><button className="delete-key" onClick={() => {this.deleteKey(key_id)}}>Delete Key</button></td>
-                </tr>
+                </tr>,
+
+            renderTableData: ({project_id, project_name}) =>
+                <Dropdown.Item key={project_id} as="button"><div onClick={(e) => this.changeValue(e.target.textContent)}>{project_id}</div></Dropdown.Item>
         };
         this.open = this.open.bind(this);
         this.close = this.close.bind(this);
@@ -45,9 +52,28 @@ class Keys extends React.Component {
         if (token === undefined) {
             this.props.history.push(`/login`)
         } else {
+            const decode = jwt_decode(token);
+            this.setState({
+                user_id: decode.user_id
+            });
+            this.getProjects(decode.user_id);
             this._isMounted = true;
-            this.getKeys(1001);
         }
+    }
+
+    async getProjects(user_id){
+        await api.get('/projects', {
+            params: {
+                user_id: user_id
+            }
+        })
+        .then((response) => {
+            this.setState({projects:response.data});
+            console.log(this.state.projects);
+        })
+        .catch((err) => {
+            console.log(err);
+        })
     }
 
     getKeys (project_id) {
@@ -72,11 +98,16 @@ class Keys extends React.Component {
             }
         })
         .then((response) => {
-            this.getKeys(1001)
+            this.getKeys(this.state.dropDownValue)
         })
         .catch((err) => {
             console.log(err);
         })
+    }
+
+    changeValue(text) {
+        this.setState({dropDownValue: text});
+        this.getKeys(text);
     }
 
     close() {
@@ -92,11 +123,13 @@ class Keys extends React.Component {
     }
 
     render () {
-        const { keys, modalShow } = this.state;
+        const { projects, keys, modalShow } = this.state;
         return (
             <div style={{width: '-webkit-fill-available'}}>
                 <div className="top-content">
-                    <input className="key-search" type="text" placeholder="Find by key ID or key name" />
+                    <DropdownButton id="dropdown-item-button" title={this.state.dropDownValue}> 
+                        { projects.map(this.state.renderTableData) }
+                    </DropdownButton>
                     <button className="new-key" onClick={this.open}>New Key</button>
                 </div>
                 <div className="bot-content">
@@ -114,7 +147,7 @@ class Keys extends React.Component {
                         </tbody>
                     </table>
                 </div>
-                <NewKeys show={modalShow} onHide={this.close}/>
+                <NewKeys  projectID={this.state.dropDownValue} show={modalShow} onHide={this.close}/>
             </div>
         );
     }

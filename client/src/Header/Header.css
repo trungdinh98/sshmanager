@@ -73,20 +73,6 @@ html,body {
     text-decoration: blink;
 }
 
-.projectButton {
-    padding: 4px 12px;
-    width: 128px;
-    text-align: left;
-    overflow: hidden;
-}
-
-.projectButton > a {
-    text-decoration: none;
-    font-size: 18px;
-    color: white;
-    width: 116px;
-}
-
 .projectButton:hover {
     background-color: rgba(255,255,255,0.3);
     transition: all 0.2s;

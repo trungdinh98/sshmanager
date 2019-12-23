@@ -71,9 +71,6 @@ class Header extends React.Component {
                         <div className="homeButton">
                             <Link to="/">SSH Manager</Link>
                         </div>
-                        <div className="projectButton">
-                            <Link to="/projects">Project</Link>
-                        </div>
                     </div>
 
                     <div className="rightNavBar">

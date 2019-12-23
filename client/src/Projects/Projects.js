@@ -73,14 +73,6 @@ class Projects extends React.Component{
         this.removeProject(project_id);
     }
 
-    // padWithZeros(number){
-    //     var my_string = '' + number;
-    //     while(my_string.length < 11){
-    //         my_string = '0' + my_string;
-    //     }
-    //     return my_string;
-    // }
-
     redirectToUser = (project_id) => {
         console.log(project_id);
         this.setState({redirect : true, project_id: project_id})
