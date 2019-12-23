@@ -26,16 +26,20 @@ router.post('/', (req, res, nex) => {
     }
     Models.key.findOne ({
         where: {
-            key_name: req.body.key_name
+            key_name: req.body.key_name,
+            project_id: req.body.project_id
         }
     })
     .then (key => {
         if (!key) {
             Models.key.create(keyData)
             .then(function (key) {
-                console.log(key.dataValues)
+                
                 if (key) {
-                    console.log()
+                    console.log("line 38 key: " + key.dataValues.key_id)
+                    console.log("line 40 key value: " + keyData.key_value)
+
+                    putItem(key.dataValues.key_id.toString(), keyData.key_value);
                     res.send(key);
                 } else {
                     res.status(400).send('Error in insert new record');
@@ -57,6 +61,7 @@ router.delete('/', (req, res, next) => {
         }
     })
     .then(keys => {
+        deleteItem(req.param('key_id').toString())
         res.json(keys)
     })
     .catch(err => {
@@ -64,7 +69,16 @@ router.delete('/', (req, res, next) => {
     })
 })
 
+
+
 function putItem(key_id, key_value){
+    let AWS = require("aws-sdk");
+    AWS.config.update({
+        region: process.env.AWS_REGION
+    })
+
+    let dynamoClient = new AWS.DynamoDB();
+
     var params = {
         TableName: process.env.DYNAMO_TABLE,
         Item: {
@@ -78,6 +92,33 @@ function putItem(key_id, key_value){
     }
 
     dynamoClient.putItem(params, function(err, data){
+        if(err){
+            console.log("Error", err);
+        }
+        else{
+            console.log("Success", data);
+        }
+    })
+}
+
+function deleteItem(key_id){
+    let AWS = require("aws-sdk");
+    AWS.config.update({
+        region: process.env.AWS_REGION
+    })
+
+    let dynamoClient = new AWS.DynamoDB();
+
+    var params = {
+        TableName: process.env.DYNAMO_TABLE,
+        Key: {
+            "key_id": {
+                N: key_id
+            }
+        }
+    }
+
+    dynamoClient.deleteItem(params, function(err, data){
         if(err){
             console.log("Error", err);
         }
