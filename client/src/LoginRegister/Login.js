@@ -28,7 +28,7 @@ class Login extends React.Component {
         }
 
         login(user).then(res => {
-            this.props.history.push(`/`)
+            this.props.history.push(`/projects`)
         })
     }
 

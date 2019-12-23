@@ -55,7 +55,6 @@ class Header extends React.Component {
             <div style={{float:'none'}}>
                 <div id="mySidenav" className="sidenav">
                     <div className="closebtn" onClick={closeNav}>&times;</div>
-                    <Link to="/">Home</Link>
                     <Link to="/users">Users</Link>
                     <Link to="/resources">Resources</Link>
                     <Link to="/projects">Projects</Link>

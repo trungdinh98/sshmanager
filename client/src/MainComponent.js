@@ -10,14 +10,15 @@ import Xterm from './Resources/Xterm';
 import ProjectUsers from './Users/ProjectUsers/ProjectUsers.js';
 import AddUsers from './Users/ProjectUsers/NewUser/AddUsers.js';
 import Users from './Users/Users/Users.js';
-import Logging from './Logging/Logging'
-import LogTerm from './Logging/LogTerm'
+import Logging from './Logging/Logging';
+import LogTerm from './Logging/LogTerm';
+import Landing from './Landing/Landing';
 
 class MainComponent extends React.Component {
     render () {
          return (
             <Switch>
-                <Route exact path='/' component={Resources}/>
+                <Route exact path='/' component={Landing}/>
                 <Route exact path='/projectUsers/' component={ProjectUsers} />
                 <Route exact path='/projectUsers/add' component={AddUsers} />
                 <Route path='/users' component={Users}/>

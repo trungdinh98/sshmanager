@@ -274,7 +274,7 @@ export default class DataTable extends React.Component {
     renderNote = () => {
         return (
             <div className="note" >
-                <div > Double Click < strong > SOMETHING </strong> to edit</div >
+                <div> Double Click <strong> SOMETHING </strong> to edit</div>
             </div>
         )
     }
@@ -308,7 +308,7 @@ export default class DataTable extends React.Component {
 
     static getDerivedStateFromProps(nextProps, prevState) {
         
-        console.log(nextProps.data.length, prevState.data.length)
+        // console.log(nextProps.data.length, prevState.data.length)
         if (nextProps.data.length === 0) {
             return {
                 data: nextProps.data,

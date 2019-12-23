@@ -1,0 +1,46 @@
+.body-contain {
+  padding: 120px 160px;
+  background-image: url("/image/landing.png");
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover
+}
+.presentation {
+  float: none;
+  color: #fff;
+  text-align: center;
+}
+
+.heading-title {
+  float: none;
+  text-align: center;
+  color: #fff;
+  text-transform: uppercase;
+  margin-bottom: 40px;
+}
+
+.title {
+  font-weight: bold;
+  letter-spacing: 7px;
+  text-align: center;
+  color: #fff;
+}
+
+#page-footer {
+  position: absolute;
+  bottom: 0;
+  float: none;
+  padding: 50px 0px 31px 0px;
+  background-color: $color_green_vogue;
+  text-align: center;
+  left: 25%;
+}
+
+#page-footer span {
+    font-size: 24.7px;
+    font-weight: bold;
+    line-height: 1.29;
+    letter-spacing: 0.5px;
+    color: #1b73e8;
+}
