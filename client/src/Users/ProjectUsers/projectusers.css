@@ -48,17 +48,44 @@
     padding-bottom: 2%;
   }
 
-  .project-users button {
-    -webkit-appearance: button;
-    background-color: #20c352;
-    color: #fff;
-    border: 1px solid rgba(7, 40, 84, 0.8);
-    /* //width: 50%; */
-    padding: 1px 6px;
-    font-size: 1em;
-    font-weight: lighter;
-    letter-spacing: 1px;
+.new-user {
+  -webkit-appearance: button;
+  background-color: #20c352;
+  color: #fff;
+  border: 1px solid rgba(7, 40, 84, 0.8);
+  /* //width: 50%; */
+  padding: 1px 6px;
+  font-size: 1em;
+  font-weight: lighter;
+  letter-spacing: 1px;
 }
+
+.delete-user {
+  -webkit-appearance: button;
+  background-color: #fff;
+  color: #000;
+  border: 1px solid #F44336;
+  width: 80px; 
+  padding: 1px 6px;
+  border-radius: 4px;
+  font-size: 1em;
+  font-weight: lighter;
+  letter-spacing: 1px;
+}
+
+.new-user, .back {
+  -webkit-appearance: button;
+  background-color: #fff;
+  color: #000;
+  border: 1px solid rgba(26, 115, 232, 1);
+  width: 80px; 
+  padding: 1px 6px;
+  border-radius: 4px;
+  font-size: 1em;
+  font-weight: lighter;
+  letter-spacing: 1px;
+}
+
 .table-content button {
   margin-top: 1%;
 }

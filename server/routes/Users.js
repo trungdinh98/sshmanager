@@ -76,7 +76,7 @@ router.get('/', (req, res) => {
     password: "mypasswd",
     database: "mydb"
   });
-  const SELECT_ALL_QUERY = `select u.user_id, user_email, user_password, user_firstname, user_lastname, (select count(project_id) from project_users pu where pu.user_id = u.user_id) as countPJ from users u inner join project_users pu on pu.user_id = u.user_id group by u.user_id`
+  const SELECT_ALL_QUERY = `select u.user_id, user_email, user_created_at, user_firstname, user_lastname, (select count(project_id) from projectUsers pu where pu.user_id = u.user_id) as countPJ from users u inner join projectUsers pu on pu.user_id = u.user_id group by u.user_id`
   con.connect(function (err) {
     if (err) return err;
     con.query(SELECT_ALL_QUERY, function (err, result) {
@@ -89,13 +89,12 @@ router.get('/', (req, res) => {
 //cập nhật thông tin sửa đổi của 1 nhân viên
 router.post('/update/:user_id', (req, res) => {
   const { user_id } = req.params;
-  const { user_email, user_firstname, user_lastname, user_password, user_countPJ } = req.body;
+  const { user_email, user_firstname, user_lastname, user_countPJ } = req.body;
 
   const data = Models.user.update({
     user_email: user_email,
     user_firstname: user_firstname,
     user_lastname: user_lastname,
-    user_password: user_password,
     user_countPJ: user_countPJ
   },
     {
@@ -119,7 +118,7 @@ router.get('/projectUsers/:project_id', (req, res) => {
     database: "mydb"
   });
   const { project_id } = req.params;
-  const SELECT_QUERY = `select * from users u inner join project_users pu on u.user_id = pu.user_id where pu.project_id = ${project_id}`
+  const SELECT_QUERY = `select * from users u inner join projectUsers pu on u.user_id = pu.user_id where pu.project_id = ${project_id}`
   con.connect(function (err) {
     if (err) return err;
     con.query(SELECT_QUERY, function (err, result) {
@@ -139,7 +138,7 @@ router.post('/deleteFromPJ', (req, res) => {
     database: "mydb"
   });
   console.log(user_id, project_id)
-  const DELETE_QUERY = `delete from project_users where project_id = ${project_id} && user_id = ${user_id}`
+  const DELETE_QUERY = `delete from projectUsers where project_id = ${project_id} && user_id = ${user_id}`
   con.connect(function(err){
     if(err) return err;
     con.query(DELETE_QUERY, function (err, result){
@@ -174,13 +173,13 @@ router.post('/addToPJ', async (req, res) => {
     password: "mypasswd",
     database: "mydb"
   });
-  const SELECT_QUERY = `select * from project_users pu where pu.project_id = ${project_id} && pu.user_id = ${user_id}`
+  const SELECT_QUERY = `select * from projectUsers pu where pu.project_id = ${project_id} && pu.user_id = ${user_id}`
   con.connect(function (err) {
     if (err) return err;
     con.query(SELECT_QUERY, function (err, result) {
       if(err) return err;
       if(result.length === 0){
-        const INSERT_QUERY = `insert into project_users(project_id,user_id,is_admin) values (${project_id}, ${user_id}, 0)`
+        const INSERT_QUERY = `insert into projectUsers(project_id,user_id,is_admin) values (${project_id}, ${user_id}, 0)`
         con.query(INSERT_QUERY, function(err, result) {
           if(err) return err;
           res.json({success: true, data: result})
