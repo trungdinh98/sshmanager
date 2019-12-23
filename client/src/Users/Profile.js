@@ -30,27 +30,28 @@ class Profile extends React.Component {
 
     render () {
         return (
-            <div className="container">
-                <div className="jumbotron mt-5">
-                    <div className="col-sm-8 mx-auto">
-                        <h1 className="text-center"> PROFILE</h1>
+            <div style={{float:'none'}} className="container">
+             <h1 style={{padding: '100px 0 30px'}} className="text-center"> PROFILE</h1>
+                <div style={{width: 'inherit'}} className="jumbotron mt-5">
+                    <div>
+                        <img src="/image/avatar.jpeg"/>
                     </div>
                     <table className="table col-md-6 mx-auto">
                         <tbody>
                             <tr>
-                                <td>First Name</td>
+                                <td>First Name:</td>
                                 <td>{this.state.user_firstname}</td>
                             </tr>
                             <tr>
-                                <td>Last Name</td>
+                                <td>Last Name:</td>
                                 <td>{this.state.user_lastname}</td>
                             </tr>
                             <tr>
-                                <td>Email</td>
+                                <td>Email:</td>
                                 <td>{this.state.user_email}</td>
                             </tr>
                             <tr>
-                                <td>ID</td>
+                                <td>ID:</td>
                                 <td>{this.state.user_id}</td>
                             </tr>
                         </tbody>
