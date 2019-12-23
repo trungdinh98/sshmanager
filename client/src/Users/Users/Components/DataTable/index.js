@@ -328,7 +328,6 @@ export default class DataTable extends React.Component {
 
     //hiển thị toàn bộ trang
     render() {
-        const { redirect } = this.state;
         return (
             <div className={this.props.className} >
                 {this.pagination.enabled &&

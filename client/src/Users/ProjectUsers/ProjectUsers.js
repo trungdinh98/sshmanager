@@ -34,8 +34,13 @@ class ProjectUsers extends React.Component {
   }
 
   componentDidMount() {
-    let project_id = this.state.project_id;
-    this.getUsers(project_id);
+    const token = localStorage.usertoken;
+    if (token === undefined) {
+        this.props.history.push(`/login`)
+    } else {
+      let project_id = this.state.project_id;
+      this.getUsers(project_id);
+    }
   };
 
   //xóa nhân viên khỏi project

@@ -1,5 +1,5 @@
-import React from 'react'
-import api from '../api'
+import React from 'react';
+import api from '../api';
 
 class Logging extends React.Component{
     constructor(){
@@ -10,9 +10,14 @@ class Logging extends React.Component{
         }
     }
 
-    componentDidMount(){
-        this.getLogs(this.state.project_id)
-        console.log(this.state.logs)
+    componentDidMount () {
+        const token = localStorage.usertoken;
+        if (token === undefined) {
+            this.props.history.push(`/login`)
+        } else {
+            this.getLogs(this.state.project_id)
+            console.log(this.state.logs)
+        }
     }
 
     async getLogs(project_id){

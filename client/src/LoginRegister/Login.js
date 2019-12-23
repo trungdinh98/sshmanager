@@ -15,6 +15,13 @@ class Login extends React.Component {
         this.onSubmit = this.onSubmit.bind(this)
     }
 
+    componentDidMount () {
+        const token = localStorage.usertoken;
+        if (token !== undefined) {
+            this.props.history.push(`/`)
+        }
+    }
+
     onChange(e) {
         this.setState({[e.target.name]: e.target.value})
     }
@@ -62,7 +69,7 @@ class Login extends React.Component {
                             Sign in
                         </button>
                         <div className="login_box text-center">
-                           <Link className="link-primary" to="/reset-password" >Reset Password</Link>
+                           <Link className="link-primary" to="/register">Register if you do not have account</Link>
                         </div>
                     </div>
                 </form>

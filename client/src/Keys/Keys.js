@@ -41,8 +41,13 @@ class Keys extends React.Component {
     }
 
     componentDidMount () {
-        this._isMounted = true;
-        this.getKeys(1001);
+        const token = localStorage.usertoken;
+        if (token === undefined) {
+            this.props.history.push(`/login`)
+        } else {
+            this._isMounted = true;
+            this.getKeys(1001);
+        }
     }
 
     getKeys (project_id) {

@@ -35,6 +35,13 @@ class Users extends React.Component {
         this.state = model;
     }
 
+    componentDidMount () {
+        const token = localStorage.usertoken;
+        if (token === undefined) {
+            this.props.history.push(`/login`)
+        }
+    }
+
     //cập nhật chỉnh sửa trên giao diện và database
     onUpdateTable = (field, id, value) => {
         let data = this.state.data.slice();
