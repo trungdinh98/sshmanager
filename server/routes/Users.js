@@ -191,4 +191,22 @@ router.post('/addToPJ', async (req, res) => {
   })
 })
 
+//kiểm tra xem người dùng có là admin của Project hay không
+router.post('/isAdmin', (req, res) => {
+  const {project_id, authen_id} = req.body;
+  var con = mysql.createConnection({
+    host: "172.10.10.10",
+    user: "root",
+    password: "mypasswd",
+    database: "mydb"
+  });
+  const SELECT_QUERY = `select is_admin from projectUsers where project_id = ${project_id} && user_id = ${authen_id}`
+  con.connect(function(err){
+    if(err) return err;
+    con.query(SELECT_QUERY, function (err, result){
+      if(err) return err;
+      res.json(result)
+    })
+  })
+})
 module.exports = router;

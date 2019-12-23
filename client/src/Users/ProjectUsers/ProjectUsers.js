@@ -2,6 +2,8 @@ import React from 'react';
 import Axios from 'axios';
 import { Redirect } from 'react-router-dom';
 import './projectusers.css';
+import api from '../../api';
+import jwt_decode from 'jwt-decode';
 
 class ProjectUsers extends React.Component {
 
@@ -16,6 +18,7 @@ class ProjectUsers extends React.Component {
         user_firstname: "",
         user_lastname: ""
       },
+      authen_id: "",
       project_id: this.props.location.state.project_id,
     };
     console.log(this.state.project_id)
@@ -24,7 +27,7 @@ class ProjectUsers extends React.Component {
   //lấy thông tin nhân viên có trong project
   getUsers = (project_id) => {
     console.log("hello1")
-    Axios.get(`http://localhost:4000/Users/projectUsers/${project_id}`, project_id)
+    api.get(`/Users/projectUsers/${project_id}`, project_id)
       .then(response => {
         this.setState({ users: response.data.data })
       })
@@ -36,32 +39,61 @@ class ProjectUsers extends React.Component {
   componentDidMount() {
     const token = localStorage.usertoken;
     if (token === undefined) {
-        this.props.history.push(`/login`)
+      this.props.history.push(`/login`)
     } else {
       let project_id = this.state.project_id;
+      const decode = jwt_decode(token);
+      this.setState({
+        authen_id: decode.user_id
+      });
       this.getUsers(project_id);
     }
   };
 
   //xóa nhân viên khỏi project
   removeUser(user_id) {
-    let project_id = this.state.project_id;
-    if (window.confirm(`Delete user id ${user_id} from this project?`)) {
-      Axios.post(`http://localhost:4000/Users/deleteFromPJ`, { project_id, user_id })
-        .then(response => {
-          if (response.data.success) {
-            this.getUsers(project_id);
+    const { authen_id } = this.state;
+    const project_id = this.state.project_id;
+    api.post('/Users/isAdmin', { project_id, authen_id })
+      .then(response => {
+        if (response.data[0].is_admin === 1 && authen_id !== user_id) {
+          let project_id = this.state.project_id;
+          if (window.confirm(`Delete user id ${user_id} from this project?`)) {
+            api.post(`/Users/deleteFromPJ`, { project_id, user_id })
+              .then(response => {
+                if (response.data.success) {
+                  this.getUsers(project_id);
+                }
+              })
+              .catch(error => {
+                return error;
+              })
           }
-        })
-        .catch(error => {
-          return error;
-        })
-    }
+        } else if(response.data[0].is_admin === 1 && authen_id === user_id){
+          alert("You're admin, so you can't go");
+        } else {
+          alert("You're not admin");
+        }
+      }).catch(error => {
+        return error;
+      })
+
   }
 
   //thêm nhân viên mới vào project
   inviteUser = () => {
-    this.setState({ redirect: true });
+    const { authen_id } = this.state;
+    const project_id = this.state.project_id;
+    api.post('/Users/isAdmin', { project_id, authen_id })
+      .then(response => {
+        if (response.data[0].is_admin === 1) {
+          this.setState({ redirect: true });
+        } else {
+          alert("You're not admin");
+        }
+      }).catch(error => {
+        return error;
+      })
   }
 
   //hiển thị body của bảng nhân viên
@@ -79,10 +111,10 @@ class ProjectUsers extends React.Component {
       )
     })
   }
-  onBackProject = () =>{
+  onBackProject = () => {
     return (
       this.props.history.push('/projects')
-  )
+    )
   }
 
   //hiển thị bảng nhân viên trong project
