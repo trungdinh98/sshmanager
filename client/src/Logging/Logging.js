@@ -65,10 +65,10 @@ class Logging extends React.Component{
         })
     }
 
-    removeLogs(log){
+    removeLogs(log_id){
         api.delete('/logs', {
             params: {
-                log_name: log
+                log_id: log_id
             }
         })
         .then((response) => {
@@ -89,7 +89,7 @@ class Logging extends React.Component{
 
 	replayLog(project_id, log_name){
 		let url = `http://localhost:3000/logTerm?project_id=${project_id}&log_name=${log_name}`;
-		this.replayPopup(url,'ssh log replay','730','430','yes')
+		this.replayPopup(url,'ssh log replay','561','401','yes')
 	}
 
     padWithZeros(number){
@@ -115,7 +115,7 @@ class Logging extends React.Component{
                     <td align="left">{log.log_name}</td>
                     <td align="left">{new Date(log.log_created_at).toLocaleString()}</td>
                     {/* <td align="center"><button onClick={() => {this.onSubmit(this.state.project_id,log.log_name)}}>Commands</button></td> */}
-                    <td align="center"><button className="replay-log" onClick={() => {this.replayLog(this.state.project_id,log.log_name)}}>Replay</button></td>
+                    <td align="center"><button className="replay-log" onClick={() => {this.replayLog(this.state.dropDownValue,log.log_name)}}>Replay</button></td>
                     <td><button className="delete-log" onClick={() => {this.removeLogs(log.log_id)}}>Delete</button></td>
                 </tr>
             )
