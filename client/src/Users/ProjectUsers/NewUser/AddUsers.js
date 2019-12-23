@@ -24,6 +24,13 @@ export default class AddUsers extends React.Component {
         }
     }
 
+    componentDidMount () {
+        const token = localStorage.usertoken;
+        if (token === undefined) {
+            this.props.history.push(`/login`)
+        }
+    }
+
     //lấy thông tin từ input và check trạng thái input
     handleChange = e => {
         e.preventDefault();

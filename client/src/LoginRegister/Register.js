@@ -1,5 +1,5 @@
 import React from 'react';
-import { withRouter } from 'react-router-dom';
+import { withRouter, Link } from 'react-router-dom';
 import { register } from './UserFunctions';
 import './Login.css';
 
@@ -15,6 +15,13 @@ class Register extends React.Component {
 
         this.onChange = this.onChange.bind(this)
         this.onSubmit = this.onSubmit.bind(this)
+    }
+
+    componentDidMount () {
+        const token = localStorage.usertoken;
+        if (token !== undefined) {
+            this.props.history.push(`/`)
+        }
     }
 
     onChange(e) {
@@ -85,6 +92,9 @@ class Register extends React.Component {
                         <button type="submit" className="btn btn-lg btn-primary btn-block">
                             Register
                         </button>
+                        <div className="login_box text-center">
+                           <Link className="link-primary" to="/login">Login if you have had an account</Link>
+                        </div>
                     </div>
                 </form>
             </div>

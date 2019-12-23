@@ -14,13 +14,18 @@ class Profile extends React.Component {
 
     componentDidMount () {
         const token = localStorage.usertoken;
-        const decode = jwt_decode(token);
-        this.setState({
-            user_firstname: decode.user_firstname,
-            user_lastname: decode.user_lastname,
-            user_email: decode.user_email,
-            user_id: decode.user_id
-        })
+        if (token === undefined) {
+            this.props.history.push(`/login`)
+        } else {
+            const token = localStorage.usertoken;
+            const decode = jwt_decode(token);
+            this.setState({
+                user_firstname: decode.user_firstname,
+                user_lastname: decode.user_lastname,
+                user_email: decode.user_email,
+                user_id: decode.user_id
+            })
+        }
     }
 
     render () {

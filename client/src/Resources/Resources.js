@@ -2,7 +2,6 @@ import React from 'react';
 import api from '../api';
 import './Resources.css';
 
-
 class Resources extends React.Component{
 
 	constructor(){
@@ -22,7 +21,12 @@ class Resources extends React.Component{
 	}
 
 	componentDidMount(){
-		this.getResources(1001)
+		const token = localStorage.usertoken;
+		if (token === undefined) {
+			this.props.history.push(`/login`)
+		} else {
+			this.getResources(1001);
+		}
 	}
 
 	async getResources(project_id){

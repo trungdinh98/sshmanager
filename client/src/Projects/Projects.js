@@ -16,11 +16,15 @@ class Projects extends React.Component{
 
     componentDidMount () {
         const token = localStorage.usertoken;
-        const decode = jwt_decode(token);
-        this.setState({
-            user_id: decode.user_id
-        });
-        this.getProjects(decode.user_id);
+        if (token === undefined) {
+            this.props.history.push(`/login`)
+        } else {
+            const decode = jwt_decode(token);
+            this.setState({
+                user_id: decode.user_id
+            });
+            this.getProjects(decode.user_id);
+        }
     }
 
     async getProjects(user_id){
