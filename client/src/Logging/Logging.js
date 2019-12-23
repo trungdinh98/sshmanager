@@ -1,6 +1,7 @@
 import React from 'react'
 import api from '../api'
 import { withRouter } from 'react-router-dom'
+import './Logging.css'
 
 class Logging extends React.Component{
     constructor(){
@@ -42,7 +43,6 @@ class Logging extends React.Component{
             }
         })
         .then((response) => {
-            console.log(response)
             this.getLogs(this.state.project_id)
         })
         .catch((err) => {
@@ -82,12 +82,11 @@ class Logging extends React.Component{
         return this.state.logs.map((log, index) => {
             return (
                 <tr key={log.log_id}>
-                    <td></td>
-                    <td align="center">{this.padWithZeros(log.log_id)}</td>
+                    <td align="left">{this.padWithZeros(log.log_id)}</td>
                     <td align="left">{log.log_name}</td>
                     <td align="left">{new Date(log.log_created_at).toLocaleString()}</td>
                     {/* <td align="center"><button onClick={() => {this.onSubmit(this.state.project_id,log.log_name)}}>Commands</button></td> */}
-                    <td align="center"><button onClick={() => {this.replayLog(this.state.project_id,log.log_name)}}>Replay</button></td>
+                    <td align="center"><button className="replay-log" onClick={() => {this.replayLog(this.state.project_id,log.log_name)}}>Replay</button></td>
                 </tr>
             )
         })
@@ -96,14 +95,16 @@ class Logging extends React.Component{
     render(){
         return(
             <div>
-                <h3>Logs</h3>
-                <table>
+                <div className="top-content">
+                    <input className="key-search" type="text" placeholder="Find by " />
+                </div>
+                <div className="bot-content">
+                    <table className="log-table">
                         <thead>
                             <tr>
-                                <th></th>
-                                <th><div>ID</div></th>
-                                <th><div>Name</div></th>
-                                <th><div>Created at</div></th>
+                                <th className="log-id">ID</th>
+                                <th className="log-name">Name</th>
+                                <th className="log-time">Created at</th>
                                 <th></th>
                             </tr>
                         </thead>
@@ -111,6 +112,7 @@ class Logging extends React.Component{
                             {this.renderTableData()}
                         </tbody>
                     </table>
+                </div>
             </div>
         )
     }
