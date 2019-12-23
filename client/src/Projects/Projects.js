@@ -88,10 +88,6 @@ class Projects extends React.Component{
         })
     }
 
-    apiDelete = (project_id) => {
-        this.removeProject(project_id);
-    }
-
     redirectToUser = (project_id) => {
         console.log(project_id);
         this.setState({redirect : true, project_id: project_id})
@@ -122,13 +118,6 @@ class Projects extends React.Component{
             )
         })
     }
-    
-    apiPostTest = () => {
-        console.log("Post test");
-        this.addProject("project x", this.state.user_id);
-
-    }
-
 
     render(){
         const {redirect, project_id} = this.state;
@@ -153,7 +142,7 @@ class Projects extends React.Component{
                         </tbody>
                     </table>
                 </div>
-                <NewProject show={modalShow} onHide={this.close}/>
+                <NewProject userId={this.state.user_id} show={modalShow} onHide={this.close}/>
                     {redirect && (<Redirect to={{ pathname: '/projectusers/', state: {project_id}}}/>)}
             </div>
         )

@@ -4,26 +4,15 @@ import Button from 'react-bootstrap/Button';
 import InputGroup from 'react-bootstrap/InputGroup';
 import Form from 'react-bootstrap/Form';
 import { createProject } from './Projects'
-import jwt_decode from 'jwt-decode';
-
 
 class CreateNewProject extends React.Component{
     constructor(props){
         super(props);
         this.state = {
-            project_name: "",
-            user_id: ""
+            project_name: ""
         }
         this.onChange = this.onChange.bind(this)
         this.onSubmit = this.onSubmit.bind(this)
-    }
-
-    componentDidMount () {
-        const token = localStorage.usertoken;
-        const decode = jwt_decode(token);
-        this.setState({
-            user_id: decode.user_id
-        });
     }
 
     onChange(e){
@@ -35,7 +24,7 @@ class CreateNewProject extends React.Component{
 
         const project = {
             project_name: this.state.project_name,
-            user_id: this.state.user_id
+            user_id: this.props.userId
         }
 
         createProject(project).then(response => {

@@ -3,8 +3,7 @@ import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import InputGroup from 'react-bootstrap/InputGroup';
 import Form from 'react-bootstrap/Form';
-import { createResource } from './Resources'
-import jwt_decode from 'jwt-decode';
+import { createResource } from './Resources';
 
 
 class CreateNewResource extends React.Component{
@@ -20,14 +19,6 @@ class CreateNewResource extends React.Component{
         this.onSubmit = this.onSubmit.bind(this)
     }
 
-    componentDidMount () {
-        const token = localStorage.usertoken;
-        const decode = jwt_decode(token);
-        this.setState({
-            user_id: decode.user_id
-        });
-    }
-
     onChange(e){
         this.setState({[e.target.name]: e.target.value})
     }
@@ -36,6 +27,7 @@ class CreateNewResource extends React.Component{
         e.preventDefault()
 
         let resource = {
+            project_id: this.props.projectID,
             resource_name: this.state.resource_name,
             resource_key_id: this.state.resource_key_id,
             resource_dns: this.state.resource_dns,

@@ -1,7 +1,9 @@
 import React from 'react';
 import api from '../api';
 import './Resources.css';
-import NewResource from './CreateNewResource'
+import NewResource from './CreateNewResource';
+import jwt_decode from 'jwt-decode';
+import { Dropdown, DropdownButton } from 'react-bootstrap';
 
 
 export const createResource = resource => {
@@ -11,7 +13,7 @@ export const createResource = resource => {
 		resource_user: resource.resource_user,
 		resource_dns: resource.resource_dns,
 		key_id: resource.resource_key_id,
-		project_id: 1001 
+		project_id: resource.project_id, 
     })
     .then((response) => {
         console.log(response.data);
@@ -28,7 +30,12 @@ class Resources extends React.Component{
 		this.state = {
 			resources : [],
 			project_id: "",
-			modalShow: false
+			projects: [],
+			modalShow: false,
+			dropDownValue: "Select an Projects ID",
+			user_id: '',
+			renderProjects: ({project_id, project_name}) =>
+                <Dropdown.Item key={project_id} as="button"><div onClick={(e) => this.changeValue(e.target.textContent)}>{project_id}</div></Dropdown.Item>
 		}
 		this.open = this.open.bind(this);
         this.close = this.close.bind(this);
@@ -40,16 +47,35 @@ class Resources extends React.Component{
 		if (token === undefined) {
 			this.props.history.push(`/login`)
 		} else {
-			this.getResources(1001);
+			const decode = jwt_decode(token);
+            this.setState({
+                user_id: decode.user_id
+            });
+            this.getProjects(decode.user_id);
 		}
 	}
 
+	async getProjects(user_id){
+        await api.get('/projects', {
+            params: {
+                user_id: user_id
+            }
+        })
+        .then((response) => {
+            this.setState({projects:response.data});
+            console.log(this.state.projects);
+        })
+        .catch((err) => {
+            console.log(err);
+        })
+    }
+
+    changeValue(text) {
+        this.setState({dropDownValue: text});
+        this.getResources(text);
+    }
+
 	async getResources(project_id){
-
-		/*
-		 * get a list of all resources 
-		 */
-
 		await api.get('/resources', {
 			params: {
 				project_id: project_id
@@ -57,44 +83,12 @@ class Resources extends React.Component{
 		})
 		.then((response) => {
 			this.setState({resources:response.data})
-			// console.log(response);
-			
-			// console.log(this.state.resources);
 		})
 		.catch((err) => {
 			console.log(err)
 		})
 	}
 
-
-	addResource(project_id, resource_name, resource_dns, key_id, resource_user){
-
-		/*
-		 * add a new resource
-		 */
-		// new Promise((resolve, rejects) => {
-			api.post('/resources', {
-				project_id: 1001,
-				resource_name: resource_name,
-				resource_dns: resource_dns,
-				key_id: key_id,
-				resource_user: resource_user
-			})
-			.then((response) => {
-				console.log(response)
-				this.getResources(1001)
-			})
-			.catch((err) => {
-				console.log(err);
-			})
-		// })
-
-		
-	}
-
-	// async updateResource(resource_id){
-	// 	await api.put('')
-	// }
 
 	removeResource(resource_id){
 		api.delete('/resources', {
@@ -104,7 +98,7 @@ class Resources extends React.Component{
 		})
 		.then((response) => {
 			console.log(response)
-			this.getResources(1001)
+			this.getResources(this.state.dropDownValue)
 		})
 		.catch((err) => {
 			console.log(err);
@@ -112,29 +106,19 @@ class Resources extends React.Component{
 	}
 
 	sshPopup(url,winName,w,h,scroll) {
-		// let popupWindow = null;
- 		let LeftPosition = (window.screen.width) ? (window.screen.width-w)/2 : 0;
+		let LeftPosition = (window.screen.width) ? (window.screen.width-w)/2 : 0;
 		let TopPosition = (window.screen.height) ? (window.screen.height-h)/2 : 0;
 		let settings =
 		'height='+h+',width='+w+',top='+TopPosition+',left='+LeftPosition+',scrollbars='+scroll+',resizable'
-		// popupWindow = 
+
 		window.open(url,winName,settings)
 	}
 
 	startConnection(resource_id){
-		// window.open("http://localhost:3000/Xterm", "_blank")
 		let url = `http://localhost:3000/Xterm?resource_id=${resource_id}`;
 		this.sshPopup(url,'myWindow','730','430','yes')
 	}
 
-	// padWithZeros(number){
-	// 	var my_string = '' + number;
-	// 	while(my_string.length < 11){
-	// 		my_string = '0' + my_string;
-	// 	}
-	// 	return my_string;
-	// }
-	
 	renderTableData(){
 		return this.state.resources.map((resource, index) => {
 			return (
@@ -165,11 +149,13 @@ class Resources extends React.Component{
     }
 
 	render(){
-		let {resources, modalShow} = this.state;
+		let { projects, modalShow } = this.state;
 		return(
 			<div style={{width: '-webkit-fill-available'}}>
 				<div className="top-content">
-					<input className="resource-search" type="text" placeholder="Find by resource ID or resource name" />
+					<DropdownButton id="dropdown-item-button" title={this.state.dropDownValue}> 
+                        { projects.map(this.state.renderProjects) }
+                    </DropdownButton>
 					<button className="new-resource" onClick = {this.open}>Add Resource</button>
 				</div>
 				<div className="bot-content">
@@ -189,7 +175,7 @@ class Resources extends React.Component{
 						</tbody>
 					</table>
 				</div>
-				<NewResource show={modalShow} onHide={this.close}/>
+				<NewResource projectID={this.state.dropDownValue} show={modalShow} onHide={this.close}/>
 			</div>
 		)
 	}
