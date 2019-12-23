@@ -36,9 +36,6 @@ router.post('/', (req, res, nex) => {
             .then(function (key) {
                 
                 if (key) {
-                    console.log("line 38 key: " + key.dataValues.key_id)
-                    console.log("line 40 key value: " + keyData.key_value)
-
                     putItem(key.dataValues.key_id.toString(), keyData.key_value);
                     res.send(key);
                 } else {
