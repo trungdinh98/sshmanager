@@ -12,6 +12,7 @@ import AddUsers from './Users/ProjectUsers/NewUser/AddUsers.js';
 import Users from './Users/Users/Users.js';
 import Logging from './Logging/Logging';
 import LogTerm from './Logging/LogTerm';
+import Commands from './Logging/Commands'
 import Landing from './Landing/Landing';
 import jwt_decode from 'jwt-decode';
 
@@ -46,6 +47,8 @@ class MainComponent extends React.Component {
                 <Route path='/xterm' component={Xterm}/>
                 <Route path='/logging' component={Logging}/>
                 <Route path='/logTerm' component={LogTerm}/>
+                <Route path='/commands' component={Commands}/>
+
             </Switch>
         )
     }

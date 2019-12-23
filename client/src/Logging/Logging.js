@@ -1,12 +1,14 @@
 import React from 'react'
 import api from '../api'
+import { withRouter } from 'react-router-dom'
 
 class Logging extends React.Component{
     constructor(){
         super();
         this.state={
             logs: [],
-            project_id: 1001
+            project_id: 1001,
+            user_commands: ""
         }
     }
 
@@ -44,12 +46,11 @@ class Logging extends React.Component{
     }
 
     replayPopup(url,winName,w,h,scroll) {
-		let popupWindow;
  		let LeftPosition = (window.screen.width) ? (window.screen.width-w)/2 : 0;
 		let TopPosition = (window.screen.height) ? (window.screen.height-h)/2 : 0;
 		let settings =
 		'height='+h+',width='+w+',top='+TopPosition+',left='+LeftPosition+',scrollbars='+scroll+',resizable'
-		popupWindow = window.open(url,winName,settings)
+		window.open(url,winName,settings)
 	}
 
 	replayLog(project_id, log_name){
@@ -63,7 +64,14 @@ class Logging extends React.Component{
 			my_string = '0' + my_string;
 		}
 		return my_string;
-	}
+    }
+
+    onSubmit = (project_id, logs_name) => {
+        this.props.history.push({
+            pathname: `/commands`,
+            search: `?project_id=${project_id}&log_name=${logs_name}`
+        });
+    }
 
     renderTableData(){
         return this.state.logs.map((log, index) => {
@@ -73,6 +81,7 @@ class Logging extends React.Component{
                     <td align="center">{this.padWithZeros(log.log_id)}</td>
                     <td align="left">{log.log_name}</td>
                     <td align="left">{new Date(log.log_created_at).toLocaleString()}</td>
+                    {/* <td align="center"><button onClick={() => {this.onSubmit(this.state.project_id,log.log_name)}}>Commands</button></td> */}
                     <td align="center"><button onClick={() => {this.replayLog(this.state.project_id,log.log_name)}}>Replay</button></td>
                 </tr>
             )
@@ -102,4 +111,4 @@ class Logging extends React.Component{
     }
 }
 
-export default Logging;
+export default withRouter(Logging);

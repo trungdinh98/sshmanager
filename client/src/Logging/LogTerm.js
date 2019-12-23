@@ -24,26 +24,20 @@ class LogTerm extends React.Component{
 		let url = new URL(window.location.href);
         let log_name = url.searchParams.get("log_name");
 		let project_id = url.searchParams.get("project_id");
-		socket.emit("getSshLog", project_id, log_name);
+		socket.emit("replayLog", project_id, log_name);
 		term.open(this.termElm)
 
 		socket.on('connect', function () {
             // Backend -> Browser
-            socket.on('returnLog', function (data) {
-				// term.write(data.replace(/\r/g, '\n\r'));
-				// term.write(data);
+            socket.on('replayLog', function (data) {
 
-				// console.log(JSON.parse(data))
-				let commands = JSON.parse(data)
+				let commands = JSON.parse("[" + data + "]")
 				let firtTimeStamp = commands[0].time;
 				let lastTimeStamp = commands[commands.length - 1].time
-				console.log("first:" + firtTimeStamp)
-				console.log("last: " + lastTimeStamp)
 
 				let tmp = firtTimeStamp;
 
 				commands.forEach(async element => {
-					// console.log(element.time + "----" + tmp)
 					function sleep(ms) {
 						return new Promise(resolve => setTimeout(resolve, ms));
 					}
@@ -66,7 +60,6 @@ class LogTerm extends React.Component{
 
 	}
 	delaySpeed(thisTime, needTime, speed){
-		// this.setState({delaySpeed: milisec})
 		setTimeout(() => {
 			thisTime ++;
 			if(thisTime >= needTime){
@@ -81,7 +74,7 @@ class LogTerm extends React.Component{
 		return(
 		<div>
 			<div id="terminal" style={{margin:"0px",height:"100%",width:"100%",overflowY:"hidden"}}></div>
-			<div>
+			{/* <div>
 				<input 
 					id="typeinp" 
 					type="range" 
@@ -90,7 +83,7 @@ class LogTerm extends React.Component{
 					onChange={(e) => {this.setSpeed(e.target.value)}}
 					step="0.25"/>
 				<p class="value">{ this.state.speed }</p>
-			</div>
+			</div> */}
 		</div>
 		)
 	}
