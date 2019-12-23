@@ -26,6 +26,8 @@ class LogTerm extends React.Component{
 		let project_id = url.searchParams.get("project_id");
 		socket.emit("replayLog", project_id, log_name);
 		term.open(this.termElm)
+		
+		// fitAddon.fit();
 
 		socket.on('connect', function () {
             // Backend -> Browser
