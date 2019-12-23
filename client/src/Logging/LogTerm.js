@@ -2,6 +2,8 @@ import React from 'react'
 import { Terminal } from 'xterm'
 import io from 'socket.io-client'
 import 'xterm/css/xterm.css'
+import { FitAddon } from 'xterm-addon-fit'
+import {fit} from 'xterm/lib/xterm'
 
 
 class LogTerm extends React.Component{
@@ -11,13 +13,14 @@ class LogTerm extends React.Component{
 			delaySpeed: 1,
 			speed: 1
 		}
+		
 	}
 
-
 	componentDidMount(){
-		const term = new Terminal({
+		var term = new Terminal({
 			fontSize: 16
 		})
+		
 		const socket = io.connect("127.0.0.1:9000");
 		// const socket = io.connect("192.168.1.171:9000");
 
@@ -25,13 +28,12 @@ class LogTerm extends React.Component{
         let log_name = url.searchParams.get("log_name");
 		let project_id = url.searchParams.get("project_id");
 		socket.emit("replayLog", project_id, log_name);
-		term.open(this.termElm)
-		
-		// fitAddon.fit();
+		term.open(document.getElementById('terminal-container'))
 
 		socket.on('connect', function () {
             // Backend -> Browser
             socket.on('replayLog', function (data) {
+				console.log(data)
 
 				let commands = JSON.parse("[" + data + "]")
 				let firtTimeStamp = commands[0].time;
@@ -45,7 +47,6 @@ class LogTerm extends React.Component{
 					}
 					while(tmp < element.time){
 						let time = element.time - tmp
-						console.log(time)
 						await sleep(time)
 						tmp = element.time
 						term.write(element.value.replace(/\r/g, '\n\r'));
@@ -75,7 +76,11 @@ class LogTerm extends React.Component{
 	render(){
 		return(
 		<div>
-			<div id="terminal" style={{margin:"0px",height:"100%",width:"100%",overflowY:"hidden"}}></div>
+			{/* <div id="terminal" style={{margin:"0px",height:"100px",width:"100px",overflowY:"hidden"}}></div> */}
+			<div id="terminal">
+				<script></script>
+			</div>
+
 			{/* <div>
 				<input 
 					id="typeinp" 

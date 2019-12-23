@@ -116,7 +116,7 @@ class Resources extends React.Component{
 
 	startConnection(resource_id){
 		let url = `http://localhost:3000/Xterm?resource_id=${resource_id}`;
-		this.sshPopup(url,'myWindow','730','430','yes')
+		this.sshPopup(url,'myWindow','561','401','yes')
 	}
 
 	renderTableData(){
