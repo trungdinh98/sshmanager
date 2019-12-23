@@ -3,7 +3,7 @@
   padding: 39px 0px 39px 100px;
 }
 
-.project-search {
+.resource-search {
   width: 413px;
   height: 37px;
   line-height: 20px;
@@ -15,9 +15,9 @@
   padding: 0px 15px;
 }
 
-.delete-project {
+.delete-resource {
   float: right;
-  width: 130px;
+  width: 80px;
   height: 37px;
   line-height: 20px;
   border-radius: 4px;
@@ -26,20 +26,9 @@
   border: 1px solid #F44336;
 }
 
-.show-project {
+.new-resource {
   float: right;
-  width: 110px;
-  height: 37px;
-  line-height: 20px;
-  border-radius: 4px;
-  background-color: rgba(255, 255, 255, 1);
-  text-align: center;
-  border: 1px solid rgba(26, 115, 232, 1);
-}
-
-.new-project {
-  float: right;
-  width: 110px;
+  width: 100px;
   height: 37px;
   line-height: 20px;
   border-radius: 4px;
@@ -49,43 +38,73 @@
   margin: 0px 100px 0px 10px;
 }
 
+.connect-resource {
+  float: right;
+  width: 80px;
+  height: 37px;
+  line-height: 20px;
+  border-radius: 4px;
+  background-color: rgba(255, 255, 255, 1);
+  text-align: center;
+  border: 1px solid #8BC34A;
+}
+
 .bot-content {
   padding: 15px 100px;
   width: -webkit-fill-available;
 }
 
 /*                  TABLE                  */
-.project-table {
+.resource-table {
   width: -webkit-fill-available;
   border-collapse: collapse;
 }
 
-.project-table thead {
+.resource-table thead {
   text-align: left;
 }
 
-.project-table thead:after {
+.resource-table thead:after {
   content:"@";
   display:block;
   line-height:17px;
   text-indent:-99999px;
 }
 
-.project-table thead tr th {
-  width: 24%;
+.resource-table thead tr th {
   padding: 0px 0px 0px 13px;
   border-left: 1px solid rgba(187, 187, 187, 1);
 }
 
-.project-table tbody {
+.resource-table tbody {
   text-align: left;
   border-top: 2px solid rgba(187, 187, 187, 1);
 }
 
-.project-table tbody tr {
+.resource-table tbody tr {
   border-bottom: 1px solid rgba(187, 187, 187, 1);
 }
 
-.project-table tbody tr td {
+.resource-table tbody tr td {
   padding: 20px 0px 20px 13px;
+}
+
+.resource-name {
+  width: 18%;
+}
+
+.resource-id {
+  width: 7%;
+}
+
+.project-id {
+  width: 13%;
+}
+
+.key-id {
+  width: 10%;
+}
+
+.dns {
+  width: 9%;
 }

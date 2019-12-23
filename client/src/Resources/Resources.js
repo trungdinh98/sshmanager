@@ -1,12 +1,11 @@
 import React from 'react';
 import api from '../api';
-// import './resources.css';
+import './Resources.css';
 
 
 class Resources extends React.Component{
 
 	constructor(){
-		
 		super();
 		this.state = {
 			resources : [],
@@ -78,22 +77,19 @@ class Resources extends React.Component{
 	// 	await api.put('')
 	// }
 
-	removeResource(resource_ids){
-		resource_ids.forEach(resource_id => {
-			api.delete('/resources', {
-				params:{
-					resource_id: resource_id
-				}
-			})
-			.then((response) => {
-				console.log(response)
-				this.getResources(1001)
-			})
-			.catch((err) => {
-				console.log(err);
-			})
+	removeResource(resource_id){
+		api.delete('/resources', {
+			params:{
+				resource_id: resource_id
+			}
 		})
-		
+		.then((response) => {
+			console.log(response)
+			this.getResources(1001)
+		})
+		.catch((err) => {
+			console.log(err);
+		})
 	}
 
 	sshPopup(url,winName,w,h,scroll) {
@@ -112,29 +108,26 @@ class Resources extends React.Component{
 		this.sshPopup(url,'myWindow','730','430','yes')
 	}
 
-	padWithZeros(number){
-		var my_string = '' + number;
-		while(my_string.length < 11){
-			my_string = '0' + my_string;
-		}
-		return my_string;
-	}
+	// padWithZeros(number){
+	// 	var my_string = '' + number;
+	// 	while(my_string.length < 11){
+	// 		my_string = '0' + my_string;
+	// 	}
+	// 	return my_string;
+	// }
 	
 	renderTableData(){
 		return this.state.resources.map((resource, index) => {
 			return (
 				<tr key={resource.resource_id}>
-					<td><label className="check-box">
-                        <input type="checkbox"/>
-                        <span className="checkmark"></span>
-                    </label></td>
-					<td align="center">{this.padWithZeros(resource.resource_id)}</td>
-					<td align="left">{resource.resource_name}</td>
-					<td align="center">{this.padWithZeros(resource.project_id)}</td>
-					<td align="center">{resource.resource_dns}</td>
-					<td align="center">{this.padWithZeros(resource.key_id)}</td>
-					<td align="center">{new Date(resource.resource_created_at).toLocaleString()}</td>
-					<td align="center"><button onClick={() => {this.startConnection(resource.resource_id)}}>Connect</button></td>
+					<td>{resource.resource_id}</td>
+					<td>{resource.resource_name}</td>
+					<td>{resource.project_id}</td>
+					<td>{resource.resource_dns}</td>
+					<td>{resource.key_id}</td>
+					<td>{new Date(resource.resource_created_at).toLocaleString()}</td>
+					<td><button className="delete-resource" onClick={() => {this.removeResource(resource.resource_id)}}>Delete</button></td>
+					<td><button className="connect-resource" onClick={() => {this.startConnection(resource.resource_id)}}>Connect</button></td>
 				</tr>
 			)
 		})
@@ -144,52 +137,35 @@ class Resources extends React.Component{
 	apiPostTest = () => {
 		console.log("Post test");
 		this.addResource(1001, "name", "dns", 1001, "ubuntu");
-
 	}
 
-	apiDeleteTest = () => {
-		console.log("Delete test");
-		let resource_ids = [15, 16, 17, 18, 19]
-		this.removeResource(resource_ids);
-	}
-
-  	render(){
-    	return(
-      		<div>
-				<h3>Resources</h3>
-				<h3>Data: <br/></h3>
-				<div>
-				<table>
-					<thead>
-						<tr>
-							<th><label className="check-box">
-								<input type="checkbox"/>
-								<span className="checkmark"></span>
-							</label></th>
-							<th><div>ID</div></th>
-							<th><div>Name</div></th>
-							<th><div>Project ID</div></th>
-							<th><div>DNS</div></th>
-							<th><div>Key ID</div></th>
-							<th><div>Created At</div></th>
-							<th></th>
-						</tr>
-					</thead>
-					<tbody>
-						{this.renderTableData()}
-					</tbody>
-				</table>
+	render(){
+		return(
+			<div style={{width: '-webkit-fill-available'}}>
+				<div className="top-content">
+					<input className="resource-search" type="text" placeholder="Find by resource ID or resource name" />
+					<button className="new-resource" onClick = {this.apiPostTest}>Post test</button>
 				</div>
-				<div>
-					<button onClick = {this.apiDeleteTest}>Delete test</button>
+				<div className="bot-content">
+					<table className="resource-table">
+						<thead>
+							<tr>
+								<th className="resource-id">ID</th>
+								<th className="resource-name">Resource Name</th>
+								<th className="project-id">Project ID</th>
+								<th className="dns">DNS</th>
+								<th className="key-id">Key ID</th>
+								<th className="resource-time">Created At</th>
+							</tr>
+						</thead>
+						<tbody>
+							{this.renderTableData()}
+						</tbody>
+					</table>
 				</div>
-				<div>
-					<button onClick = {this.apiPostTest}>Post test</button>
-				</div>
-
 			</div>
-    	)
-  	}
+		)
+	}
 }
 
 export default Resources

@@ -52,7 +52,7 @@ class Projects extends React.Component{
     }
 
     removeProject(project_id){
-        api.delete('projects', {
+        api.delete('/projects', {
             params: {
                 project_id: project_id
             }
