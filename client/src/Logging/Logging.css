@@ -37,7 +37,7 @@
     border: 1px solid rgba(26, 115, 232, 1);
   }
   
-  /* .new-project {
+   .delete-log {
     float: right;
     width: 110px;
     height: 37px;
@@ -45,9 +45,8 @@
     border-radius: 4px;
     background-color: rgba(255, 255, 255, 1);
     text-align: center;
-    border: 1px solid rgba(26, 115, 232, 1);
-    margin: 0px 100px 0px 10px;
-  } */
+    border: 1px solid #F44336;
+  }
   
   .bot-content {
     padding: 15px 100px;
@@ -89,4 +88,3 @@
   .log-table tbody tr td {
     padding: 20px 0px 20px 13px;
   }
-  

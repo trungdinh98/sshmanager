@@ -1,15 +1,21 @@
-import React from 'react'
-import api from '../api'
-import { withRouter } from 'react-router-dom'
-import './Logging.css'
+import React from 'react';
+import api from '../api';
+import { withRouter } from 'react-router-dom';
+import { Dropdown, DropdownButton } from 'react-bootstrap';
+import './Logging.css';
+import jwt_decode from 'jwt-decode';
 
 class Logging extends React.Component{
     constructor(){
         super();
         this.state={
             logs: [],
-            project_id: 1001,
-            user_commands: ""
+            projects: [],
+            dropDownValue: "Select an Projects ID",
+            user_commands: "",
+            user_id: '',
+            renderProjects: ({project_id, project_name}) =>
+                <Dropdown.Item key={project_id} as="button"><div onClick={(e) => this.changeValue(e.target.textContent)}>{project_id}</div></Dropdown.Item>
         }
     }
 
@@ -18,9 +24,32 @@ class Logging extends React.Component{
         if (token === undefined) {
             this.props.history.push(`/login`)
         } else {
-            this.getLogs(this.state.project_id)
-            console.log(this.state.logs)
+            const decode = jwt_decode(token);
+            this.setState({
+                user_id: decode.user_id
+            });
+            this.getProjects(decode.user_id);
         }
+    }
+
+    async getProjects(user_id){
+        await api.get('/projects', {
+            params: {
+                user_id: user_id
+            }
+        })
+        .then((response) => {
+            this.setState({projects:response.data});
+            console.log(this.state.projects);
+        })
+        .catch((err) => {
+            console.log(err);
+        })
+    }
+
+    changeValue(text) {
+        this.setState({dropDownValue: text});
+        this.getLogs(text);
     }
 
     async getLogs(project_id){
@@ -43,7 +72,7 @@ class Logging extends React.Component{
             }
         })
         .then((response) => {
-            this.getLogs(this.state.project_id)
+            this.getLogs(this.state.dropDownValue)
         })
         .catch((err) => {
             console.log(err);
@@ -87,16 +116,20 @@ class Logging extends React.Component{
                     <td align="left">{new Date(log.log_created_at).toLocaleString()}</td>
                     {/* <td align="center"><button onClick={() => {this.onSubmit(this.state.project_id,log.log_name)}}>Commands</button></td> */}
                     <td align="center"><button className="replay-log" onClick={() => {this.replayLog(this.state.project_id,log.log_name)}}>Replay</button></td>
+                    <td><button className="delete-log" onClick={() => {this.removeLogs(log.log_id)}}>Delete</button></td>
                 </tr>
             )
         })
     }
 
     render(){
+        const { projects } = this.state;
         return(
             <div>
                 <div className="top-content">
-                    <input className="key-search" type="text" placeholder="Find by " />
+                    <DropdownButton id="dropdown-item-button" title={this.state.dropDownValue}> 
+                        { projects.map(this.state.renderProjects) }
+                    </DropdownButton>
                 </div>
                 <div className="bot-content">
                     <table className="log-table">
