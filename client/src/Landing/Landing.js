@@ -15,7 +15,8 @@ class Landing extends React.Component{
                           <p>Please SIGN UP or SIGN IN to start SSH Manager</p>
                         </div>
                         <div className="presentation">
-                          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer convallis ornare sollicitudin. Ut eget lacinia urna, mattis venenatis arcu. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.</p>
+                          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer convallis ornare sollicitudin. Ut eget lacinia urna, mattis venenatis arcu. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.
+                          </p>
                         </div>
                       </div>
                       <div className="container">

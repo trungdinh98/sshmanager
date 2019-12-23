@@ -1,5 +1,5 @@
 .body-contain {
-  padding: 120px 160px;
+  padding: 310px 160px;
   background-image: url("/image/landing.png");
   -webkit-background-size: cover;
   -moz-background-size: cover;
@@ -40,7 +40,7 @@
   padding: 50px 0px 31px 0px;
   background-color: $color_green_vogue;
   text-align: center;
-  left: 25%;
+  left: 30%;
 }
 
 #page-footer span {
