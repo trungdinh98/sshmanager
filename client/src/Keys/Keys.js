@@ -7,7 +7,8 @@ export const createKey = key => {
     return api
     .post('/keys', {
         project_id: key.project_id,
-        key_name: key.key_name
+        key_name: key.key_name,
+        key_value: key.key_value
     })
     .then((response) => {
         console.log(response.data);
