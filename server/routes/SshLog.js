@@ -17,4 +17,18 @@ router.get('/', (req, res, next) => {
     })
 })
 
+router.delete('/', (req, res, next) => {
+    Models.sshLog.destroy({
+        where: {
+            log_id: req.param('log_id')
+        }
+    })
+    .then(logs => {
+        res.json(logs)
+    })
+    .catch(err => {
+        res.send('Error: ' + err)
+    })
+})
+
 module.exports = router;
