@@ -24,7 +24,7 @@
     "sequelize-auto-migrations": "^1.0.3",
     "sequelize-cli": "^5.5.1",
     "socket.io": "^2.3.0",
-    "ssh2": "^0.8.6"
+    "ssh2": "^1.4.0"
   },
   "devDependencies": {
     "ws": "3.3.2"
